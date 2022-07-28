@@ -1,0 +1,55 @@
+.button__primary {
+  @apply px-4 py-2 bg-black/70 hover:bg-black text-white/90 rounded-sm text-sm;
+  @apply inline-flex justify-center gap-4 items-center;
+}
+
+.button__primary:focus {
+  @apply ring-1 ring-offset-1 ring-black/70;
+}
+
+.button__primary:disabled {
+  @apply bg-neutral-400 text-neutral-200 cursor-not-allowed;
+}
+
+.button__icon svg {
+  @apply w-5 h-5 text-inherit stroke-2;
+}
+
+.button__outline {
+  @apply px-4 py-2 bg-transparent border border-neutral-300 text-neutral-500 rounded-sm text-sm hover:ring-1 hover:ring-black/30;
+  @apply inline-flex justify-center gap-4 items-center;
+}
+
+.button__tittle {
+  @apply inline-flex gap-3;
+}
+
+.button__outline:focus {
+  @apply ring-1 ring-offset-1 text-white ring-black/30 bg-black/40;
+}
+
+.button__outline:disabled {
+  @apply bg-transparent text-neutral-300 border-neutral-200 cursor-not-allowed ring-transparent;
+}
+
+.button__link {
+  @apply px-4 py-2  text-neutral-500 rounded-md text-sm;
+  @apply inline-flex justify-center gap-4 items-center cursor-pointer;
+}
+
+.button__link:hover.button__link:not(:disabled) {
+  @apply text-black underline underline-offset-2;
+}
+
+.button__link:focus {
+  @apply text-black underline underline-offset-2 bg-black/5;
+}
+
+.button__link:disabled {
+  @apply text-neutral-300 line-through cursor-not-allowed;
+}
+
+.button__dashed {
+  @apply px-4 py-2 bg-transparent whitespace-nowrap border border-dashed outline-none border-neutral-300 text-neutral-400 rounded-md hover:text-neutral-500 hover:border-neutral-400 focus:ring-1 ring-offset-2 focus:ring-emerald-500 focus:bg-emerald-300/40 h-fit text-xs;
+  @apply inline-flex justify-center gap-4 items-center mx-1;
+}

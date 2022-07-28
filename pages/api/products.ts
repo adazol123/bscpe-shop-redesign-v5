@@ -15,29 +15,28 @@ type Data = {
   products: DocumentData | any;
 };
 
-let productRef = collection(db, "products");
-
-async function getProduct() {
-  let datos: DocumentData[] = [];
-
-  onSnapshot(query(productRef, limit(20)), (snapshot) => {
-    return snapshot.forEach((doc) => datos.push(doc.data()));
-  });
-
-  return new Promise((resolve, reject) => {
-    // if (datos.length) resolve(datos);
-    // else reject();
-    setTimeout(() => {
-      resolve(datos);
-    }, 100);
-    console.log(datos.length);
-  });
-}
-
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
+  let productRef = collection(db, "products");
+
+  async function getProduct() {
+    let datos: DocumentData[] = [];
+
+    onSnapshot(query(productRef, limit(20)), (snapshot) => {
+      return snapshot.forEach((doc) => datos.push(doc.data()));
+    });
+
+    console.log(datos.length);
+    return new Promise((resolve) => {
+      resolve(datos);
+      setTimeout(() => {
+        resolve(datos);
+      }, 100);
+    });
+  }
+
   res.status(200).json({
     products: await getProduct(),
   });

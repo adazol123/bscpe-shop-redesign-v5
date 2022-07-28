@@ -5,13 +5,15 @@ import styles from "../styles/Home.module.css";
 import { auth } from "../auth/firebase";
 import { useEffect, useState } from "react";
 import { DocumentData } from "firebase/firestore";
+import useSWR from "swr";
+const fetcher = (...args: [string]) => fetch(...args).then((res) => res.json());
+
 const Home: NextPage = () => {
-  const [data, setData] = useState<DocumentData>([]);
-  useEffect(() => {
-    fetch("/api/products")
-      .then((res) => res.json())
-      .then((data: DocumentData) => setData(data?.products));
-  }, []);
+  const { data, error } = useSWR("/api/products", fetcher);
+  
+  if (error) return <div>Failed to load</div>;
+  if (!data) return <div>Loading ...</div>;
+  console.log(data);
   return (
     <div className={styles.container}>
       <Head>
@@ -22,7 +24,7 @@ const Home: NextPage = () => {
 
       <main className={styles.main}>
         {data &&
-          data.map((product: DocumentData, index: number) => (
+          data?.products.map((product: DocumentData, index: number) => (
             <div key={index}>
               <p>{product.product_name}</p>
               <Image

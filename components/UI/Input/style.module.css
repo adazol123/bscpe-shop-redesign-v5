@@ -1,0 +1,65 @@
+._label {
+  @apply block text-neutral-500 relative h-fit;
+}
+
+._field {
+  @apply bg-transparent px-3 py-2 outline-none relative z-[1] rounded-sm border h-full text-[1em] w-full;
+}
+._span {
+  @apply absolute left-0 top-2 ml-2 h-2 transition-all text-[1em];
+}
+
+._field:focus ~ ._span,
+._field:not(:placeholder-shown)._field:not(:focus) ~ ._span {
+  @apply -translate-y-[2.5em] text-[0.5em] translate-x-[0.3rem] px-0 text-black/40;
+}
+
+._fieldset {
+  @apply absolute inset-0 py-2 border  pl-2 select-none h-[calc(100%)] -translate-y-[0] rounded-sm;
+}
+._field:focus,
+._field:not(:placeholder-shown)._field:not(:focus) {
+  @apply border-transparent;
+}
+
+._fieldset > legend {
+  @apply text-[0.5em] px-1 overflow-hidden h-0;
+}
+
+/* ._span {
+  @apply absolute left-2 top-1/2  -translate-y-1/2 z-0;
+} */
+/* 
+._field {
+  @apply px-2 py-1 border rounded-sm outline-0 placeholder:text-transparent text-[0.8em] border-neutral-400/70 w-full outline-none;
+  @apply focus:outline-none focus:border-emerald-500/20 focus:ring-1 focus:ring-emerald-800/40;
+}
+
+._span {
+  @apply text-[0.9em] text-black/20 mb-1 bg-inherit absolute left-4 top-1/2  -translate-y-1/2 p-0  overflow-hidden opacity-100 cursor-text transition-all transform-gpu duration-150;
+}
+
+._field:focus ~ ._span,
+._field:not(:placeholder-shown)._field:not(:focus) ~ ._span {
+  @apply -translate-y-[1.35rem] text-[0.6em] -translate-x-2 px-1 text-emerald-500;
+}
+
+._field:not(:placeholder-shown)._field:not(:focus) ~ ._span {
+  @apply text-black/20;
+}
+
+._field:disabled ~ ._span {
+  @apply disabled:bg-slate-50 disabled:text-black/10 disabled:border-slate-200 disabled:shadow-none;
+} */
+
+/* ._field:not(:placeholder-shown)._field:not(:focus)._field:invalid
+    ~ ._span {
+    @apply text-pink-300;
+  }
+  ._field:invalid ~ ._span {
+    @apply text-pink-600;
+  }
+  ._field:invalid ~ ._span,
+  ._field:invalid._field:focus ~ ._span {
+    @apply text-pink-600;
+  } */

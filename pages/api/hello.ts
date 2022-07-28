@@ -8,12 +8,18 @@ type Data = {
   }>;
 };
 
-export default async function handler(
+export default function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
-  res.status(200).json({
-    name: "John Does",
-    query: req.query,
-  });
+  if (req.method === "GET") {
+    res.status(200).json({
+      name: "John Does",
+      query: req.query,
+    });
+  }
+  if (req.method === "POST") {
+    console.log(req.method);
+    res.send({ name: "Hello" });
+  }
 }
