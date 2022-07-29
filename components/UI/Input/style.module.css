@@ -3,7 +3,7 @@
 }
 
 ._field {
-  @apply bg-transparent px-3 py-2 outline-none relative z-[1] rounded-sm border h-full text-[1em] w-full;
+  @apply bg-transparent px-3 py-3 outline-none relative z-[1] rounded-sm border h-full text-[1em] w-full;
 }
 ._span {
   @apply absolute left-0 top-2 ml-2 h-2 transition-all text-[1em];

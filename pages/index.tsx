@@ -3,14 +3,19 @@ import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
 import { auth } from "../auth/firebase";
-import { useEffect, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import { DocumentData } from "firebase/firestore";
 import useSWR from "swr";
+
+import type { NextPageWithLayout } from "./_app";
+import Layout from "../components/Layouts/layout";
+import NestedLayout from "../components/Layouts/nested-layout";
+
 const fetcher = (...args: [string]) => fetch(...args).then((res) => res.json());
 
-const Home: NextPage = () => {
+const Home: NextPageWithLayout = () => {
   const { data, error } = useSWR("/api/products", fetcher);
-  
+
   if (error) return <div>Failed to load</div>;
   if (!data) return <div>Loading ...</div>;
   console.log(data);
@@ -51,6 +56,15 @@ const Home: NextPage = () => {
         </a>
       </footer>
     </div>
+  );
+};
+
+Home.getLayout = function getLayout(page: ReactElement) {
+  return (
+    <Layout>
+      <p>Hello index</p>
+      <NestedLayout>{page}</NestedLayout>
+    </Layout>
   );
 };
 

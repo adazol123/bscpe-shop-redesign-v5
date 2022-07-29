@@ -5,14 +5,17 @@ import React, {
   ChangeEventHandler,
   FormEventHandler,
   InputHTMLAttributes,
+  ReactElement,
   useEffect,
 } from "react";
 import { useState } from "react";
+import Layout from "../components/Layouts/layout";
 import ButtonStandard from "../components/UI/Button/Standard/ButtonStandard";
 import Input from "../components/UI/Input/Input";
 import { UserAuth } from "../utils/context/Account/Auth";
 import Checkbox from "./../components/UI/Checkbox/Checkbox";
-const Login: NextPage = () => {
+import { NextPageWithLayout } from "./_app";
+const Login: NextPageWithLayout = () => {
   const [client, setClient] = useState<{
     email: string;
     password: string;
@@ -150,5 +153,14 @@ function Spinner(props: React.ComponentProps<"svg">): JSX.Element {
     </svg>
   );
 }
+
+Login.getLayout = function getLayout(page: ReactElement) {
+  return (
+    <Layout>
+      {page}
+      {/* <NestedLayout>{page}</NestedLayout> */}
+    </Layout>
+  );
+};
 
 export default Login;
