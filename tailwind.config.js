@@ -6,7 +6,18 @@ module.exports = {
     "./components/UI/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      height: {
+        "nav-height": "var(--nav-height)",
+        "changable_height": "var(--height-top)",
+
+      },
+
+      width: {
+        "modal-side": "var(--modal-side)",
+      },
+    },
   },
   plugins: [],
+  important: true
 }

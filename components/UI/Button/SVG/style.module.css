@@ -1,0 +1,58 @@
+/** Button Outline */
+.button__icon {
+  @apply p-2 rounded-full bg-white/5 relative;
+}
+
+.button__icon:hover {
+  @apply shadow bg-white/10;
+}
+.button__icon svg {
+  @apply w-5 h-5 stroke-1;
+}
+
+/** Button Solid */
+.button__icon_solid {
+  @apply p-2 rounded-full bg-neutral-700 text-white relative;
+}
+
+.button__icon_solid:hover {
+  @apply shadow bg-black;
+}
+.button__icon_solid svg {
+  @apply w-5 h-5;
+}
+
+/** Quare Icon */
+.button__icon_square {
+  @apply p-0 rounded-md bg-transparent text-neutral-700 border border-neutral-300 overflow-hidden text-center relative;
+  @apply w-9 h-9 text-xs;
+}
+.button__icon_square:hover {
+  @apply bg-neutral-600 text-white;
+}
+
+.button__icon_square:focus {
+  @apply bg-black ring-1 ring-offset-1 ring-emerald-400 text-emerald-300;
+}
+
+/** Button sizes */
+
+.small {
+  @apply p-1;
+}
+
+.small svg {
+  @apply w-4 h-4;
+}
+
+.base svg {
+  @apply w-5 h-5;
+}
+
+.medium svg {
+  @apply w-6 h-6;
+}
+
+.large svg {
+  @apply w-8 h-6;
+}

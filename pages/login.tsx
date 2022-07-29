@@ -11,6 +11,7 @@ import { useState } from "react";
 import ButtonStandard from "../components/UI/Button/Standard/ButtonStandard";
 import Input from "../components/UI/Input/Input";
 import { UserAuth } from "../utils/context/Account/Auth";
+import Checkbox from "./../components/UI/Checkbox/Checkbox";
 const Login: NextPage = () => {
   const [client, setClient] = useState<{
     email: string;
@@ -28,6 +29,7 @@ const Login: NextPage = () => {
   const login = async (e: any) => {
     setClient({
       ...client,
+      loading: true,
       error: undefined,
     });
     e.preventDefault();
@@ -43,7 +45,7 @@ const Login: NextPage = () => {
             loading: false,
             error: undefined,
           });
-        }, 300);
+        }, 2000);
       } else {
         throw new Error("Email and password is required");
       }
@@ -108,6 +110,7 @@ const Login: NextPage = () => {
                 setClient({ ...client, password: e.target.value })
               }
             />
+            <Checkbox onChange={(e) => console.log(e.target.checked)} />
             <ButtonStandard type="outline">
               {client.loading ? <Spinner className="animate-spin" /> : "Login"}
             </ButtonStandard>
@@ -126,6 +129,7 @@ function Spinner(props: React.ComponentProps<"svg">): JSX.Element {
       viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      className="animante-spin"
       {...props}
     >
       <path

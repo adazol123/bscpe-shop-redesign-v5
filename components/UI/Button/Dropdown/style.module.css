@@ -1,0 +1,46 @@
+.button__dropdown {
+  @apply rounded-sm transition-all transform-gpu duration-300 overflow-hidden text-neutral-500 fill-neutral-500 bg-neutral-50;
+}
+.button__header {
+  @apply flex justify-between items-center px-4 py-3 gap-3 rounded;
+  @apply transition-all transform-gpu duration-200;
+}
+.button__title {
+  @apply inline-flex gap-3;
+}
+
+.button__dropdown:hover {
+  @apply ring-1 ring-neutral-200 text-neutral-600 bg-neutral-100;
+  @apply before:absolute before:w-1 before:h-7 before:bg-neutral-400 before:left-0 before:top-[0.65rem] before:rounded-r;
+}
+
+.button__dropdown:focus {
+  @apply ring-1 ring-neutral-300 text-neutral-800;
+  @apply before:absolute before:w-1 before:h-7 before:bg-neutral-600 before:left-0 before:top-[0.65rem]  before:rounded-r;
+  @apply bg-white text-neutral-600 shadow-md;
+}
+
+.button__dropdown svg {
+  @apply w-5 h-5 stroke-1 text-neutral-500;
+  @apply rounded transition-all transform-gpu duration-500;
+}
+
+.button__dropdown:focus > .button__header .button__icon svg {
+  @apply fill-inherit;
+}
+.button__sub_content {
+  @apply h-0 overflow-hidden flex flex-col;
+  @apply transition-all transform-gpu duration-500;
+}
+
+.button__sub_content svg {
+  @apply w-4 h-4;
+}
+
+.button__sub_content > a {
+  @apply py-3 px-4 hover:bg-neutral-200/50 hover:text-neutral-500 justify-start flex pl-8 gap-4 text-neutral-500/80 text-[0.9em] items-center;
+}
+
+.button__sub_content a:hover svg {
+  @apply fill-inherit stroke-2 stroke-transparent;
+}

@@ -1,0 +1,21 @@
+.button__custom {
+  @apply relative flex px-4 py-3 bg-neutral-50 text-neutral-500 rounded-sm gap-3 items-center text-sm;
+}
+
+.button__custom:hover {
+  @apply ring-1 ring-neutral-200 text-neutral-600 bg-neutral-100;
+  @apply before:absolute before:w-1 before:h-7 before:bg-neutral-400 before:left-0 before:top-1/2 before:-translate-y-1/2 before:rounded-r;
+}
+
+.button__custom:focus {
+  @apply ring-1 ring-neutral-300 text-neutral-800;
+  @apply before:absolute before:w-1 before:h-7 before:bg-neutral-600 before:left-0 before:top-1/2 before:-translate-y-1/2 before:rounded-r;
+  @apply bg-white text-neutral-600 shadow-md;
+}
+
+.button__custom svg {
+  @apply w-5 h-5 inline-block stroke-[1] stroke-neutral-500 fill-transparent;
+}
+.button__custom:focus svg {
+  @apply fill-transparent stroke-neutral-600;
+}

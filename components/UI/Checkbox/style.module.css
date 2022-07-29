@@ -1,0 +1,16 @@
+._checkbox {
+  @apply ring-1 ring-black w-fit rounded-full inline-block;
+}
+._checkbox > svg {
+  @apply w-3 h-3  rounded-full;
+}
+._input {
+  @apply hidden;
+}
+
+._input:checked ~ ._checkbox > svg {
+  @apply visible;
+}
+._input:not(:checked) ~ ._checkbox > svg {
+  @apply invisible;
+}
