@@ -59,7 +59,7 @@ export const ShopStateProvider = ({ children }: TypeJSX) => {
   let value: any = {
     total: state.total,
     totalQuantity: state.totalQuantity,
-    products: state.products,
+    carts: state.products,
     addToCart,
     removeFromCart,
   };

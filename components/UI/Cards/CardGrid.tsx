@@ -7,21 +7,12 @@ import { ShoppingCartIcon as ShoppingCartIconFill } from "@heroicons/react/solid
 import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { useState, useEffect } from "react";
+import { ProductList } from "../../../utils/context/Product/ProductState";
 import {
   StaticState,
   ToggleState,
 } from "../../../utils/context/Toggles/ToggleState";
 import style from "./style.module.css";
-
-export interface ProductList {
-  product_id: string;
-  product_name: string;
-  product_image: string;
-  product_quantity: number;
-  product_price: number;
-  product_size: string[];
-  product_color: string[];
-}
 
 const CardGrid = ({
   product,
@@ -47,6 +38,10 @@ const CardGrid = ({
               src={product.product_image}
               alt={product.product_name}
               className="group-hover:scale-125 group-hover:grayscale-0"
+              objectFit="cover"
+              layout="fill"
+              blurDataURL={product.product_image}
+              placeholder={"blur"}
             />
             <span className={style.product__tag}>Sale</span>
           </div>
@@ -55,7 +50,7 @@ const CardGrid = ({
         <div className={style.product__bottom}>
           <div className={style.product__details}>
             <h3
-              onClick={() => router.push(`/product/${product.product_id}`)}
+              onClick={() => router.push(`/products/${product.product_id}`)}
               className={style.product__title}
             >
               {product.product_name}

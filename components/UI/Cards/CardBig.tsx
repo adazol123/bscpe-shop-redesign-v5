@@ -2,7 +2,7 @@ import { ShoppingBagIcon, ShoppingCartIcon } from "@heroicons/react/outline";
 import { ShoppingCartIcon as ShoppingCartIconFill } from "@heroicons/react/solid";
 import Image from "next/image";
 import React, { MouseEventHandler } from "react";
-import style from "./Card.module.css";
+import style from "./style.module.css";
 
 interface Card {
   title: string;
@@ -29,7 +29,10 @@ const CardBig = <T extends Card>({
         <Image
           src={image}
           alt={title}
-          className="group-hover:scale-125 select-none"
+          className="group-hover:scale-125 select-none transition-all "
+          layout={"fill"}
+          blurDataURL={image}
+          placeholder={"blur"}
         />
       </div>
       <div className={style.large__details}>

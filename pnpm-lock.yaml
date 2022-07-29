@@ -2,6 +2,7 @@ lockfileVersion: 5.4
 
 specifiers:
   '@heroicons/react': ^1.0.6
+  '@tailwindcss/line-clamp': ^0.4.0
   '@types/node': 18.6.1
   '@types/react': 18.0.15
   '@types/react-dom': 18.0.6
@@ -27,6 +28,7 @@ dependencies:
   swr: 1.3.0_react@18.2.0
 
 devDependencies:
+  '@tailwindcss/line-clamp': 0.4.0_tailwindcss@3.1.6
   '@types/node': 18.6.1
   '@types/react': 18.0.15
   '@types/react-dom': 18.0.6
@@ -928,6 +930,14 @@ packages:
     engines: {node: '>=6'}
     dependencies:
       defer-to-connect: 1.1.3
+    dev: true
+
+  /@tailwindcss/line-clamp/0.4.0_tailwindcss@3.1.6:
+    resolution: {integrity: sha512-HQZo6gfx1D0+DU3nWlNLD5iA6Ef4JAXh0LeD8lOGrJwEDBwwJNKQza6WoXhhY1uQrxOuU8ROxV7CqiQV4CoiLw==}
+    peerDependencies:
+      tailwindcss: '>=2.0.0 || >=3.0.0 || >=3.0.0-alpha.1'
+    dependencies:
+      tailwindcss: 3.1.6
     dev: true
 
   /@tootallnate/once/1.1.2:

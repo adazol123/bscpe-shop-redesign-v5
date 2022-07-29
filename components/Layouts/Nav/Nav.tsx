@@ -14,7 +14,7 @@ const Nav = () => {
   const { toggleStateHandler } = ToggleState();
   return (
     <div className={style._nav}>
-      <div className="container">
+      <div className="w-full">
         <Link href={"/"} className={style._logo}>
           BSCPE Store
         </Link>
@@ -24,7 +24,7 @@ const Nav = () => {
           <ButtonSVG onClick={() => router.replace("/cart")}>
             <>
               <span className="w-fit px-1 h-3 bg-rose-600 absolute rounded-full top-0 right-0 ring-2 ring-black text-[0.5rem] text-center">
-                8
+                9+
               </span>
               <ShoppingBagIcon />
             </>
