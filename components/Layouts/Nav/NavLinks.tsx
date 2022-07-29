@@ -11,8 +11,10 @@ import {
 } from "@heroicons/react/outline";
 import { useRouter } from "next/router";
 import DropdownStyled from "../../UI/Button/Dropdown/DropdownStyled";
+import { ToggleState } from "../../../utils/context/Toggles/ToggleState";
 
 const NavLinks = () => {
+  const { toggleStateHandler } = ToggleState();
   const router = useRouter();
   return (
     <div className="flex gap-1 px-4 flex-col sm:flex-row">
@@ -24,8 +26,24 @@ const NavLinks = () => {
         <Link href={"/cart"}>Women</Link>
         <Link href={"/cart"}>Kids</Link>
       </DropdownStyled>
-      <ButtonStyled icon={<InformationCircleIcon />}>About</ButtonStyled>
-      <ButtonStyled icon={<ThumbUpIcon />}>Issue report</ButtonStyled>
+      <ButtonStyled
+        icon={<InformationCircleIcon />}
+        onClick={() => {
+          toggleStateHandler!("side_bar");
+          router.push("/account");
+        }}
+      >
+        About
+      </ButtonStyled>
+      <ButtonStyled
+        icon={<ThumbUpIcon />}
+        onClick={() => {
+          toggleStateHandler!("side_bar");
+          router.push("/signup");
+        }}
+      >
+        Issue report
+      </ButtonStyled>
     </div>
   );
 };

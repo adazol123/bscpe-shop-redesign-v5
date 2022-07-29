@@ -1,4 +1,6 @@
 import { createContext, useContext, useReducer } from "react";
+import { ProductCart } from "../../../components/UI/Cards/CardCart";
+import { ProductList } from "../Product/ProductState";
 import shopReducer, { initialCartState } from "./shopReducer";
 export interface TypeJSX {
   [key: string]: JSX.Element | JSX.Element[] | null;
@@ -15,25 +17,25 @@ const ShopContext = createContext(initialCartState);
 export const ShopStateProvider = ({ children }: TypeJSX) => {
   const [state, dispatch] = useReducer(shopReducer, initialCartState);
 
-  const addToCart = (product: Product) => {
-    const updatedCart = state.products.concat(product);
+  const addToCart = (product: ProductCart) => {
+    const updatedCart = state.carts.concat(product);
     updatePrice(updatedCart);
     dispatch({
       type: "ADD_TO_CART",
       payload: {
-        products: updatedCart,
+        carts: updatedCart,
       },
     });
   };
-  const removeFromCart = (product: Product) => {
-    const updatedCart = state.products.filter(
-      (currentProduct: Product) => currentProduct.name !== product.name
+  const removeFromCart = (product: ProductCart) => {
+    const updatedCart = state.carts.filter(
+      (currentCart: ProductCart) => currentCart.name !== product.name
     );
     updatePrice(updatedCart);
     dispatch({
       type: "REMOVE_FROM_CART",
       payload: {
-        products: updatedCart,
+        carts: updatedCart,
       },
     });
   };
@@ -42,7 +44,7 @@ export const ShopStateProvider = ({ children }: TypeJSX) => {
     let total = 0;
     let totalQuantity = 0;
     console.log(products);
-    products.forEach((product: Product) => {
+    products.forEach((product: ProductCart) => {
       total += product?.price * product?.quantity;
       totalQuantity += product?.quantity;
     });
@@ -59,7 +61,7 @@ export const ShopStateProvider = ({ children }: TypeJSX) => {
   let value: any = {
     total: state.total,
     totalQuantity: state.totalQuantity,
-    products: state.products,
+    carts: state.carts,
     addToCart,
     removeFromCart,
   };

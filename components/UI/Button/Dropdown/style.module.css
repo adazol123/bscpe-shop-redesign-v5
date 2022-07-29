@@ -44,3 +44,32 @@
 .button__sub_content a:hover svg {
   @apply fill-inherit stroke-2 stroke-transparent;
 }
+
+/** DROPDOWN ROUND */
+._dropdown__rounded__wrapper {
+  @apply relative;
+}
+._dropdown__rounded {
+  @apply rounded-full py-2 px-4 text-[0.8em] transition-all;
+  @apply flex gap-2 items-center relative;
+}
+
+._dropdown__rounded svg {
+  @apply w-3 h-3;
+}
+
+._dropdown__rounded__content::before {
+  content: "";
+  @apply w-2 h-2 bg-white absolute -top-1 left-1/4 rotate-45 z-[4];
+}
+._dropdown__rounded__content {
+  @apply absolute -bottom-0 translate-y-full min-w-[8rem] -left-5 bg-white text-black/80 p-2 rounded-md drop-shadow-md z-[5] text-sm;
+  @apply flex flex-col gap-1 justify-start transition-all;
+}
+._dropdown__rounded__content button {
+  @apply py-1 justify-start text-left px-2 rounded-sm;
+}
+
+._dropdown__rounded__content button:hover {
+  @apply bg-black/10;
+}

@@ -1,6 +1,6 @@
 import Spinner from "./Spinner";
 
-function Loader() {
+function BscpeLoader() {
   return (
     <div className="grid w-full min-h-[calc(100vh-3em)] place-content-center">
       <p className="mb-4 font-light text-center text-neutral-600">
@@ -11,4 +11,4 @@ function Loader() {
   );
 }
 
-export default Loader;
+export default BscpeLoader;

@@ -8,6 +8,8 @@ import {
   Auth,
   User,
   UserCredential,
+  signInWithPopup,
+  GoogleAuthProvider,
 } from "firebase/auth";
 import {
   collection,
@@ -20,9 +22,12 @@ import AccountState from "./AccountState";
 
 interface AuthUser {
   user?: DocumentData | null;
+  isAuthenticated?: boolean;
+  isLoading?: boolean;
   signup?: (email: string, password: string) => Promise<UserCredential>;
   signin?: (email: string, password: string) => Promise<UserCredential>;
   logout?: () => Promise<void>;
+  signinWithGoogle?: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthUser>({});
@@ -39,6 +44,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   /** Account Reducer - (getUser) listen for change on login state */
   let { user, getUser } = AccountState();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   //EMAIL AND PASSWORD FIREBASE AUTH PROVIDER (SIGN UP)
   const signup = (email: string, password: string) => {
@@ -47,12 +54,22 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   //EMAIL AND PASSWORD FIREBASE AUTH PROVIDER (SIGN IN)
   const signin = (email: string, password: string) => {
+    setIsAuthenticated(true);
     return signInWithEmailAndPassword(auth, email, password);
+  };
+
+  //GOOGLE PROVIDER
+  let googleProvider = new GoogleAuthProvider();
+  const signinWithGoogle = () => {
+    return signInWithPopup(auth, googleProvider)
+      .then((user) => console.log("> [google] : ", user))
+      .catch((error) => console.log(error?.code));
   };
 
   //LOGOUT FIREBASE AUTH
   const logout = () => {
     // setCurrentUser(null);
+    setIsAuthenticated(false);
     return signOut(auth).then(() => {
       // localStorage.setItem("user-logged-in", "no");
       console.log("logged out");
@@ -62,6 +79,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   //FIREBASE CURRENT LOGGED USER OBSERVER
   useEffect(() => {
     let unsubscribe = getUser!(auth);
+    setIsLoading(false);
     return () => {
       // localStorage.setItem("user-logged-in", "no");
       if (unsubscribe) {
@@ -75,9 +93,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     <AuthContext.Provider
       value={{
         user,
+        isAuthenticated,
+        isLoading,
         signup,
         logout,
         signin,
+        signinWithGoogle,
       }}
     >
       {children}
@@ -85,6 +106,4 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export const UserAuth = () => {
-  return useContext(AuthContext);
-};
+export const UserAuth = () => useContext(AuthContext);

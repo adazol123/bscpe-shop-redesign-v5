@@ -1,0 +1,12 @@
+._button_rounded {
+  @apply rounded-full py-2 px-4 text-[0.8em] transition-all;
+  @apply flex gap-2 items-center relative;
+}
+
+._button_rounded:hover {
+  @apply bg-black/10;
+}
+._button_rounded:active,
+._button_rounded:focus {
+  @apply bg-black text-white;
+}

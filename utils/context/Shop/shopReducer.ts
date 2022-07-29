@@ -6,21 +6,22 @@ interface ProductCart {
   image: string;
   quantity: number;
   price: number;
-  size: string;
-  color: string;
+  size?: string;
+  color?: string;
 }
 
 interface Cart {
   total: number;
   totalQuantity: number;
-  products: ProductCart[];
-  removeFromCart?: (item: ProductCart) => ProductCart | null;
+  carts: ProductCart[];
+  addToCart?: (item: ProductCart) => void;
+  removeFromCart?: (item: ProductCart) => void;
 }
 
 export const initialCartState: Cart = {
   total: 0,
   totalQuantity: 0,
-  products: [],
+  carts: [],
 };
 
 const shopReducer = (
@@ -33,12 +34,12 @@ const shopReducer = (
     case "ADD_TO_CART":
       return {
         ...state,
-        products: payload.products,
+        carts: payload.carts,
       };
     case "REMOVE_FROM_CART":
       return {
         ...state,
-        products: payload.products,
+        carts: payload.carts,
       };
     case "UPDATE_PRICE":
       return {

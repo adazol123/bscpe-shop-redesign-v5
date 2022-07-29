@@ -12,7 +12,7 @@ import { db } from "../../../auth/firebase";
 import config from "../../../utils/services/config.json";
 import PasswordRequirementInfo from "../PasswordRequirementInfo";
 import Input from "../../UI/Input/Input";
-import Spinner from "../../Loader/Spinner";
+import Spinner from "../../Layouts/Loader/Spinner";
 import AdvisorySecurity from "../AdvisorySecurity";
 
 interface Steps {
