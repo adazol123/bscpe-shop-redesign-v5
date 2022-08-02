@@ -25,19 +25,19 @@ const ShoppingCart = () => {
       footer={<FooterSummary total={total} totalQuantity={totalQuantity} />}
       toggleStateHandler={() => toggleStateHandler!("cart")}
     >
-      <>
-        <div className="container relative py-4 mx-auto  max-h-[calc(100vh-4em)] overflow-hidden overflow-y-scroll">
-          <ul className="flex flex-col gap-2 pb-4 min-h-[calc(100vh-9em)] max-h-[calc(100vh-16em)]">
-            {carts.length > 0 ? (
-              carts?.map((data: ProductCart) => (
-                <CartCard key={data.product_id} data={data} />
-              ))
-            ) : (
-              <li className="py-4 mx-auto text-gray-400">Cart is empty</li>
-            )}
-          </ul>
-        </div>
-      </>
+
+      {/* <div className="container relative py-4 mx-auto  min-h-[calc(100%-10rem)] max-h-[calc(100%-10rem)]  overflow-x-hidden"> */}
+      <ul className="flex flex-col gap-2 pb-4 overflow-hidden">
+        {carts.length > 0 ? (
+          carts?.map((data: ProductCart) => (
+            <CartCard key={data.product_id} data={data} />
+          ))
+        ) : (
+          <li className="py-4 mx-auto text-gray-400">Cart is empty</li>
+        )}
+      </ul>
+      {/* </div> */}
+
     </ModalSide>
   );
 };

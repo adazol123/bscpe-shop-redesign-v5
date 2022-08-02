@@ -8,6 +8,7 @@ import {
 } from "firebase/firestore";
 import { createContext } from "react";
 import { auth, db } from "../../../auth/firebase";
+import { initialProductState } from "./productReducer";
 
 export interface ProductList {
   product_id: string;
@@ -22,7 +23,7 @@ export interface ProductList {
   product_owner?: string;
 }
 
-const ProductContext = createContext({});
+const ProductContext = createContext(initialProductState);
 let productRef = collection(db, "products");
 
 interface ViewProduct {
@@ -75,16 +76,10 @@ export const ProductProvider = ({
   children: React.ReactNode;
 }) => {
   let [products, setProducts] = useState<any[]>([]);
-<<<<<<< HEAD
-
   let [productSelected, setProductSelected] = useState<ProductList>();
 
   useEffect(() => {
     let prodQuery = query(productRef, limit(50));
-=======
-  useEffect(() => {
-    let prodQuery = query(productRef, limit(10));
->>>>>>> 4849cd433e3cd71db7b9bd451e397dcc8f089ade
     let unsubscribe = onSnapshot(prodQuery, (snapshot) => {
       snapshot.forEach((doc) => {
         let item = new Product(doc.id, doc.data());
@@ -101,11 +96,8 @@ export const ProductProvider = ({
     <ProductContext.Provider
       value={{
         products,
-<<<<<<< HEAD
         productSelected,
         setProductSelected,
-=======
->>>>>>> 4849cd433e3cd71db7b9bd451e397dcc8f089ade
       }}
     >
       {children}

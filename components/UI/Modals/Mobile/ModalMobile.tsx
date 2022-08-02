@@ -20,6 +20,13 @@ const ModalMobile = ({ state, toggleStateHandler, children }: Modal) => {
       >
         <div className={style.modal_mobile_content}>
           <div>{children}</div>
+          <div>
+            <hr />
+            <button
+              className='w-full py-2 -mb-2 text-black select-none '
+              onClick={toggleStateHandler}
+            >Close</button>
+          </div>
         </div>
       </div>
     </>

@@ -7,7 +7,7 @@ import style from "../style.module.css";
 export interface Modal {
   state: boolean;
   toggleStateHandler: () => void;
-  children?: JSX.Element | JSX.Element[] | null;
+  children?: JSX.Element | JSX.Element[] | string;
   icon?: JSX.Element | JSX.Element[] | null;
   title?: string;
 }

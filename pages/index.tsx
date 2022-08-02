@@ -13,6 +13,7 @@ import NestedLayout from "../components/Layouts/nested-layout";
 import HomeContent from "../components/Layouts/Home/HomeContent";
 import ProductContext from "../components/Layouts/Home/ProductContext";
 import ProductListGrid from "../components/Layouts/Products/ProductListGrid";
+import BscpeLoader from "../components/Layouts/Loader/BscpeLoader";
 
 const fetcher = (...args: [string]) => fetch(...args).then((res) => res.json());
 
@@ -20,7 +21,7 @@ const Home: NextPageWithLayout = () => {
   const { data, error } = useSWR("/api/products", fetcher);
 
   if (error) return <div>Failed to load</div>;
-  if (!data) return <div>Loading ...</div>;
+  if (!data) return <BscpeLoader />;
   console.log(data);
   return (
     <div className={styles.container}>

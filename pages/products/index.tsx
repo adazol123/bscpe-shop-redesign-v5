@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import React, { ReactElement } from "react";
 import ProductCarousel from "../../components/Layouts/Carousel/ProductCarousel";
 import ProductContext from "../../components/Layouts/Home/ProductContext";
@@ -30,12 +29,6 @@ Products.getLayout = function getLayout(page: ReactElement) {
       <>{page}</>
     </Layout>
   );
-=======
-import React from "react";
-
-const Products = () => {
-  return <div>Products</div>;
->>>>>>> 4849cd433e3cd71db7b9bd451e397dcc8f089ade
 };
 
 export default Products;

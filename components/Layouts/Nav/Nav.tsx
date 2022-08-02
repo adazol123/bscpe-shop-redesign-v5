@@ -8,10 +8,31 @@ import { UserAuth } from "../../../utils/context/Account/Auth";
 import { useRouter } from "next/router";
 import ButtonSVG from "../../UI/Button/SVG/ButtonSVG";
 import { ToggleState } from "../../../utils/context/Toggles/ToggleState";
+import ShopState from "../../../utils/context/Shop/ShopState";
+
+function CartItemIndicator() {
+  const { carts, totalQuantity } = ShopState();
+  return (
+    <>
+      {carts.length > 0 && (
+        <>
+          <span className="animate-ping absolute top-0 right-0 inline-flex h-3 w-3 rounded-full bg-rose-400 opacity-75">
+            {" "}
+          </span>
+          <span className="w-fit px-1 h-3 bg-rose-600  rounded-full absolute top-0 right-0 ring-2 ring-black text-[0.5rem] text-center">
+            {totalQuantity > 9 ? "9+" : totalQuantity}
+          </span>
+        </>
+      )}
+    </>
+  );
+}
+
 const Nav = () => {
   const { user } = UserAuth();
   let router = useRouter();
   const { toggleStateHandler } = ToggleState();
+  const { carts } = ShopState();
   return (
     <div className={style._nav}>
       <div className="w-full">
@@ -27,9 +48,7 @@ const Nav = () => {
             }}
           >
             <>
-              <span className="w-fit px-1 h-3 bg-rose-600 absolute rounded-full top-0 right-0 ring-2 ring-black text-[0.5rem] text-center">
-                9+
-              </span>
+              <CartItemIndicator />
               <ShoppingBagIcon />
             </>
           </ButtonSVG>

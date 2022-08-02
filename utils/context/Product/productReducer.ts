@@ -1,11 +1,20 @@
 import { Auth, Unsubscribe } from "firebase/auth";
 import { DocumentData } from "firebase/firestore";
+import { ProductList } from "./ProductState";
 
 interface Product {
   products: DocumentData | null;
+  productSelected?: ProductList;
+  setProductSelected?: React.Dispatch<
+    React.SetStateAction<ProductList | undefined>
+  >;
 }
 
-export const initialAcountState: Product = { products: null };
+export const initialProductState: Product = {
+  products: null,
+  productSelected: undefined,
+  setProductSelected: undefined,
+};
 
 const productReducer = (
   state: Product,

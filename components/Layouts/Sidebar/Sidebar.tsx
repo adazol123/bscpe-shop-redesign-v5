@@ -11,7 +11,6 @@ import { useRouter } from "next/router";
 
 const Sidebar = () => {
   const { toggleState, toggleStateHandler } = ToggleState();
-  console.log(toggleState);
   return (
     <ModalSlider
       state={toggleState!["side_bar"]}
@@ -25,7 +24,7 @@ const Sidebar = () => {
 };
 
 const Footer = () => {
-  const { user } = UserAuth();
+  const { user, logout } = UserAuth();
   const { toggleStateHandler } = ToggleState();
   const router = useRouter();
   return (
@@ -45,6 +44,9 @@ const Footer = () => {
               icon={<LogoutIcon />}
               type={"link"}
               className="py-3  justify-start"
+              onClick={() => {
+                logout!().then(() => toggleStateHandler!("side_bar"));
+              }}
             >
               Logout
             </ButtonStandard>

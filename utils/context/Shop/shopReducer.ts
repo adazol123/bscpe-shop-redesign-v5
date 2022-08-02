@@ -16,6 +16,7 @@ interface Cart {
   carts: ProductCart[];
   addToCart?: (item: ProductCart) => void;
   removeFromCart?: (item: ProductCart) => void;
+  clearCart?: () => void;
 }
 
 export const initialCartState: Cart = {

@@ -1,4 +1,5 @@
 import Spinner from "./Spinner";
+import Loadbar from "./Loadbar";
 
 function BscpeLoader() {
   return (
@@ -6,7 +7,7 @@ function BscpeLoader() {
       <p className="mb-4 font-light text-center text-neutral-600">
         BSCPE STORE
       </p>
-      <Spinner className="mx-auto" />
+      <Loadbar className="mx-auto" />
     </div>
   );
 }

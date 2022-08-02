@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import React from "react";
 import { ToggleState } from "../../../utils/context/Toggles/ToggleState";
-
+import ButtonStandard from "../../UI/Button/Standard/ButtonStandard";
 
 const FooterSummary = ({
   total,
@@ -26,28 +26,31 @@ const FooterSummary = ({
             <td>Discount</td>
             <td className="text-end">40%</td>
           </tr> */}
-            <tr className="text-xs font-light ">
-              <td>Sub-total</td>
+            <tr className="text-sm font-medium ">
+              <td>Estimated total</td>
               <td className="text-end">₱ {total?.toFixed(2)}</td>
             </tr>
           </tbody>
         </table>
       </div>
-      <button
-        onClick={() => {
-          toggleStateHandler!("cart");
-          router.push("/checkout");
-        }}
-        className="w-full p-4 text-gray-200 bg-black/90"
-      >
-        Checkout
-      </button>
-      {/* <button
-      onClick={() => toggleStateHandler("cart")}
-      className="w-full p-4 underline bg-transparent underline-offset-2"
-    >
-      Cancel
-    </button> */}
+      <div className="flex gap-1">
+        <ButtonStandard
+          className="w-full"
+          onClick={() => toggleStateHandler!("pay_now")}
+        >
+          Pay now
+        </ButtonStandard>
+        <ButtonStandard
+          className="w-full"
+          onClick={() => {
+            router.push("/checkout");
+            toggleStateHandler!("cart");
+          }}
+          type={"outline"}
+        >
+          Checkout
+        </ButtonStandard>
+      </div>
     </div>
   );
 };

@@ -12,6 +12,7 @@ let states = {
   side_bar: false,
   hamburger_mobile: false,
   settings: false,
+  pay_now: false,
 };
 
 export interface StaticState {
@@ -42,6 +43,7 @@ export interface StaticState {
       | "modal_mobile"
       | "side_bar"
       | "hamburger_mobile"
+      | "pay_now"
   ) => void;
   selectedProduct?: any;
   setSelectedProduct?: any;
@@ -70,6 +72,7 @@ export const ToggleStateProvider = ({
     side_bar: false,
     hamburger_mobile: false,
     settings: false,
+    pay_now: false,
   });
 
   const toggleStateHandler = (
@@ -84,6 +87,7 @@ export const ToggleStateProvider = ({
       | "modal_mobile"
       | "side_bar"
       | "hamburger_mobile"
+      | "pay_now"
   ) => setToggleState((prev) => (prev = { ...prev, [type]: !prev[type] }));
   let values = {
     toggleState,

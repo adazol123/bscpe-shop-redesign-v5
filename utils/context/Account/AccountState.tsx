@@ -7,9 +7,9 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import React, { createContext, useContext, useReducer } from "react";
-import { auth } from "../../../auth/firebase";
+import { auth, db } from "../../../auth/firebase";
 import accountReducer, { initialAcountState } from "./accountReducer";
-
+import config from "../../services/config.json";
 interface UID {
   uid?: string | null;
 }
@@ -17,9 +17,11 @@ interface UID {
 /** Types for value @var `value` */
 interface User {
   user: DocumentData | null;
-  getUser?: (auth: Auth) => Unsubscribe;
   payment?: DocumentData | null;
   shipping?: DocumentData | null;
+  getUser?: (auth: Auth) => Unsubscribe;
+  getPaymentInfo(user: UID | null): void;
+  getShipping(user: UID | null): void;
 }
 
 const AccountContext = createContext(initialAcountState);
@@ -58,11 +60,62 @@ export const AccountStateProvider = ({
     return unsubscribe;
   };
 
-  let value: User = {
-    user: state?.user,
-    getUser,
+  /**
+   * get payment information (virtual card) from firestore database dependent with currentuser logged in
+   * */
+  const getPaymentInfo = (user: UID | null) => {
+    if (user) {
+      let paymentRef = doc(db, `${config.USER}${user?.uid}${config.PAYMENT}`);
+      onSnapshot(paymentRef, (doc) => {
+        dispatch({
+          type: "GET_PAYMENT",
+          payload: {
+            payment: doc.data(),
+          },
+        });
+      });
+    } else {
+      dispatch({
+        type: "GET_PAYMENT",
+        payload: {
+          payment: null,
+        },
+      });
+    }
   };
 
+  /**
+   * Get shipping address information from firestore database dependent with currentuser logged in
+   * */
+  const getShipping = (user: UID | null) => {
+    if (user) {
+      let shippingRef = doc(db, `${config.USER}${user?.uid}${config.ADDRESS}`);
+      onSnapshot(shippingRef, (doc) => {
+        dispatch({
+          type: "GET_SHIPPING",
+          payload: {
+            shipping: doc.data(),
+          },
+        });
+      });
+    } else {
+      dispatch({
+        type: "GET_SHIPPING",
+        payload: {
+          shipping: null,
+        },
+      });
+    }
+  };
+
+  let value: User = {
+    user: state?.user,
+    payment: state?.payment,
+    shipping: state?.shipping,
+    getUser,
+    getPaymentInfo,
+    getShipping,
+  };
   return (
     <AccountContext.Provider value={value}>{children}</AccountContext.Provider>
   );

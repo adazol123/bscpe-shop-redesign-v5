@@ -7,6 +7,7 @@ import {
   InformationCircleIcon,
   ShoppingBagIcon,
   ShoppingCartIcon,
+  SupportIcon,
   ThumbUpIcon,
 } from "@heroicons/react/outline";
 import { useRouter } from "next/router";
@@ -27,6 +28,15 @@ const NavLinks = () => {
         <Link href={"/cart"}>Kids</Link>
       </DropdownStyled>
       <ButtonStyled
+        icon={<SupportIcon />}
+        onClick={() => {
+          toggleStateHandler!("side_bar");
+          router.push("/signup");
+        }}
+      >
+        Support
+      </ButtonStyled>
+      <ButtonStyled
         icon={<InformationCircleIcon />}
         onClick={() => {
           toggleStateHandler!("side_bar");
@@ -34,15 +44,6 @@ const NavLinks = () => {
         }}
       >
         About
-      </ButtonStyled>
-      <ButtonStyled
-        icon={<ThumbUpIcon />}
-        onClick={() => {
-          toggleStateHandler!("side_bar");
-          router.push("/signup");
-        }}
-      >
-        Issue report
       </ButtonStyled>
     </div>
   );

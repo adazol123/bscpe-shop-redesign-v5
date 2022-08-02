@@ -39,7 +39,14 @@ export const ShopStateProvider = ({ children }: TypeJSX) => {
       },
     });
   };
-
+  const clearCart = () => {
+    dispatch({
+      type: "REMOVE_FROM_CART",
+      payload: {
+        carts: [],
+      },
+    });
+  };
   const updatePrice = (products: []) => {
     let total = 0;
     let totalQuantity = 0;
@@ -61,13 +68,11 @@ export const ShopStateProvider = ({ children }: TypeJSX) => {
   let value: any = {
     total: state.total,
     totalQuantity: state.totalQuantity,
-<<<<<<< HEAD
     carts: state.carts,
-=======
-    carts: state.products,
->>>>>>> 4849cd433e3cd71db7b9bd451e397dcc8f089ade
+
     addToCart,
     removeFromCart,
+    clearCart,
   };
 
   return <ShopContext.Provider value={value}>{children}</ShopContext.Provider>;

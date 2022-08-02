@@ -6,7 +6,7 @@ import ProductSelected from "./ProductSelected";
 
 const ProductSelectedModal = () => {
   const { toggleState, toggleStateHandler } = ToggleState();
-  const { productSelected }: any = ProductState();
+  const { productSelected } = ProductState();
   return (
     <ModalMobile
       state={toggleState!["modal_mobile"]}
