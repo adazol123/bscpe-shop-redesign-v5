@@ -35,7 +35,7 @@ const CartCard = ({ data }: { data: ProductCart }) => {
       </svg>
 
 
-      <span className="text-white absolute top-1 left-2 text-xs">x2</span>
+      <span className="text-white absolute top-1 left-2 text-xs">x{data?.quantity}</span>
       <div className="h-[6em] md:h-[8em] lg:min-h-[10em] w-[8em] sm:w-[10em] lg:max-w-[12em]  rounded-md opacity-100">
         <img
           src={data.image}

@@ -163,7 +163,7 @@ const ProductSelected = ({ product }: { product: ProductList }) => {
         </div>
         <div className="grid place-items-center">
           <span className={style.modal_mobile_subtitle}>Quantity</span>
-          <div className={`flex items-center gap-2${"pointer-events-none"}`}>
+          <div className={`flex items-center gap-2 ${isInCart ? "pointer-events-none text-black/50" : " text-black"}`}>
             <button
               onClick={minusQuantity}
               className="p-2 rounded-full bg-black/5"
