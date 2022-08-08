@@ -17,3 +17,8 @@
 ._form button {
   @apply bg-black px-4 py-2 text-white rounded;
 }
+
+._sub__metatags,
+._size_metatags {
+  @apply p-2 border border-dashed  rounded mb-4;
+}

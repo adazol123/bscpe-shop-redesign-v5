@@ -3,25 +3,12 @@ import { MouseEvent, ReactElement, useState } from 'react'
 import LayoutAccount from '../../../components/Layouts/layout-account'
 import { UserAuth } from '../../../utils/context/Account/Auth'
 import { ToggleState } from '../../../utils/context/Toggles/ToggleState'
+import { ProductItemTypes } from '../../../utils/types/productTypes'
 import style from './style.module.css'
 
 /**
  * @description Product item types
  */
-interface ProductItemTypes {
-    __name?: string,
-    __description?: string,
-    __owner: string,
-    __category: 'men' | 'women' | 'kids',
-    __meta?: {
-        __colors?: [{
-            __name?: string,
-            __quantity: number,
-        }
-        ],
-        __sizes?: string[]
-    }
-}
 
 
 const AdminPanel = () => {
@@ -48,7 +35,7 @@ const AdminPanel = () => {
         '__meta': {
             '__colors': [
                 {
-                    '__name': undefined,
+                    '__color_name': undefined,
                     '__quantity': 0,
                 }
             ],
@@ -108,7 +95,7 @@ const AdminPanel = () => {
     }
 
 
-    
+
 
     let [sizes, setSizes] = useState([
         {
@@ -163,22 +150,36 @@ const AdminPanel = () => {
                 </label>
                 <label >
                     <span>Product Description</span>
-                    <textarea name="__description" cols={30} rows={10} placeholder="Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ut numquam quia sequi natus ex corrupti?" onChange={handleChange}>
+                    <textarea name="__description" rows={5} placeholder="Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ut numquam quia sequi natus ex corrupti?" onChange={handleChange}>
 
                     </textarea>
                 </label>
-                <label >
+                <div >
                     <span>Metatags</span>
-                    <div>
-                        <span>color</span>
+                    <div className={style._sub__metatags}>
+                        <span>color[1]</span>
                         <input type="color" name="__color" />
+                        <label>
+                            <input type="text" name="__color_name" />
+                        </label>
+                        <label>
+                            <span>quantity</span>
+                            <input type="number" name="__quantity" onChange={handleChange} />
+                        </label>
                     </div>
-                    <div>
-                        <span>quantity</span>
-                        <input type="number" name="__quantity" onChange={handleChange} />
+                    <div className={style._sub__metatags}>
+                        <span>color[2] </span>
+                        <input type="color" name="__color" />
+                        <label>
+                            <input type="text" name="__color_name" />
+                        </label>
+                        <label>
+                            <span>quantity</span>
+                            <input type="number" name="__quantity" onChange={handleChange} />
+                        </label>
                     </div>
-                    <div>
-                        <span>size[s]</span>
+                    <div className={style._size_metatags}>
+                        <span>Size[s]</span>
                         <>
                             {
                                 sizes.map((size) => {
@@ -187,6 +188,7 @@ const AdminPanel = () => {
                                             <input type="checkbox" name={size.value} checked={size.isChecked} onChange={(event) => sizeChangeHandler(event, size)
                                             } />
                                             {size.value}
+
                                         </label>
                                     )
                                 })
@@ -194,7 +196,7 @@ const AdminPanel = () => {
                         </>
 
                     </div>
-                </label>
+                </div>
                 <label >
                     Images
                     <input type="file" name="__image" />
@@ -205,9 +207,9 @@ const AdminPanel = () => {
                         e.preventDefault()
                         try {
                             if (productItem.__name === '' || typeof (productItem.__name) === 'undefined') throw new Error('Product name is missing')
-
                             if (productItem!.__name?.match(/^\s*$/g)) throw new Error('Product name cannot be empty')
 
+                            if (productItem.__description === '' || typeof (productItem.__description) === 'undefined') throw new Error('Product description/details is missing')
                             if (productItem!.__description?.match(/^\s*$/g)) throw new Error('Product description cannot be empty')
 
                             if (productItem!.__category?.match(/^\s*$/g)) throw new Error('Product name is missing')
@@ -215,7 +217,6 @@ const AdminPanel = () => {
                             if (productItem.__meta?.__sizes?.length! === 0) throw new Error('Atleast one (1) selected size[s] is required')
 
                             console.log(productItem)
-                            console.log(sizes)
                             console.log(user?.displayName)
 
                         } catch (error: any) {
