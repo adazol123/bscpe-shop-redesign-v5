@@ -1,4 +1,4 @@
-import { MenuAlt3Icon, UserIcon } from '@heroicons/react/outline';
+import { HomeIcon, MenuAlt3Icon, UserIcon } from '@heroicons/react/outline';
 import { ChevronLeftIcon } from '@heroicons/react/solid';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -14,18 +14,23 @@ const NavCustom = () => {
     return (
         <header className={style._nav__custom}>
             <nav className="w-full">
-                <ButtonSVG onClick={() => router.back()}>
-                    <ChevronLeftIcon />
-                </ButtonSVG>
-                <Link href={"/"} className={style._logo}>
-                    Admin panel
-                </Link>
+                <div className="flex gap-4 items-center">
+
+                    <ButtonSVG onClick={() => router.back()}>
+
+                        <ChevronLeftIcon />
+
+                    </ButtonSVG>
+                    <Link href={"/account"} className={style._logo}>
+                        Account
+                    </Link>
+                </div>
 
                 {/* <NavLinks /> */}
                 <div className="flex gap-1 ring-1 ring-white/20 rounded-full px-1 items-center py-1">
                     {user && (
-                        <ButtonSVG onClick={() => router.replace("/login")}>
-                            <UserIcon />
+                        <ButtonSVG onClick={() => router.push("/")}>
+                            <HomeIcon />
                         </ButtonSVG>
                     )}
                     <ButtonSVG onClick={() => toggleStateHandler!("side_bar")}>

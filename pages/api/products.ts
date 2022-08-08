@@ -28,7 +28,6 @@ export default async function handler(
       return snapshot.forEach((doc) => datos.push(doc.data()));
     });
 
-    console.log(datos.length);
     return new Promise((resolve) => {
       resolve(datos);
       setTimeout(() => {

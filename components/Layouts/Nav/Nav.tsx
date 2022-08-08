@@ -37,7 +37,7 @@ const Nav = () => {
     <header className={style._nav}>
       <nav className="w-full">
         <Link href={"/"} className={style._logo}>
-          BSCPE Store
+          Bscpe Store
         </Link>
 
         {/* <NavLinks /> */}
@@ -54,7 +54,7 @@ const Nav = () => {
           </ButtonSVG>
           <div className="flex gap-1 ring-1 ring-white/20 rounded-full px-1 items-center py-1">
             {user && (
-              <ButtonSVG onClick={() => router.replace("/login")}>
+              <ButtonSVG onClick={() => router.push("/account")}>
                 <UserIcon />
               </ButtonSVG>
             )}

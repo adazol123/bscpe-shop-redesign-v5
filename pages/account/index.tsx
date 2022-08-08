@@ -10,12 +10,7 @@ import { UserAuth } from "../../utils/context/Account/Auth";
 const Account = () => {
   const router = useRouter();
   const { isAuthenticated, isLoading } = UserAuth();
-  useEffect(() => {
-    if (!isLoading && !isAuthenticated) {
-      router.push("/");
-    }
-  }, [isAuthenticated, isLoading]);
-  if (isLoading || !isAuthenticated) return <BscpeLoader />;
+
   return <div>account</div>;
 };
 

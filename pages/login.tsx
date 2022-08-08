@@ -1,5 +1,6 @@
 import { CogIcon } from "@heroicons/react/outline";
 import { NextPage } from "next";
+import { useRouter } from "next/router";
 import React, {
   ChangeEvent,
   ChangeEventHandler,
@@ -66,6 +67,11 @@ const Login: NextPageWithLayout = () => {
       }, 5000);
     }
   };
+
+  let router = useRouter()
+  useEffect(() => {
+    if (user) router.replace('/')
+  }, [user])
   return (
     <div>
       {user ? (
@@ -84,7 +90,7 @@ const Login: NextPageWithLayout = () => {
               );
             }}
           >
-            {client.loading ? <Spinner className="animate-spin" /> : "Logout"}
+            {client.loading ? <Spinner className="animate-spin" /> : ""}
           </button>
         </div>
       ) : (

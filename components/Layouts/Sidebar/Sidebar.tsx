@@ -32,7 +32,12 @@ const Footer = () => {
       <div className="flex flex-col px-4 gap-2">
         {user ? (
           <>
-            <ButtonStandard icon={<UserIcon />} className="py-3 justify-start">
+            <ButtonStandard icon={<UserIcon />} className="py-3 justify-start"
+              onClick={() => {
+                router.replace('/account')
+                toggleStateHandler!("side_bar")
+              }}
+            >
               <div className="flex flex-col justify-start text-left">
                 <h3>{user?.displayName}</h3>
                 <span className="text-[0.8em] text-white/30 leading-3">
