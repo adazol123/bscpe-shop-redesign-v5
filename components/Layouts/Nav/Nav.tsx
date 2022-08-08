@@ -34,8 +34,8 @@ const Nav = () => {
   const { toggleStateHandler } = ToggleState();
   const { carts } = ShopState();
   return (
-    <div className={style._nav}>
-      <div className="w-full">
+    <header className={style._nav}>
+      <nav className="w-full">
         <Link href={"/"} className={style._logo}>
           BSCPE Store
         </Link>
@@ -63,8 +63,8 @@ const Nav = () => {
             </ButtonSVG>
           </div>
         </div>
-      </div>
-    </div>
+      </nav>
+    </header>
   );
 };
 

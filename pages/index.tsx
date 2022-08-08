@@ -9,7 +9,7 @@ import useSWR from "swr";
 
 import type { NextPageWithLayout } from "./_app";
 import Layout from "../components/Layouts/layout";
-import NestedLayout from "../components/Layouts/nested-layout";
+import NestedLayout from "../components/Layouts/layout-context";
 import HomeContent from "../components/Layouts/Home/HomeContent";
 import ProductContext from "../components/Layouts/Home/ProductContext";
 import ProductListGrid from "../components/Layouts/Products/ProductListGrid";

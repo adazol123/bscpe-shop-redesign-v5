@@ -1,7 +1,7 @@
 import React, { ReactElement } from "react";
 import { auth } from "../auth/firebase";
 import Layout from "../components/Layouts/layout";
-import NestedLayout from "../components/Layouts/nested-layout";
+import NestedLayout from "../components/Layouts/layout-context";
 import AccountState from "../utils/context/Account/AccountState";
 import { UserAuth } from "../utils/context/Account/Auth";
 

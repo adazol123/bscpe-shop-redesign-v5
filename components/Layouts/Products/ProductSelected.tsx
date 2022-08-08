@@ -36,30 +36,31 @@ export const colors = [
   },
 ];
 
+let sizeActiveClass = "ring-1 text-gray-100 bg-black ring-offset-2 ring-black"
 export const size = [
   {
     option: "small",
     label: "S",
     className: "grid w-6 h-6 border rounded place-items-center",
-    activeClass: "ring-2 text-gray-100 bg-gray-400 ring-offset-2 ring-gray-400",
+    activeClass: sizeActiveClass,
   },
   {
     option: "medium",
     label: "M",
     className: "grid w-6 h-6 border rounded place-items-center",
-    activeClass: "ring-2 text-gray-100 bg-gray-400 ring-offset-2 ring-gray-400",
+    activeClass: sizeActiveClass,
   },
   {
     option: "large",
     label: "L",
     className: "grid w-6 h-6 border rounded place-items-center ",
-    activeClass: "ring-2 text-gray-100 bg-gray-400 ring-offset-2 ring-gray-400",
+    activeClass: sizeActiveClass,
   },
   {
     option: "extra-large",
     label: "XL",
     className: "grid w-6 h-6 border rounded place-items-center",
-    activeClass: "ring-2 text-gray-100 bg-gray-400 ring-offset-2 ring-gray-400",
+    activeClass: sizeActiveClass,
   },
 ];
 

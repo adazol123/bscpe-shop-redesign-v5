@@ -1,0 +1,19 @@
+._form {
+  @apply m-3 flex flex-col gap-4;
+}
+
+._form span {
+  @apply block;
+}
+
+._form label {
+  @apply block;
+}
+
+._form select {
+  @apply px-4 py-2;
+}
+
+._form button {
+  @apply bg-black px-4 py-2 text-white rounded;
+}
