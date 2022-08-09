@@ -3,7 +3,7 @@ import React from "react";
 import style from "../style.module.css";
 import { Modal } from "../Standard/ModalStandard";
 
-const ModalFull = ({ state, toggleStateHandler, children }: Modal) => {
+const ModalFull = ({ state, toggleStateHandler, title, children }: Modal) => {
   return (
     <>
       {/* <button className={style.backdrop} /> */}
@@ -14,7 +14,7 @@ const ModalFull = ({ state, toggleStateHandler, children }: Modal) => {
         ].join(" ")}
       >
         <nav>
-          <span>ModalFull</span>{" "}
+          <span>{title}</span>{" "}
           <button onClick={toggleStateHandler}>
             <XIcon />
           </button>

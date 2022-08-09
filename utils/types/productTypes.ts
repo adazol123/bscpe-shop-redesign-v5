@@ -3,13 +3,14 @@ export interface ProductItemTypes {
   __description?: string;
   __owner: string;
   __category: "men" | "women" | "kids";
-  __meta?: {
-    __colors?: [
+  __meta: {
+    __types: [
       {
-        __color_name?: string;
+        __color?: string;
         __quantity: number;
       }
     ];
-    __sizes?: string[];
+    __sizes: string[];
+    __image_url?: string;
   };
 }

@@ -1,10 +1,13 @@
 import { useRouter } from 'next/router'
-import { MouseEvent, ReactElement, useState } from 'react'
+import React, { MouseEvent, ReactElement, useCallback, useState } from 'react'
 import LayoutAccount from '../../../components/Layouts/layout-account'
 import { UserAuth } from '../../../utils/context/Account/Auth'
 import { ToggleState } from '../../../utils/context/Toggles/ToggleState'
+import { ProductListTypes } from '../../../utils/lib/createNewProduct'
+import uploadProductToFirebase from '../../../utils/lib/uploadProductToFirebase'
 import { ProductItemTypes } from '../../../utils/types/productTypes'
 import style from './style.module.css'
+import { ImageType } from '../../../utils/lib/uploadProductToFirebase';
 
 /**
  * @description Product item types
@@ -24,24 +27,32 @@ const AdminPanel = () => {
     const router = useRouter()
 
 
+
     /**
      * @description Local product state
      */
-    let [productItem, setProductItem] = useState<ProductItemTypes>({
-        '__name': undefined,
-        '__description': undefined,
-        '__owner': user?.displayName,
-        '__category': 'men',
-        '__meta': {
-            '__colors': [
-                {
-                    '__color_name': undefined,
-                    '__quantity': 0,
-                }
-            ],
-            '__sizes': []
+    let [productItem, setProductItem] = useState<ProductListTypes>({
+        'ownerID': user?.displayName,
+        'name': undefined,
+        'description': undefined,
+        'category': 'men',
+        'metatags': {
+            'type':
+            {
+                'color': undefined,
+                'quantity': 0,
+            }
+            ,
+            'price': 0,
+            'sizes': [],
+            'images': undefined
         }
 
+    })
+
+    let [imageToUpload, setImageToUpload] = useState<Partial<ImageType>>({
+        image_name: undefined,
+        image_url: undefined
     })
 
 
@@ -69,10 +80,10 @@ const AdminPanel = () => {
              */
             setProductItem(values => values = {
                 ...values,
-                __meta: {
-                    ...values.__meta,
-                    __sizes: [
-                        ...values.__meta!.__sizes!,
+                metatags: {
+                    ...values.metatags,
+                    sizes: [
+                        ...values.metatags!.sizes!,
                         size.value.trim()
                     ]
                 }
@@ -83,9 +94,9 @@ const AdminPanel = () => {
             */
             setProductItem(values => values = {
                 ...values,
-                __meta: {
-                    ...values.__meta,
-                    __sizes: values.__meta!.__sizes!.filter(toremove => toremove.indexOf(size.value))
+                metatags: {
+                    ...values.metatags,
+                    sizes: values.metatags!.sizes!.filter(toremove => toremove.indexOf(size.value))
                 }
             })
 
@@ -130,15 +141,39 @@ const AdminPanel = () => {
         },
     ])
 
+    let handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if(event.target.files) {
+            let value = event.target.files[0];
+
+            setImageToUpload({
+                image_url: URL.createObjectURL(value),
+                image_name: value.name
+            })
+        }
+
+
+    }
+
+    let handleSubmit = async (event: React.FormEvent) => {
+        event.preventDefault()
+
+        try {
+            
+            uploadProductToFirebase(productItem, imageToUpload, )
+            console.log('uploading...')
+        } catch (error: any) {
+            console.error(error.message)
+        }
+    }
 
     return <>
         <p>Admin</p>
 
         <div>
-            <form className={style._form} action="">
+            <form className={style._form} onSubmit={async (event: React.FormEvent) => await handleSubmit(event)}>
                 <label >
                     <span>Category</span>
-                    <select name="__category" onChange={handleChange}>
+                    <select name="category" onChange={handleChange}>
                         <option value='men' >Men</option>
                         <option value="women">Women</option>
                         <option value="kids">Kids</option>
@@ -146,36 +181,36 @@ const AdminPanel = () => {
                 </label>
                 <label >
                     <span>Product Name</span>
-                    <input type="text" name="__name" onChange={handleChange} />
+                    <input type="text" name="name" onChange={handleChange} />
                 </label>
                 <label >
                     <span>Product Description</span>
-                    <textarea name="__description" rows={5} placeholder="Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ut numquam quia sequi natus ex corrupti?" onChange={handleChange}>
+                    <textarea name="description" rows={5} placeholder="Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ut numquam quia sequi natus ex corrupti?" onChange={handleChange}>
 
                     </textarea>
                 </label>
                 <div >
                     <span>Metatags</span>
-                    <div className={style._sub__metatags}>
+                    <div className={style._submetatagstags}>
                         <span>color[1]</span>
-                        <input type="color" name="__color" />
+                        <input type="color" name="color" />
                         <label>
-                            <input type="text" name="__color_name" />
+                            <input type="text" name="color_name" />
                         </label>
                         <label>
                             <span>quantity</span>
-                            <input type="number" name="__quantity" onChange={handleChange} />
+                            <input type="number" name="quantity" onChange={handleChange} />
                         </label>
                     </div>
-                    <div className={style._sub__metatags}>
+                    <div className={style._submetatagstags}>
                         <span>color[2] </span>
-                        <input type="color" name="__color" />
+                        <input type="color" name="color" />
                         <label>
-                            <input type="text" name="__color_name" />
+                            <input type="text" name="color_name" />
                         </label>
                         <label>
                             <span>quantity</span>
-                            <input type="number" name="__quantity" onChange={handleChange} />
+                            <input type="number" name="quantity" onChange={handleChange} />
                         </label>
                     </div>
                     <div className={style._size_metatags}>
@@ -199,25 +234,26 @@ const AdminPanel = () => {
                 </div>
                 <label >
                     Images
-                    <input type="file" name="__image" />
+                    <input type="file" name="__image" onChange={handleImageChange} />
                 </label>
 
                 <button type="submit" onClick={
                     (e: MouseEvent) => {
                         e.preventDefault()
                         try {
-                            if (productItem.__name === '' || typeof (productItem.__name) === 'undefined') throw new Error('Product name is missing')
-                            if (productItem!.__name?.match(/^\s*$/g)) throw new Error('Product name cannot be empty')
+                            if (productItem.name === '' || typeof (productItem.name) === 'undefined') throw new Error('Product name is missing')
+                            if (productItem!.name?.match(/^\s*$/g)) throw new Error('Product name cannot be empty')
 
-                            if (productItem.__description === '' || typeof (productItem.__description) === 'undefined') throw new Error('Product description/details is missing')
-                            if (productItem!.__description?.match(/^\s*$/g)) throw new Error('Product description cannot be empty')
+                            if (productItem.description === '' || typeof (productItem.description) === 'undefined') throw new Error('Product description/details is missing')
+                            if (productItem!.description?.match(/^\s*$/g)) throw new Error('Product description cannot be empty')
 
-                            if (productItem!.__category?.match(/^\s*$/g)) throw new Error('Product name is missing')
+                            if (productItem!.category?.match(/^\s*$/g)) throw new Error('Product name is missing')
 
-                            if (productItem.__meta?.__sizes?.length! === 0) throw new Error('Atleast one (1) selected size[s] is required')
+                            if (productItem.metatags?.sizes?.length! === 0) throw new Error('Atleast one (1) selected size[s] is required')
 
                             console.log(productItem)
                             console.log(user?.displayName)
+                            handleSubmit(e)
 
                         } catch (error: any) {
                             console.error(error.message)

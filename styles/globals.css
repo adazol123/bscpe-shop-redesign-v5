@@ -60,3 +60,7 @@ svg {
 /* input {
   @apply p-2 rounded-sm focus:ring-1 outline-none;
 } */
+
+.reactEasyCrop_Container {
+  @apply bg-black/5 border border-black/30 border-dashed rounded-md;
+}
