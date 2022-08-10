@@ -21,16 +21,17 @@ import {
 import AccountState from "./AccountState";
 
 interface AuthUser {
-  user?: DocumentData | null;
-  isAuthenticated?: boolean;
-  isLoading?: boolean;
-  signup?: (email: string, password: string) => Promise<UserCredential>;
-  signin?: (email: string, password: string) => Promise<UserCredential>;
-  logout?: () => Promise<void>;
-  signinWithGoogle?: () => Promise<void>;
+  authUser: User | null;
+  user: User | null;
+  isAuthenticated: boolean;
+  isLoading: boolean;
+  signup: (email: string, password: string) => Promise<UserCredential>;
+  signin: (email: string, password: string) => Promise<UserCredential>;
+  logout: () => Promise<void>;
+  signinWithGoogle: () => Promise<void>;
 }
 
-const AuthContext = createContext<AuthUser>({});
+const AuthContext = createContext<Partial<AuthUser>>({});
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   /** This suspend code used as buffer for initial auth state
@@ -43,7 +44,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   // );
 
   /** Account Reducer - (getUser) listen for change on login state */
-  let { user, getUser } = AccountState();
+  let { user, authUser, getUser } = AccountState();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -92,6 +93,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   return (
     <AuthContext.Provider
       value={{
+        authUser,
         user,
         isAuthenticated,
         isLoading,

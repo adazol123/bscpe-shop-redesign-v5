@@ -2,14 +2,13 @@ import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { db } from "../../auth/firebase";
 
 export interface ProductListTypes {
-  ownerID: string;
+  ownerID: string | null | undefined;
   category: string;
   name?: string;
   description?: string;
   metatags: {
     type: {
-      color?: string;
-      quantity: number;
+      [types: string]: string | number | undefined;
     };
     price: number;
     sizes: string[];

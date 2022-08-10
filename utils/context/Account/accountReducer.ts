@@ -1,49 +1,67 @@
-import { Auth, Unsubscribe } from "firebase/auth";
+import { Auth, Unsubscribe, User } from "firebase/auth";
 import { DocumentData } from "firebase/firestore";
 
-interface User {
-  user: DocumentData | null;
-  getUser?: (auth: Auth) => Unsubscribe;
-  payment?: DocumentData | null;
-  shipping?: DocumentData | null;
+enum StateEnum {
+  GET_AUTH,
+  GET_USER,
+  GET_PAYMENT,
+  UPDATE_PAYMENT,
+  GET_SHIPPING,
+  UPDATE_SHIPPING,
 }
 
-export const initialAcountState: User = { user: null };
+interface UserType {
+  authUser: User | null;
+  user: User | null;
+  getUser: (auth: Auth) => Unsubscribe;
+  payment: DocumentData | null;
+  shipping: DocumentData | null;
+}
+
+type TypeString = keyof typeof StateEnum;
+
+export const initialAcountState: Partial<UserType> = { user: null };
 
 const accountReducer = (
-  state: User,
-  action: { type: string; payload: DocumentData | null }
+  state: Partial<UserType>,
+  action: { type: TypeString; payload: Partial<UserType> }
 ) => {
   const { type, payload } = action;
 
   switch (type) {
+    case "GET_AUTH":
+      return {
+        ...state,
+        authUser: payload.authUser,
+      };
     case "GET_USER":
       return {
         ...state,
-        user: payload?.user,
+        user: payload.user,
       };
     case "GET_PAYMENT":
       return {
         ...state,
-        payment: payload?.payment,
+        payment: payload.payment,
       };
     case "UPDATE_PAYMENT":
       return {
         ...state,
-        payment: payload?.payment,
+        payment: payload.payment,
       };
     case "GET_SHIPPING":
       return {
         ...state,
-        shipping: payload?.shipping,
+        shipping: payload.shipping,
       };
     case "UPDATE_SHIPPING":
       return {
         ...state,
-        shipping: payload?.shipping,
+        shipping: payload.shipping,
       };
     default:
-      throw new Error(`No case for type ${type} found in show reducer`);
+      return state;
+    // throw new Error(`No case for type ${type} found in show reducer`);
   }
 };
 

@@ -1,70 +1,119 @@
-import React, { LegacyRef, MutableRefObject, RefObject } from 'react'
+import React, { Dispatch, LegacyRef, MutableRefObject, RefObject, SetStateAction } from 'react'
 import ModalFull from '../../../UI/Modals/Full/ModalFull'
 import Cropper, { Area } from 'react-easy-crop'
 import { ImageType } from '../../../../utils/lib/uploadProductToFirebase';
 import ModalMobile from '../../../UI/Modals/Mobile/ModalMobile';
 import ButtonStandard from '../../../UI/Button/Standard/ButtonStandard';
 import { UploadIcon } from '@heroicons/react/outline';
-const ImageCropper = () => {
+import { UserAuth } from '../../../../utils/context/Account/Auth';
+import imageToBlobUrl from './../../../../utils/lib/imageToBlobUrl';
+import getCroppedImg, { getCroppedImgAsBlog } from '../../../../utils/services/cropImage';
+import { ref, uploadBytes } from 'firebase/storage';
+import { storage } from '../../../../auth/firebase';
+import { getDownloadURL } from 'firebase/storage';
 
+
+const ImageCropper = ({ setImageUrl, toggle, toggleHandler }: { setImageUrl: Dispatch<SetStateAction<Partial<{ image_blob_url: string; image_blob: Blob; }>>>, toggle: boolean, toggleHandler: () => void }) => {
+    const { user } = UserAuth()
+
+
+    const [imageToUpload, setImageToUpload] = React.useState<Partial<{
+        image_name: string,
+        image_url: string
+    }>>({
+        image_name: undefined,
+        image_url: undefined
+    })
 
     //image cropper config
-    const CROP_AREA_ASPECT = 7 / 9;
+    const CROP_AREA_ASPECT = 3 / 4;
     const [crop, setCrop] = React.useState({ x: 0, y: 0 });
     const [zoom, setZoom] = React.useState(1);
     const [croppedArea, setCroppedArea] = React.useState<Area | null>(null);
 
-    const onCropComplete = (croppedAreaPixels: Area) => {
+    /**
+     * 
+     * @param _  cropped image area by percentage `(unused)`
+     * @param croppedAreaPixels  cropped image area by pixels
+     */
+    const onCropComplete = (_: Area, croppedAreaPixels: Area) => {
         setCroppedArea(croppedAreaPixels);
     };
 
-    let [state, setState] = React.useState(true)
+    let [uploading, setUploading] = React.useState(false)
     const imageRef = React.useRef({}) as RefObject<HTMLInputElement>
 
-    const [imageToUpload, setImageToUpload] = React.useState<{
-        image_name?: string,
-        image_url?: string
-    }>({
-        image_name: undefined,
-        image_url: undefined
-    })
+
 
     const triggerFile = () => imageRef.current!.click()
 
     const onSelectedFile = (event: React.ChangeEvent<HTMLInputElement>) => {
 
         if (event.target.files && event.target.files.length > 0) {
-            const reader = new FileReader()
+
             /**
              * blob:url format
              */
             let name = event.target.files ? event.target.files[0].name : event.target.files
-            const blob_url = URL.createObjectURL(event.target.files[0])
-            setImageToUpload(prev => prev = {
-                ...prev,
-                image_name: name
 
-            })
-            /**
-             * data:image;base64 format
-             */
-            setImageToUpload(prev => prev = {
+            const blob_url = imageToBlobUrl(event.target.files[0])
+
+            setImageToUpload({
                 image_name: name,
                 image_url: (blob_url)?.toString()
-
             })
-            reader.readAsDataURL(event.target.files[0])
-            reader.addEventListener('load', () => {
-            })
-            console.log(imageToUpload)
         }
     }
+
+    const onSaveImage = async (e: React.FormEvent) => {
+        setUploading(true)
+        e.preventDefault()
+        if (imageToUpload.image_url
+            && imageToUpload.image_name
+            && user
+            && croppedArea) {
+            try {
+                const cropperImage = await getCroppedImg(imageToUpload.image_url as string, croppedArea) as Blob
+                
+                const storageRef = ref(
+                    storage,
+                    `products/${user.uid}-${imageToUpload.image_name
+                        .split(/\s/g)
+                        .join("-")}`
+                );
+
+
+                // await uploadBytes(storageRef, cropperImage, {
+                //     contentType: 'image/jpeg'
+                // })
+
+                // let generated_image_url = await getDownloadURL(storageRef)
+                const cropperImageAsBlogURL = await getCroppedImgAsBlog(imageToUpload.image_url as string, croppedArea) as string
+                setImageUrl({
+                    image_blob_url: cropperImageAsBlogURL.toString(),
+                    image_blob: cropperImage
+                })
+                console.log(cropperImage)
+                console.log(cropperImageAsBlogURL)
+
+                toggleHandler()
+                setUploading(false)
+            } catch (error) {
+
+            }
+
+        }
+
+
+
+    }
+
 
     return (
         <ModalMobile title='Image Cropper'
 
             icon={<UploadIcon />}
-            state={state} toggleStateHandler={() => setState(!state)}>
+            state={toggle} toggleStateHandler={toggleHandler}>
             <>
                 {imageToUpload?.image_url ? <div>
                     <div className='relative h-72 rounded-md overflow-hidden'>
@@ -79,12 +128,13 @@ const ImageCropper = () => {
                             // cropSize={{ width: 100, height: 100 }}
                             objectFit={"auto-cover"}
                             onCropComplete={onCropComplete}
+
                         />
 
                     </div>
-                    <input type="range" min={1} max={2} step={0.1} defaultValue={zoom} onChange={(event: React.ChangeEvent<HTMLInputElement>) => setZoom(event.target.valueAsNumber)} />
+                    <input className='w-[calc(100%-4em)] my-4 mx-8' type="range" min={1} max={2} step={0.1} defaultValue={zoom} onChange={(event: React.ChangeEvent<HTMLInputElement>) => setZoom(event.target.valueAsNumber)} />
                 </div> : <div className='relative h-72 bg-black/5 rounded-md border border-dashed border-black/30 grid place-content-center'>
-                    <span className='absolute inset-0 grid place-content-center' onClick={triggerFile}>Upload new image</span>
+                    <span className='absolute inset-0 grid place-content-center' onClick={triggerFile}>Select image</span>
                 </div>}
 
                 <label>
@@ -93,7 +143,7 @@ const ImageCropper = () => {
 
                 </label>
                 {imageToUpload?.image_url && <div className='flex flex-col gap-2'>
-                    <ButtonStandard className={'py-4'} onClick={() => setImageToUpload({ image_name: undefined, image_url: undefined })}>Save Changes</ButtonStandard>
+                    <ButtonStandard className={'py-4'} onClick={onSaveImage}>{uploading ? 'Uploading...' : 'Save Changes'}</ButtonStandard>
                     <ButtonStandard className={'py-4'} type='outline' onClick={triggerFile}>Change Image</ButtonStandard>
                 </div>
                 }

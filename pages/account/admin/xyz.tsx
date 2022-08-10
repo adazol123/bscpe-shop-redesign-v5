@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router'
-import React, { MouseEvent, ReactElement, useCallback, useState } from 'react'
+import React, { MouseEvent, ReactElement, useCallback, useEffect, useState } from 'react'
 import LayoutAccount from '../../../components/Layouts/layout-account'
 import { UserAuth } from '../../../utils/context/Account/Auth'
 import { ToggleState } from '../../../utils/context/Toggles/ToggleState'
@@ -8,18 +8,26 @@ import uploadProductToFirebase from '../../../utils/lib/uploadProductToFirebase'
 import { ProductItemTypes } from '../../../utils/types/productTypes'
 import style from './style.module.css'
 import { ImageType } from '../../../utils/lib/uploadProductToFirebase';
+import { PlusIcon } from '@heroicons/react/outline'
+import ImageCropper from '../../../components/Layouts/Account/Admin/ImageCropper'
+import getCroppedImg from '../../../utils/services/cropImage'
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
+import { storage } from '../../../auth/firebase'
 
 /**
  * @description Product item types
  */
 
 
+
+type TInput = HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+
 const AdminPanel = () => {
     /**
      * @description context states
      */
     let { user } = UserAuth()
-    let { toggleState, toggleStateHandler } = ToggleState()
+
 
     /**
      * @description next router
@@ -45,10 +53,12 @@ const AdminPanel = () => {
             ,
             'price': 0,
             'sizes': [],
-            'images': undefined
+            'images': ''
         }
 
     })
+
+
 
     let [imageToUpload, setImageToUpload] = useState<Partial<ImageType>>({
         image_name: undefined,
@@ -59,7 +69,7 @@ const AdminPanel = () => {
     /**
      * @description products input event handler
      */
-    let handleChange = <InputType extends HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement,>(event: React.ChangeEvent<InputType>) => {
+    let handleChange = <InputType extends TInput,>(event: React.ChangeEvent<InputType>) => {
         let name = event.target.name
         let value = event.target.value
         setProductItem(values => ({ ...values, [name]: value.trim() }))
@@ -105,6 +115,19 @@ const AdminPanel = () => {
 
     }
 
+    let metaTypeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setProductItem({
+            ...productItem,
+            metatags: {
+                ...productItem.metatags,
+                type: {
+                    ...productItem.metatags.type,
+                    [event.target.name]: event.target.value
+                },
+            }
+        })
+    }
+
 
 
 
@@ -141,30 +164,74 @@ const AdminPanel = () => {
         },
     ])
 
-    let handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        if(event.target.files) {
-            let value = event.target.files[0];
 
-            setImageToUpload({
-                image_url: URL.createObjectURL(value),
-                image_name: value.name
-            })
-        }
-
-
-    }
 
     let handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault()
 
-        try {
-            
-            uploadProductToFirebase(productItem, imageToUpload, )
-            console.log('uploading...')
-        } catch (error: any) {
-            console.error(error.message)
+        if (user?.uid && productItem.name && imageUrl.image_blob) {
+            const storageRef = ref(
+                storage,
+                `products/${user.uid}-${productItem.name
+                    .split(/\s/g)
+                    .join("-")}`
+            );
+
+            try {
+
+                uploadBytes(storageRef, imageUrl.image_blob, {
+                    contentType: 'image/jpeg'
+                }).then((upload) => {
+                    getDownloadURL(storageRef).then(generated_image_url => {
+                        console.log('effect >', generated_image_url)
+
+
+                        if (productItem.metatags.images === '') {
+                            
+                            setProductItem(prev => prev = {
+                                ...productItem,
+                                ownerID: user?.uid,
+                                metatags: {
+                                    ...productItem.metatags,
+                                    images: generated_image_url
+                                }
+                            })
+                        }
+
+                        
+                        setProductItem(prev => prev = {
+                            ...productItem,
+                            ownerID: user?.uid,
+                            metatags: {
+                                ...productItem.metatags,
+                                images: generated_image_url
+                            }
+                        })
+
+                        console.log('uploading...', productItem)
+
+
+                    })
+
+                })
+                // uploadProductToFirebase(productItem, imageToUpload,)
+            } catch (error: any) {
+                console.error(error.message)
+            }
         }
     }
+
+    // console.log(user)
+    const [imageUrl, setImageUrl] = useState<Partial<{
+        image_blob_url: string,
+        image_blob: Blob
+    }>>({
+        image_blob_url: undefined,
+        image_blob: undefined
+    })
+    const [toggleImageUpload, setToggleImageUpload] = useState(false)
+
+
 
     return <>
         <p>Admin</p>
@@ -193,24 +260,24 @@ const AdminPanel = () => {
                     <span>Metatags</span>
                     <div className={style._submetatagstags}>
                         <span>color[1]</span>
-                        <input type="color" name="color" />
+                        <input type="color" name="color_value" onChange={metaTypeHandler} />
                         <label>
-                            <input type="text" name="color_name" />
+                            <input type="text" name="color" onChange={metaTypeHandler} />
                         </label>
                         <label>
                             <span>quantity</span>
-                            <input type="number" name="quantity" onChange={handleChange} />
+                            <input type="number" name="quantity" onChange={metaTypeHandler} />
                         </label>
                     </div>
                     <div className={style._submetatagstags}>
                         <span>color[2] </span>
-                        <input type="color" name="color" />
+                        <input type="color" name="color" disabled />
                         <label>
-                            <input type="text" name="color_name" />
+                            <input type="text" name="color_name" disabled />
                         </label>
                         <label>
                             <span>quantity</span>
-                            <input type="number" name="quantity" onChange={handleChange} />
+                            <input type="number" name="quantity" disabled onChange={handleChange} />
                         </label>
                     </div>
                     <div className={style._size_metatags}>
@@ -232,10 +299,19 @@ const AdminPanel = () => {
 
                     </div>
                 </div>
-                <label >
-                    Images
-                    <input type="file" name="__image" onChange={handleImageChange} />
-                </label>
+                <div className='relative grid place-content-center border border-dashed border-black rounded-md overflow-hidden w-56 h-64' onClick={() => setToggleImageUpload(!toggleImageUpload)}>
+
+                    {
+                        imageUrl.image_blob_url ?
+                            <>
+                                <img src={imageUrl.image_blob_url} className=' h-full object-contain' alt="toUpload" />
+                                <span className='absolute inset-0 grid place-content-center text-white bg-black/30'>Edit Image</span>
+                            </>
+                            :
+                            <span className='inline-flex items-center gap-4'> <PlusIcon /> Add Image Product</span>
+                    }
+                </div>
+
 
                 <button type="submit" onClick={
                     (e: MouseEvent) => {
@@ -251,7 +327,6 @@ const AdminPanel = () => {
 
                             if (productItem.metatags?.sizes?.length! === 0) throw new Error('Atleast one (1) selected size[s] is required')
 
-                            console.log(productItem)
                             console.log(user?.displayName)
                             handleSubmit(e)
 
@@ -265,6 +340,7 @@ const AdminPanel = () => {
                     router.back()
                 }}>Cancel</button>
             </form>
+            <ImageCropper toggle={toggleImageUpload} toggleHandler={() => setToggleImageUpload(!toggleImageUpload)} setImageUrl={setImageUrl} />
         </div>
     </>
 }

@@ -1,5 +1,6 @@
 
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { Area } from "react-easy-crop";
 import { storage } from "../../auth/firebase";
 import getCroppedImg from "../services/cropImage";
 import { createNewProduct, ProductListTypes } from "./createNewProduct";
@@ -12,9 +13,9 @@ export interface ImageType {
 const uploadProductToFirebase = async (
   product: ProductListTypes,
   image: Partial<ImageType>,
-  croppedAreaPixels?: any
+  croppedAreaPixels?: Area
 ) => {
-  const croppedImg = (await getCroppedImg(image.image_url!, croppedAreaPixels)) as
+  const croppedImg = (await getCroppedImg(image.image_url!, croppedAreaPixels as Area)) as
     | Blob
     | Uint8Array
     | ArrayBuffer;
