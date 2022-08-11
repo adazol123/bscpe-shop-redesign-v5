@@ -1,11 +1,10 @@
 import { useRouter } from 'next/router'
-import React, { MouseEvent, ReactElement, useCallback, useEffect, useState } from 'react'
+import React, { MouseEvent, ReactElement, useCallback, useEffect, useReducer, useState } from 'react'
 import LayoutAccount from '../../../components/Layouts/layout-account'
 import { UserAuth } from '../../../utils/context/Account/Auth'
 import { ToggleState } from '../../../utils/context/Toggles/ToggleState'
-import { ProductListTypes } from '../../../utils/lib/createNewProduct'
+import { createNewProduct, ProductListTypes } from '../../../utils/lib/createNewProduct'
 import uploadProductToFirebase from '../../../utils/lib/uploadProductToFirebase'
-import { ProductItemTypes } from '../../../utils/types/productTypes'
 import style from './style.module.css'
 import { ImageType } from '../../../utils/lib/uploadProductToFirebase';
 import { PlusIcon } from '@heroicons/react/outline'
@@ -13,6 +12,8 @@ import ImageCropper from '../../../components/Layouts/Account/Admin/ImageCropper
 import getCroppedImg from '../../../utils/services/cropImage'
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
 import { storage } from '../../../auth/firebase'
+import uploadProductReducer, { initialProductListState } from '../../../utils/context/Product/uploadProductReducer'
+import ButtonStandard from '../../../components/UI/Button/Standard/ButtonStandard'
 
 /**
  * @description Product item types
@@ -33,47 +34,20 @@ const AdminPanel = () => {
      * @description next router
      */
     const router = useRouter()
-
-
-
     /**
      * @description Local product state
      */
-    let [productItem, setProductItem] = useState<ProductListTypes>({
-        'ownerID': user?.displayName,
-        'name': undefined,
-        'description': undefined,
-        'category': 'men',
-        'metatags': {
-            'type':
-            {
-                'color': undefined,
-                'quantity': 0,
-            }
-            ,
-            'price': 0,
-            'sizes': [],
-            'images': ''
-        }
-
-    })
-
-
-
-    let [imageToUpload, setImageToUpload] = useState<Partial<ImageType>>({
-        image_name: undefined,
-        image_url: undefined
-    })
-
+    const [state, dispatch] = useReducer(uploadProductReducer, initialProductListState);
 
     /**
      * @description products input event handler
      */
     let handleChange = <InputType extends TInput,>(event: React.ChangeEvent<InputType>) => {
-        let name = event.target.name
-        let value = event.target.value
-        setProductItem(values => ({ ...values, [name]: value.trim() }))
-
+        dispatch({
+            type: 'FIELD',
+            field: event.target.name,
+            payload: event.target.value.trim()
+        })
     }
 
     let sizeChangeHandler = (e: React.ChangeEvent<HTMLInputElement>, size: {
@@ -88,27 +62,26 @@ const AdminPanel = () => {
             /**
              * @description add selected size[s] to productsItem object > size array
              */
-            setProductItem(values => values = {
-                ...values,
-                metatags: {
-                    ...values.metatags,
-                    sizes: [
-                        ...values.metatags!.sizes!,
-                        size.value.trim()
-                    ]
-                }
-            })
+            if (state.metatags?.sizes) {
+                dispatch({
+                    type: 'METATAGS',
+                    field: 'sizes',
+                    payload: [...state.metatags.sizes, size.value]
+                })
+            }
+
         } else {
             /** 
             * @description remove selected size[s] from productsItem object > size array
             */
-            setProductItem(values => values = {
-                ...values,
-                metatags: {
-                    ...values.metatags,
-                    sizes: values.metatags!.sizes!.filter(toremove => toremove.indexOf(size.value))
-                }
-            })
+            if (state.metatags?.sizes) {
+                dispatch({
+                    type: 'METATAGS',
+                    field: 'sizes',
+                    payload: state.metatags.sizes.filter(toremove => toremove.indexOf(size.value))
+                })
+
+            }
 
         }
 
@@ -116,20 +89,45 @@ const AdminPanel = () => {
     }
 
     let metaTypeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setProductItem({
-            ...productItem,
-            metatags: {
-                ...productItem.metatags,
-                type: {
-                    ...productItem.metatags.type,
-                    [event.target.name]: event.target.value
-                },
-            }
+        dispatch({
+            type: 'TYPES',
+            field: event.target.name,
+            payload: event.target.value.trim()
         })
+
     }
 
 
+    useEffect(() => {
+        if (user?.uid) {
+            console.log('dispatching owner')
+            dispatch({
+                type: 'FIELD',
+                field: 'ownerID',
+                payload: user.uid
+            })
+        }
+    }, [user?.uid])
 
+    useEffect(() => {
+        if (state.metatags?.images) {
+            console.log('effect on images...', state)
+            createNewProduct(state as ProductListTypes)
+        }
+
+        return () => {
+            dispatch({
+                type: "clear",
+                field: 'all',
+                payload: null
+            })
+            sizes.forEach(size => size.isChecked = false)
+            setImageUrl({
+                image_blob: undefined,
+                image_blob_url: undefined
+            })
+        }
+    }, [state.metatags?.images])
 
     let [sizes, setSizes] = useState([
         {
@@ -168,55 +166,38 @@ const AdminPanel = () => {
 
     let handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault()
+        if (state.name && state.ownerID && imageUrl.image_blob) {
 
-        if (user?.uid && productItem.name && imageUrl.image_blob) {
+
             const storageRef = ref(
                 storage,
-                `products/${user.uid}-${productItem.name
-                    .split(/\s/g)
-                    .join("-")}`
+                `products/${state.ownerID}-${state.name.split(/\s/g).join("-")}`
             );
 
+
             try {
-
-                uploadBytes(storageRef, imageUrl.image_blob, {
+                let upload = await uploadBytes(storageRef, imageUrl.image_blob, {
                     contentType: 'image/jpeg'
-                }).then((upload) => {
-                    getDownloadURL(storageRef).then(generated_image_url => {
-                        console.log('effect >', generated_image_url)
-
-
-                        if (productItem.metatags.images === '') {
-                            
-                            setProductItem(prev => prev = {
-                                ...productItem,
-                                ownerID: user?.uid,
-                                metatags: {
-                                    ...productItem.metatags,
-                                    images: generated_image_url
-                                }
-                            })
-                        }
-
-                        
-                        setProductItem(prev => prev = {
-                            ...productItem,
-                            ownerID: user?.uid,
-                            metatags: {
-                                ...productItem.metatags,
-                                images: generated_image_url
-                            }
-                        })
-
-                        console.log('uploading...', productItem)
-
-
-                    })
-
                 })
-                // uploadProductToFirebase(productItem, imageToUpload,)
+                console.log(upload)
+                let generated_image_url = await getDownloadURL(storageRef)
+                if (generated_image_url) {
+                    console.log('url >', generated_image_url)
+
+                    dispatch({
+                        type: 'METATAGS',
+                        field: 'images',
+                        payload: generated_image_url.toString()
+                    })
+                }
+
+
+
+
+                // uploadProductToFirebase(state, imageToUpload,)
             } catch (error: any) {
-                console.error(error.message)
+                console.error(error.code)
+
             }
         }
     }
@@ -248,11 +229,11 @@ const AdminPanel = () => {
                 </label>
                 <label >
                     <span>Product Name</span>
-                    <input type="text" name="name" onChange={handleChange} />
+                    <input type="text" name="name" value={state.name} onChange={handleChange} />
                 </label>
                 <label >
                     <span>Product Description</span>
-                    <textarea name="description" rows={5} placeholder="Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ut numquam quia sequi natus ex corrupti?" onChange={handleChange}>
+                    <textarea name="description" rows={5} placeholder="Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ut numquam quia sequi natus ex corrupti?" value={state.description} onChange={handleChange}>
 
                     </textarea>
                 </label>
@@ -260,13 +241,13 @@ const AdminPanel = () => {
                     <span>Metatags</span>
                     <div className={style._submetatagstags}>
                         <span>color[1]</span>
-                        <input type="color" name="color_value" onChange={metaTypeHandler} />
+                        <input type="color" name="color_value" value={state.metatags?.types?.color_value} onChange={metaTypeHandler} />
                         <label>
-                            <input type="text" name="color" onChange={metaTypeHandler} />
+                            <input type="text" name="color" value={state.metatags?.types?.color} onChange={metaTypeHandler} />
                         </label>
                         <label>
                             <span>quantity</span>
-                            <input type="number" name="quantity" onChange={metaTypeHandler} />
+                            <input type="number" name="quantity" value={state.metatags?.types?.quantity} onChange={metaTypeHandler} />
                         </label>
                     </div>
                     <div className={style._submetatagstags}>
@@ -280,6 +261,14 @@ const AdminPanel = () => {
                             <input type="number" name="quantity" disabled onChange={handleChange} />
                         </label>
                     </div>
+                    <label>
+                        <span>price</span>
+                        <input type="number" name="price" value={state.metatags?.price} onChange={(event) => dispatch({
+                            type: 'METATAGS',
+                            field: 'price',
+                            payload: +event.target.value
+                        })} />
+                    </label>
                     <div className={style._size_metatags}>
                         <span>Size[s]</span>
                         <>
@@ -306,26 +295,29 @@ const AdminPanel = () => {
                             <>
                                 <img src={imageUrl.image_blob_url} className=' h-full object-contain' alt="toUpload" />
                                 <span className='absolute inset-0 grid place-content-center text-white bg-black/30'>Edit Image</span>
+
                             </>
                             :
                             <span className='inline-flex items-center gap-4'> <PlusIcon /> Add Image Product</span>
                     }
                 </div>
 
+                {!state.metatags?.images ? <span className='text-xs'>image not sync on cloud</span> : <span className='text-xs'>image synched on cloud</span>}
+
 
                 <button type="submit" onClick={
                     (e: MouseEvent) => {
                         e.preventDefault()
                         try {
-                            if (productItem.name === '' || typeof (productItem.name) === 'undefined') throw new Error('Product name is missing')
-                            if (productItem!.name?.match(/^\s*$/g)) throw new Error('Product name cannot be empty')
+                            if (state.name === '' || typeof (state.name) === 'undefined') throw new Error('Product name is missing')
+                            if (state!.name?.match(/^\s*$/g)) throw new Error('Product name cannot be empty')
 
-                            if (productItem.description === '' || typeof (productItem.description) === 'undefined') throw new Error('Product description/details is missing')
-                            if (productItem!.description?.match(/^\s*$/g)) throw new Error('Product description cannot be empty')
+                            if (state.description === '' || typeof (state.description) === 'undefined') throw new Error('Product description/details is missing')
+                            if (state!.description?.match(/^\s*$/g)) throw new Error('Product description cannot be empty')
 
-                            if (productItem!.category?.match(/^\s*$/g)) throw new Error('Product name is missing')
+                            if (state!.category?.match(/^\s*$/g)) throw new Error('Product name is missing')
 
-                            if (productItem.metatags?.sizes?.length! === 0) throw new Error('Atleast one (1) selected size[s] is required')
+                            if (state.metatags?.sizes?.length! === 0) throw new Error('Atleast one (1) selected size[s] is required')
 
                             console.log(user?.displayName)
                             handleSubmit(e)

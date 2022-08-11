@@ -33,6 +33,7 @@ const accountReducer = (
       return {
         ...state,
         authUser: payload.authUser,
+        
       };
     case "GET_USER":
       return {

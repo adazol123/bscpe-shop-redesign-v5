@@ -2,17 +2,17 @@ import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { db } from "../../auth/firebase";
 
 export interface ProductListTypes {
-  ownerID: string | null | undefined;
+  ownerID: string | null;
   category: string;
-  name?: string;
-  description?: string;
+  name: string;
+  description: string;
   metatags: {
-    type: {
-      [types: string]: string | number | undefined;
+    types: {
+      [type: string]: string | number;
     };
     price: number;
     sizes: string[];
-    images?: string;
+    images: string;
   };
 }
 
@@ -24,8 +24,9 @@ export interface ProductListTypes {
   *   name: string;
   *   description: string;
   *   metatags: {
-        type: {
+        types: {
           color: string;
+          color_value: string;
           quantity: number;
         };
         price: number;
@@ -37,10 +38,10 @@ export interface ProductListTypes {
  * A `Promise` that resolves by adding the product to firestore `product` collection.
  */
 export const createNewProduct = (product: ProductListTypes) => {
-  let productCollectRef = collection(db, "products");
+  let productCollectRef = collection(db, "products_dev_tests");
   return addDoc(productCollectRef, product)
-    .then(() => {
-      console.log("success!");
+    .then((result) => {
+      console.log("success!", result);
     })
     .catch((error) => console.error(error));
 };
