@@ -63,36 +63,36 @@ function SecurityDetails({
     if (passLength)
       return setError(
         (prev: any) =>
-          (prev = {
-            ...prev,
-            password: "Must contain at least 8 or more characters",
-          })
+        (prev = {
+          ...prev,
+          password: "Must contain at least 8 or more characters",
+        })
       );
     if (passNotLower)
       return setError(
         (prev: any) =>
-          (prev = {
-            ...prev,
-            password: "Must contain uppercase/capital characters",
-          })
+        (prev = {
+          ...prev,
+          password: "Must contain uppercase/capital characters",
+        })
       );
 
     if (passNotUpper)
       return setError(
         (prev: any) =>
-          (prev = {
-            ...prev,
-            password: "Must contain uppercase/capital characters",
-          })
+        (prev = {
+          ...prev,
+          password: "Must contain uppercase/capital characters",
+        })
       );
 
     if (passNotNumber)
       return setError(
         (prev: any) =>
-          (prev = {
-            ...prev,
-            password: "Must contain at least 1 numeric value",
-          })
+        (prev = {
+          ...prev,
+          password: "Must contain at least 1 numeric value",
+        })
       );
 
     if (passNotMatch)
@@ -104,7 +104,7 @@ function SecurityDetails({
     setError((prev) => (prev = { password: null, confirm_password: null }));
 
     setTimeout(() => {
-      router.replace("/success");
+      router.replace("/?success=true");
       return register()
         .then((res) => {
           console.log("registration success > ", res);
@@ -162,14 +162,14 @@ function SecurityDetails({
 
     setStepper(
       (prev: any) =>
-        (prev = {
-          step: 1,
-          email: "",
-          username: "",
-          fullname: "",
-          password: "",
-          confirm_password: "",
-        })
+      (prev = {
+        step: 1,
+        email: "",
+        username: "",
+        fullname: "",
+        password: "",
+        confirm_password: "",
+      })
     );
   };
 
@@ -194,15 +194,15 @@ function SecurityDetails({
             error?.password
               ? "border-rose-200 ring-rose-200"
               : passLength || passNotLower || passNotUpper || passNotNumber
-              ? "border-neutral-400"
-              : "border-emerald-600/30"
+                ? "border-neutral-400"
+                : "border-emerald-600/30"
           }
           placeholderClassName={
             error?.password
               ? "text-rose-300"
               : passLength || passNotLower || passNotUpper || passNotNumber
-              ? "text-neutral-400"
-              : "text-emerald-600/30"
+                ? "text-neutral-400"
+                : "text-emerald-600/30"
           }
           onChange={(e: any) => {
             setError((prev) => (prev = { ...prev, password: null }));
@@ -228,8 +228,8 @@ function SecurityDetails({
                 passNotUpper ||
                 passNotNumber ||
                 passNotMatch
-              ? "border-neutral-400"
-              : "border-emerald-600/30"
+                ? "border-neutral-400"
+                : "border-emerald-600/30"
           }
           placeholderClassName={
             error?.confirm_password
@@ -239,8 +239,8 @@ function SecurityDetails({
                 passNotUpper ||
                 passNotNumber ||
                 passNotMatch
-              ? "text-neutral-400"
-              : "text-emerald-600/30"
+                ? "text-neutral-400"
+                : "text-emerald-600/30"
           }
           onChange={(e: any) => {
             setError((prev) => (prev = { ...prev, confirm_password: null }));

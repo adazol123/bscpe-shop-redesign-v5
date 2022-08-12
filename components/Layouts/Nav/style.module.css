@@ -11,5 +11,6 @@
 }
 
 ._nav__custom > nav {
-  @apply mx-auto flex justify-between h-[var(--nav-height)] items-center;
+  --nav-height: 64px;
+  @apply mx-auto container flex justify-between h-[var(--nav-height)] items-center;
 }

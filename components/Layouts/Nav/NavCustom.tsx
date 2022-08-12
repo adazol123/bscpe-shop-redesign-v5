@@ -6,6 +6,7 @@ import React from 'react'
 import { UserAuth } from '../../../utils/context/Account/Auth';
 import { ToggleState } from '../../../utils/context/Toggles/ToggleState';
 import ButtonSVG from '../../UI/Button/SVG/ButtonSVG';
+import ProfileNav from '../Account/Profile/ProfileNav';
 import style from './style.module.css'
 const NavCustom = () => {
     const router = useRouter()
@@ -16,14 +17,20 @@ const NavCustom = () => {
             <nav className="w-full">
                 <div className="flex gap-4 items-center">
 
-                    <ButtonSVG onClick={() => router.back()}>
+                    {router.pathname === '/account' ?
+                        <ProfileNav /> :
+                        <>
+                            <ButtonSVG onClick={() => router.back()}>
 
-                        <ChevronLeftIcon />
+                                <ChevronLeftIcon />
 
-                    </ButtonSVG>
-                    <Link href={"/account"} className={style._logo}>
-                        Account
-                    </Link>
+                            </ButtonSVG>
+                            <Link href={"/account"} className={style._logo}>
+                                Account
+                            </Link>
+                        </>
+                    }
+
                 </div>
 
                 {/* <NavLinks /> */}

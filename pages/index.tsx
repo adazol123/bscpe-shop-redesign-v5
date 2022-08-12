@@ -3,7 +3,7 @@ import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
 import { auth } from "../auth/firebase";
-import { ReactElement, useEffect, useState } from "react";
+import { ReactElement, Suspense, useEffect, useState } from "react";
 import { DocumentData } from "firebase/firestore";
 import useSWR from "swr";
 
@@ -14,15 +14,34 @@ import HomeContent from "../components/Layouts/Home/HomeContent";
 import ProductContext from "../components/Layouts/Home/ProductContext";
 import ProductListGrid from "../components/Layouts/Products/ProductListGrid";
 import BscpeLoader from "../components/Layouts/Loader/BscpeLoader";
+import { useRouter } from "next/router";
+import dynamic from "next/dynamic";
+// import Completed from "../components/Signup/Completed";
 
 const fetcher = (...args: [string]) => fetch(...args).then((res) => res.json());
 
 const Home: NextPageWithLayout = () => {
   const { data, error } = useSWR("/api/products", fetcher);
+  const router = useRouter()
+
+
+  /**
+   * Success page for user registered for the first time
+   */
+  if (router.query && router.query.success === 'true') {
+    const Completed = dynamic(() => import('../components/Signup/Completed'), {
+      suspense: true
+    })
+    return (
+      <Suspense fallback={<BscpeLoader />}>
+        <Completed />
+      </Suspense>)
+  }
 
   if (error) return <div>Failed to load</div>;
   if (!data) return <BscpeLoader />;
   console.log(data);
+
   return (
     <div className={styles.container}>
       <Head>

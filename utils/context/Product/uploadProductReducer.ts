@@ -2,6 +2,8 @@ import { Auth, Unsubscribe } from "firebase/auth";
 import { DocumentData } from "firebase/firestore";
 import { ProductList } from "./ProductState";
 
+
+
 interface MetaNestedTypes {
   color: string;
   quantity: number;

@@ -56,7 +56,7 @@ const Completed = () => {
           <ButtonStandard
             className="w-full py-4"
             type="outline"
-            onClick={() => router.replace("/0")}
+            onClick={() => router.replace("/")}
           >
             Shop now
           </ButtonStandard>
