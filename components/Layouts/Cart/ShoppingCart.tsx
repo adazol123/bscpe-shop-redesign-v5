@@ -27,7 +27,7 @@ const ShoppingCart = () => {
     >
 
       {/* <div className="container relative py-4 mx-auto  min-h-[calc(100%-10rem)] max-h-[calc(100%-10rem)]  overflow-x-hidden"> */}
-      <ul className="flex flex-col gap-2 pb-4 overflow-hidden">
+      <ul className="flex flex-col gap-2 pb-4 ">
         {carts.length > 0 ? (
           carts?.map((data: ProductCart) => (
             <CartCard key={data.product_id} data={data} />

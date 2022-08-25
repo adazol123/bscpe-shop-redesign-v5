@@ -4,9 +4,9 @@
 }
 
 ._button_rounded:hover {
-  @apply bg-black/10;
+  @apply bg-white text-black;
 }
 ._button_rounded:active,
 ._button_rounded:focus {
-  @apply bg-black text-white;
+  @apply bg-white text-black;
 }

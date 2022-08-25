@@ -15,6 +15,19 @@ let states = {
   pay_now: false,
 };
 
+type StateTypes = | "modal"
+  | "notification"
+  | "cart"
+  | "header_notify"
+  | "modal_ios"
+  | "modal_full"
+  | "modal_standard"
+  | "modal_mobile"
+  | "side_bar"
+  | "hamburger_mobile"
+  | "pay_now"
+  | "settings"
+
 export interface StaticState {
   toggleState?: { [state: string]: boolean };
   /**
@@ -32,18 +45,7 @@ export interface StaticState {
    *   - hamburger_mobile
    */
   toggleStateHandler?: (
-    type:
-      | "modal"
-      | "notification"
-      | "cart"
-      | "header_notify"
-      | "modal_ios"
-      | "modal_full"
-      | "modal_standard"
-      | "modal_mobile"
-      | "side_bar"
-      | "hamburger_mobile"
-      | "pay_now"
+    type: StateTypes
   ) => void;
   selectedProduct?: any;
   setSelectedProduct?: any;
@@ -76,18 +78,7 @@ export const ToggleStateProvider = ({
   });
 
   const toggleStateHandler = (
-    type:
-      | "modal"
-      | "notification"
-      | "cart"
-      | "header_notify"
-      | "modal_ios"
-      | "modal_full"
-      | "modal_standard"
-      | "modal_mobile"
-      | "side_bar"
-      | "hamburger_mobile"
-      | "pay_now"
+    type: StateTypes
   ) => setToggleState((prev) => (prev = { ...prev, [type]: !prev[type] }));
   let values = {
     toggleState,

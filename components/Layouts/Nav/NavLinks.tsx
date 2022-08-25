@@ -22,11 +22,11 @@ const NavLinks = () => {
       <ButtonStyled icon={<HomeIcon />}>Home</ButtonStyled>
       <ButtonStyled icon={<ShoppingBagIcon />}>Shopping cart</ButtonStyled>
       <ButtonStyled icon={<BellIcon />}>Notification</ButtonStyled>
-      <DropdownStyled title="Categories">
+      {/* <DropdownStyled title="Categories">
         <Link href={"/cart"}>Men</Link>
         <Link href={"/cart"}>Women</Link>
         <Link href={"/cart"}>Kids</Link>
-      </DropdownStyled>
+      </DropdownStyled> */}
       <ButtonStyled
         icon={<SupportIcon />}
         onClick={() => {

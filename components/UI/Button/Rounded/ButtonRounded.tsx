@@ -1,9 +1,9 @@
 import React from "react";
 import style from "./style.module.css";
-const ButtonRounded = ({ active = false, ...props }) => {
+const ButtonRounded = ({ title, children, ...props }: { children: React.ReactNode, title: string }) => {
   return (
-    <button className={`${style._button_rounded} ${active? 'bg-black text-white' : ''}`} {...props}>
-      All
+    <button title={title} className={`${style._button_rounded} `} {...props}>
+      {children}
     </button>
   );
 };

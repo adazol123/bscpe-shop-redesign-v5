@@ -3,7 +3,7 @@
 }
 
 ._nav > nav {
-  @apply mx-auto flex justify-between h-[var(--nav-height)] items-center;
+  @apply mx-auto container flex justify-between h-[var(--nav-height)] items-center;
 }
 
 ._nav__custom {

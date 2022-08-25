@@ -11,6 +11,8 @@ import LayoutContext from "./layout-context";
 import NavCustom from "./Nav/NavCustom";
 
 export default function LayoutAccount({ children }: { children: React.ReactNode }) {
+
+  
   return (
     <LayoutContext>
       <NavCustom />

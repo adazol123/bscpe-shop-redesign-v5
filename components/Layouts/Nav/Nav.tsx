@@ -9,6 +9,8 @@ import { useRouter } from "next/router";
 import ButtonSVG from "../../UI/Button/SVG/ButtonSVG";
 import { ToggleState } from "../../../utils/context/Toggles/ToggleState";
 import ShopState from "../../../utils/context/Shop/ShopState";
+import useMeasure from "react-use-measure";
+import NavLinksFull from "./NavLinksFull";
 
 function CartItemIndicator() {
   const { carts, totalQuantity } = ShopState();
@@ -16,10 +18,10 @@ function CartItemIndicator() {
     <>
       {carts.length > 0 && (
         <>
-          <span className="animate-ping absolute top-0 right-0 inline-flex h-3 w-3 rounded-full bg-rose-400 opacity-75">
+          <span className="animate-ping absolute top-0 right-0 inline-flex h-3 w-3 rounded-full bg-rose-400/40 opacity-75">
             {" "}
           </span>
-          <span className="w-fit px-1 h-3 bg-rose-600  rounded-full absolute top-0 right-0 ring-2 ring-black text-[0.5rem] text-center">
+          <span className="w-fit px-1 h-3 bg-rose-600  rounded-full absolute top-0 right-0 ring-4 ring-black text-[0.5rem] text-center">
             {totalQuantity > 9 ? "9+" : totalQuantity}
           </span>
         </>
@@ -33,15 +35,16 @@ const Nav = () => {
   let router = useRouter();
   const { toggleStateHandler } = ToggleState();
   const { carts } = ShopState();
+  const [ref, bounds] = useMeasure()
   return (
-    <header className={style._nav}>
+    <header ref={ref} className={style._nav}>
       <nav className="w-full">
         <Link href={"/"} className={style._logo}>
           Bscpe Store
         </Link>
 
-        {/* <NavLinks /> */}
-        <div className="flex gap-3 items-center">
+        {bounds.width > 650 && <NavLinksFull />}
+        <div className="flex gap-3  items-center">
           <ButtonSVG
             onClick={() => {
               toggleStateHandler!("cart");
@@ -58,9 +61,12 @@ const Nav = () => {
                 <UserIcon />
               </ButtonSVG>
             )}
-            <ButtonSVG onClick={() => toggleStateHandler!("side_bar")}>
-              <MenuAlt3Icon />
-            </ButtonSVG>
+            {
+              bounds.width < 650 &&
+              <ButtonSVG onClick={() => toggleStateHandler!("side_bar")}>
+                <MenuAlt3Icon />
+              </ButtonSVG>
+            }
           </div>
         </div>
       </nav>
@@ -69,3 +75,4 @@ const Nav = () => {
 };
 
 export default Nav;
+

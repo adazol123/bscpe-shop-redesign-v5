@@ -3,6 +3,7 @@ import { ChevronLeftIcon } from '@heroicons/react/solid';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React from 'react'
+import useMeasure from 'react-use-measure';
 import { UserAuth } from '../../../utils/context/Account/Auth';
 import { ToggleState } from '../../../utils/context/Toggles/ToggleState';
 import ButtonSVG from '../../UI/Button/SVG/ButtonSVG';
@@ -12,8 +13,9 @@ const NavCustom = () => {
     const router = useRouter()
     const { user } = UserAuth()
     const { toggleStateHandler } = ToggleState()
+    const [ref, bounds] = useMeasure()
     return (
-        <header className={style._nav__custom}>
+        <header ref={ref} className={style._nav__custom}>
             <nav className="w-full">
                 <div className="flex gap-4 items-center">
 
@@ -40,9 +42,11 @@ const NavCustom = () => {
                             <HomeIcon />
                         </ButtonSVG>
                     )}
-                    <ButtonSVG onClick={() => toggleStateHandler!("side_bar")}>
-                        <MenuAlt3Icon />
-                    </ButtonSVG>
+                    {bounds.width < 650 &&
+                        <ButtonSVG onClick={() => toggleStateHandler!("side_bar")}>
+                            <MenuAlt3Icon />
+                        </ButtonSVG>
+                    }
                 </div>
             </nav>
         </header>
