@@ -8,6 +8,7 @@ import CardGrid from "../../UI/Cards/CardGrid";
 import ModalMobile from "../../UI/Modals/Mobile/ModalMobile";
 import { useRouter } from "next/router";
 import { ArrowNarrowRightIcon } from "@heroicons/react/outline";
+import style from './style.module.css'
 
 const ProductListGrid = () => {
   const router = useRouter();
@@ -15,7 +16,7 @@ const ProductListGrid = () => {
   const { products }: any = ProductState();
   //?.filter((prod: any) => prod.product_category === category)
   return (
-    <div className="mx-4">
+    <div className="mx-6">
       <div className="flex justify-between my-2 text-sm font-medium text-black/50">
         <p>More Product</p>
         <span
@@ -28,7 +29,7 @@ const ProductListGrid = () => {
           </span>
         </span>
       </div>
-      <div className="grid grid-cols-2 row-start-1 row-end-4 gap-2 mb-6 grid-flow-dense sm:grid-cols-3 xl:grid-cols-4 place-items-start place-content-start">
+      <div className="grid grid-cols-2 row-start-1 row-end-4 gap-[5%] mb-6 grid-flow-dense md:grid-cols-3 xl:grid-cols-4 place-items-start place-content-start">
         {products &&
           products.map((product: ProductList) => (
             <React.Fragment key={product.product_id}>

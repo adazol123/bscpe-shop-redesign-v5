@@ -1,15 +1,17 @@
+@import url("https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,300;0,500;0,600;0,700;0,900;1,300&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --nav-height: 58px;
+  --nav-height: 56px;
 }
 
 html,
 body {
-  @apply scroll-smooth;
+  @apply scroll-smooth font-raleway bg-gradient-to-br to-marine-100 from-theme-light min-h-full;
 }
+
 input[type="text"],
 input[type="number"],
 textarea {
@@ -50,7 +52,7 @@ input:-webkit-autofill:active {
 }
 
 svg {
-  @apply w-5 h-5;
+  @apply w-6 h-6;
 }
 
 /* button {
@@ -64,3 +66,7 @@ svg {
 .reactEasyCrop_Container {
   @apply bg-black/5 border border-black/30 border-dashed rounded-md;
 }
+
+/* h1 {
+  @apply text-[64px];
+} */

@@ -1,5 +1,5 @@
 ._nav {
-  @apply bg-black text-white sticky top-0 px-4 z-30;
+  @apply bg-theme-dark text-theme-light sticky top-0 px-6 z-30;
 }
 
 ._nav > nav {

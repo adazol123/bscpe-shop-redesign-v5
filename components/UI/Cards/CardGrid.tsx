@@ -40,7 +40,7 @@ const CardGrid = ({
             <Image
               src={product.product_image}
               alt={product.product_name}
-              className="group-hover:scale-125 group-hover:grayscale-0"
+              className="group-hover:scale-105 group-hover:grayscale-0"
               objectFit="cover"
               layout="fill"
               blurDataURL={product.product_image}

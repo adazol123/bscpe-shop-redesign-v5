@@ -17,6 +17,26 @@ module.exports = {
       width: {
         "modal-side": "var(--modal-side)",
       },
+      fontFamily: {
+        'raleway': ['Raleway', 'sans-serif'],
+      },
+      colors: {
+        'theme-gray': {
+          700: '#575E5C',
+          500: '#B3BCB9',
+          300: '#D3E0DD',
+          100: '#E9F2F0'
+        },
+        'marine': {
+          900: '#1B3E39',
+          700: '#2E6962',
+          500: '#4D9C93',
+          300: '#52B6AA',
+          100: '#DFF7F5',
+        },
+        'theme-dark': '#1A1F1E',
+        'theme-light': '#FAFFFE',
+      },
       keyframes: {
         alternate: {
           '0%, to': {

@@ -1,10 +1,10 @@
 /** Button Outline */
 .button__icon {
-  @apply p-2 rounded-full bg-white/5 relative;
+  @apply p-2 rounded-sm relative;
 }
 
 .button__icon:hover {
-  @apply shadow bg-white/10;
+  @apply shadow bg-white/5;
 }
 .button__icon svg {
   @apply w-5 h-5 stroke-1;
@@ -19,7 +19,7 @@
   @apply shadow bg-black;
 }
 .button__icon_solid svg {
-  @apply w-5 h-5;
+  @apply w-6 h-6;
 }
 
 /** Quare Icon */

@@ -47,7 +47,10 @@
 /** END OF PRODUCT CARD GRID */
 
 .large {
-  @apply relative w-52 h-52 overflow-hidden rounded grayscale-[20%] transform-gpu transition-all duration-500 select-none;
+  @apply relative w-52 h-52 overflow-hidden rounded grayscale-[60%] transform-gpu transition-all duration-500 select-none flex-[0_0_auto];
+}
+.large:hover {
+  @apply grayscale-0;
 }
 
 .large__image {
@@ -74,7 +77,10 @@
 }
 
 .large__footer {
-  @apply inline-flex justify-between w-full text-[0.8em] items-center;
+  @apply hidden justify-between w-full text-[0.8em] items-center;
+}
+.large:hover .large__footer {
+  @apply inline-flex;
 }
 
 .large__navigate {

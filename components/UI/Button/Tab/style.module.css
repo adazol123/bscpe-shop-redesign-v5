@@ -1,0 +1,7 @@
+._tab {
+  @apply text-theme-gray-700 px-4 py-2 border-b-2 border-transparent;
+}
+
+._tab:hover {
+  @apply bg-marine-700/20 border-marine-700;
+}

@@ -11,6 +11,7 @@ import { ToggleState } from "../../../utils/context/Toggles/ToggleState";
 import ShopState from "../../../utils/context/Shop/ShopState";
 import useMeasure from "react-use-measure";
 import NavLinksFull from "./NavLinksFull";
+import Image from "next/image";
 
 function CartItemIndicator() {
   const { carts, totalQuantity } = ShopState();
@@ -18,7 +19,7 @@ function CartItemIndicator() {
     <>
       {carts.length > 0 && (
         <>
-          <span className="animate-ping absolute top-0 right-0 inline-flex h-3 w-3 rounded-full bg-rose-400/40 opacity-75">
+          <span className="absolute top-0 right-0 inline-flex w-3 h-3 rounded-full opacity-75 animate-ping bg-rose-400/40">
             {" "}
           </span>
           <span className="w-fit px-1 h-3 bg-rose-600  rounded-full absolute top-0 right-0 ring-4 ring-black text-[0.5rem] text-center">
@@ -34,40 +35,42 @@ const Nav = () => {
   const { user } = UserAuth();
   let router = useRouter();
   const { toggleStateHandler } = ToggleState();
-  const { carts } = ShopState();
   const [ref, bounds] = useMeasure()
   return (
     <header ref={ref} className={style._nav}>
       <nav className="w-full">
         <Link href={"/"} className={style._logo}>
-          Bscpe Store
+          <Image src='/svg/adazolhub_shop_logo_desktop.svg' alt='adazolhub_logo' height={48} width={80} />
         </Link>
 
         {bounds.width > 650 && <NavLinksFull />}
-        <div className="flex gap-3  items-center">
-          <ButtonSVG
-            onClick={() => {
-              toggleStateHandler!("cart");
-            }}
-          >
-            <>
-              <CartItemIndicator />
-              <ShoppingBagIcon />
-            </>
-          </ButtonSVG>
-          <div className="flex gap-1 ring-1 ring-white/20 rounded-full px-1 items-center py-1">
-            {user && (
-              <ButtonSVG onClick={() => router.push("/account")}>
-                <UserIcon />
-              </ButtonSVG>
-            )}
-            {
-              bounds.width < 650 &&
-              <ButtonSVG onClick={() => toggleStateHandler!("side_bar")}>
-                <MenuAlt3Icon />
-              </ButtonSVG>
-            }
-          </div>
+        <div className="flex gap-1 h-fit items-center divide-x-[1px] my-4 divide-theme-gray-700 overflow-hidden">
+          <>
+            <ButtonSVG
+              onClick={() => {
+                toggleStateHandler!("cart");
+              }}
+            >
+              <>
+                <CartItemIndicator />
+                <ShoppingBagIcon />
+              </>
+            </ButtonSVG>
+
+            {bounds.width < 650 && <div className="flex items-center gap-1 px-1">
+              {user && (
+                <ButtonSVG onClick={() => router.push("/account")}>
+                  <UserIcon />
+                </ButtonSVG>
+              )}
+              {
+                bounds.width < 650 &&
+                <ButtonSVG onClick={() => toggleStateHandler!("side_bar")}>
+                  <MenuAlt3Icon />
+                </ButtonSVG>
+              }
+            </div>}
+          </>
         </div>
       </nav>
     </header>

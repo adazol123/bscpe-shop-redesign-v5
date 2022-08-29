@@ -5,13 +5,13 @@ import React from "react";
 const HomeContent = () => {
   const router = useRouter();
   return (
-    <div className="absolute bottom-0 m-4 mb-20 text-sm text-neutral-500 h-fit">
-      <div className="flex flex-col gap-6">
+    <div className="container mx-auto relative text-sm text-neutral-500 h-fit">
+      <div className=" absolute bottom-0 flex  flex-col gap-6 m-6  mb-20">
         <div>
           <h1 className="text-4xl font-light max-w-[14ch] text-neutral-200 mb-2">
             Bscpe Store Clothing Lifestyle
           </h1>
-          <p>
+          <p className='max-w-screen-sm'>
             Lorem ipsum, dolor sit amet consectetur adipisicing elit.
             Consequuntur explicabo labore assumenda amet placeat facere
             aspernatur. Provident ut, quo fuga recusandae ratione voluptate
@@ -19,7 +19,7 @@ const HomeContent = () => {
           </p>
         </div>
         <button
-          className="inline-flex items-center justify-center gap-4 px-6 py-3 text-white border rounded border-neutral-300/40 bg-white/5 backdrop-blur"
+          className="inline-flex w-fit items-center justify-center gap-4 px-6 py-3 text-white border rounded border-neutral-300/40 bg-white/5 backdrop-blur"
           onClick={() => router.replace("#product")}
         >
           Shop now{" "}
