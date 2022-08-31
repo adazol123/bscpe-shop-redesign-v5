@@ -1,9 +1,14 @@
 import {
+  ArrowLeftIcon,
   ArrowNarrowLeftIcon,
   ArrowNarrowRightIcon,
 } from "@heroicons/react/outline";
+import { useRouter } from "next/router";
 import { ChangeEvent, useState } from "react";
-import Input from "../../UI/Input/Input";
+import ButtonLink from "../../UI/Button/Link/ButtonLink";
+import ButtonStandard from "../../UI/Button/Standard/ButtonStandard";
+import InformationalError from "../../UI/Error/InformationalError";
+import TextInput from "../../UI/Input/TextInput";
 import Advisory from "../Advisory";
 
 interface Steps {
@@ -19,6 +24,8 @@ function PersonalDetails({ nextStep, prevStep, handleChange, values }: Steps) {
     fullname: null,
   });
 
+  const router = useRouter()
+
   let Continue = (e: any) => {
     e.preventDefault();
     if (values.username.length < 1)
@@ -32,18 +39,18 @@ function PersonalDetails({ nextStep, prevStep, handleChange, values }: Steps) {
     if (values.username.length < 5)
       return setError(
         (prev: any) =>
-          (prev = {
-            ...prev,
-            username: "Unable to validate username/display_name",
-          })
+        (prev = {
+          ...prev,
+          username: `Unable to validate username: ${values.username}. Please try again.`,
+        })
       );
     if (values.fullname.length < 6)
       return setError(
         (prev: any) =>
-          (prev = {
-            ...prev,
-            fullname: "Unable to validate fullname",
-          })
+        (prev = {
+          ...prev,
+          fullname: `Unable to validate fullname: ${values.fullname}. Please try again.`,
+        })
       );
 
     setError((prev) => (prev = { username: null, fullname: null }));
@@ -56,71 +63,63 @@ function PersonalDetails({ nextStep, prevStep, handleChange, values }: Steps) {
 
   return (
     <>
-      <form className="flex flex-col gap-2">
-        <Input
-          type={"text"}
-          label={"Username"}
-          defaultValue={values.username}
-          autoFocus
-          // className={
-          //   error?.username
-          //     ? "border-rose-200 ring-rose-200"
-          //     : "border-neutral-400"
-          // }
-          // placeholderClassName={
-          //   error?.username ? "text-rose-400" : "text-neutral-400"
-          // }
-          // autoComplete="off"
-          onChange={(e: any) => {
-            setError((prev) => (prev = { ...prev, username: null }));
-            handleChange("username")(e);
-          }}
-        />
-        <div className="h-4 -mt-2 ml-1">
-          <p className="text-rose-400 text-[0.68em] ">
-            {error?.username && error?.username}
-          </p>
-        </div>
+      <form className="flex flex-col gap-8">
+        <div className='flex flex-col gap-3'>
+          {error.fullname ? <InformationalError error={error.fullname} /> : error.username ? <InformationalError error={error.username} /> : null}
+          <TextInput
+            type={"text"}
+            placeholder={"Username"}
+            value={values.username}
+            autoFocus
+            // className={
+            //   error?.username
+            //     ? "border-rose-200 ring-rose-200"
+            //     : "border-neutral-400"
+            // }
+            // placeholderClassName={
+            //   error?.username ? "text-rose-400" : "text-neutral-400"
+            // }
+            // autoComplete="off"
+            onChange={(e: any) => {
+              setError((prev) => (prev = { ...prev, username: null }));
+              handleChange("username")(e);
+            }}
+          />
 
-        <Input
-          type={"text"}
-          label={"Fullname"}
-          defaultValue={values.fullname}
-          // className={
-          //   error?.fullname
-          //     ? "border-rose-200 ring-rose-200"
-          //     : "border-neutral-400"
-          // }
-          // placeholderClassName={
-          //   error?.fullname ? "text-rose-400" : "text-neutral-400"
-          // }
-          // autoComplete="off"
-          onChange={(e: any) => {
-            setError((prev) => (prev = { ...prev, fullname: null }));
-            handleChange("fullname")(e);
-          }}
-        />
-        <div className="h-4 -mt-2 ml-1">
-          <p className="text-rose-400 text-[0.65em] ">
-            {error?.fullname && error?.fullname}
-          </p>
-        </div>
-        <div className="flex flex-row-reverse items-center justify-between my-2 text-xs">
-          <button
-            className="flex items-center gap-2 px-4 py-2 my-2 border border-transparent rounded-md text-black/70 bg-gray-200/40 hover:bg-gray-100 hover:border-black/40"
-            onClick={Continue}
-          >
-            Continue <ArrowNarrowRightIcon className="w-5 h-5" />
-          </button>
-          <button
-            className="flex items-center gap-2 px-4 py-2 my-2 border border-transparent rounded-md text-black/70 bg-gray-200/40 hover:bg-gray-100 hover:border-black/40"
-            onClick={Previous}
-          >
-            <ArrowNarrowLeftIcon className="w-5" /> Back
-          </button>
+
+          <TextInput
+            type={"text"}
+            placeholder={"Fullname"}
+            value={values.fullname}
+            // className={
+            //   error?.fullname
+            //     ? "border-rose-200 ring-rose-200"
+            //     : "border-neutral-400"
+            // }
+            // placeholderClassName={
+            //   error?.fullname ? "text-rose-400" : "text-neutral-400"
+            // }
+            // autoComplete="off"
+            onChange={(e) => {
+              setError((prev) => (prev = { ...prev, fullname: null }));
+              handleChange("fullname")(e);
+            }}
+          />
+
+          <div className='flex flex-col gap-6 my-4'>
+            <ButtonStandard
+              direction="right"
+              disabled={!values.name && !values.fullname}
+              className={"text-xs py-4 w-full"}
+              onClick={Continue}
+            >
+              Continue
+            </ButtonStandard>
+            <ButtonLink type='button' icon={<ArrowLeftIcon className='w-4 h-4' />} onClick={Previous} underline_style='expanded' >Back to Email</ButtonLink>
+          </div>
         </div>
       </form>
-      <Advisory />
+      {/* <Advisory /> */}
     </>
   );
 }

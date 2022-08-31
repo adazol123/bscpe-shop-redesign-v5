@@ -1,5 +1,4 @@
 import Nav from "./Nav/Nav";
-import Account from "./../../pages/account/index";
 import { ReactElement, Suspense } from "react";
 import { AccountStateProvider } from "../../utils/context/Account/AccountState";
 import { AuthProvider } from "../../utils/context/Account/Auth";
