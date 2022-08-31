@@ -1,10 +1,14 @@
-import { ArrowNarrowRightIcon } from "@heroicons/react/outline";
+import { ArrowLeftIcon, ArrowNarrowRightIcon } from "@heroicons/react/outline";
 import { fetchSignInMethodsForEmail } from "firebase/auth";
 import { useRouter } from "next/router";
 import { ChangeEvent, useState } from "react";
 import { auth } from "../../../auth/firebase";
+import ButtonLink from "../../UI/Button/Link/ButtonLink";
 import ButtonStandard from "../../UI/Button/Standard/ButtonStandard";
-import Input from "../../UI/Input/Input";
+import InformationalError from "../../UI/Error/InformationalError";
+import TextInput from "../../UI/Input/TextInput";
+import HorizontalDivider from "../../UI/Separator/HorizontalDivider";
+import Box from "../../UI/Wrapper/Box";
 import OptionalSignUp from "../OptionalSignup";
 
 // import Input from "../UI/Forms/Input";
@@ -40,12 +44,14 @@ function EmailDetails({ nextStep, prevStep, handleChange, values }: Steps) {
         if (ifEmailExist.length > 0)
           return setError(
             <>
-              Email already registered on our server.{" "}
-              <span
-                className="underline text-gray-40 w-fit"
-                onClick={() => router.replace("/login")}
-              >
-                Login here
+              <span>
+                Email already registered on our server. {" "}
+                <strong
+                  className="underline text-gray-40 w-fit cursor-pointer "
+                  onClick={() => router.replace("/login")}
+                >
+                  Try login
+                </strong>
               </span>
             </>
           );
@@ -58,50 +64,36 @@ function EmailDetails({ nextStep, prevStep, handleChange, values }: Steps) {
       });
   };
   return (
-    <>
-      <form className="flex flex-col gap-2">
-        <Input
-          type={"email"}
-          name="email"
-          label={"Email"}
-          defaultValue={values.email}
+    <form className="flex flex-col gap-8">
+      <div className='flex flex-col gap-3'>
+        {error && <InformationalError error={error} />}
+        <TextInput
+          type='email'
+          placeholder='Email'
+          value={values.email}
           required
           onChange={(e: ChangeEvent<HTMLInputElement>) => {
             setError(null);
             handleChange("email")(e);
           }}
-          //   className={
-          //     error ? "border-rose-400 ring-rose-400" : "border-gray-400/30"
-          //   }
-          //   placeholderClassName={error ? "text-rose-400" : "text-gray-400/30"}
+
         />
-        <div className="h-3">
-          {error && (
-            <p className="text-rose-400/80 text-[0.6em] -mt-2 ml-1">
-              {<>{error}</>}
-            </p>
-          )}
-        </div>
-        <div
-          className={
-            "flex flex-row-reverse items-center justify-center text-xs"
-          }
-        >
-          {/* <button className="w-full btn-primary" onClick={Continue}>
-            Create an account
-          </button> */}
+        <div className='flex flex-col gap-6 my-4'>
           <ButtonStandard
-            icon={<ArrowNarrowRightIcon className="w-5 h-5" />}
             direction="right"
+            disabled={!values.email}
             className={"text-xs py-4 w-full"}
             onClick={Continue}
           >
-            Create an account
+            Continue
           </ButtonStandard>
+          <ButtonLink type='button' icon={<ArrowLeftIcon className='w-4 h-4' />} onClick={() => router.back()} underline_style='expanded' >Other login options</ButtonLink>
         </div>
-      </form>
-      <OptionalSignUp />
-    </>
+
+      </div>
+
+    </form>
+
   );
 }
 

@@ -1,0 +1,48 @@
+._link {
+  @apply relative px-1 font-bold origin-center rounded-none rounded-t  w-fit mx-auto flex items-center gap-2 text-teal-800/70;
+}
+._link:is(:hover):not(:disabled) {
+  @apply text-teal-800/70;
+}
+
+._link::after {
+  content: "";
+  @apply absolute inset-x-1/2 -bottom-1 w-0 h-[1px] bg-marine-500 rounded-full;
+  @apply transition-all duration-300 origin-center;
+}
+
+._link:is(:hover):not(:disabled)::after {
+  content: "";
+  @apply inset-x-0 w-1/2 translate-x-1/2;
+}
+._link:is(:hover):not(:disabled).__expanded::after {
+  @apply inset-x-0 w-full translate-x-0;
+}
+._link:is(:hover):not(:disabled).__shrinked::after {
+  @apply inset-x-0 w-1/2 translate-x-1/2;
+}
+._link:is(:active, :visited, :focus):not(:disabled) {
+  @apply text-marine-700;
+}
+._link:is(:active, :visited, :focus):not(:disabled)::after {
+  content: "";
+  @apply inset-x-0 w-full translate-x-0;
+}
+._link:is(:active, :visited, :focus):not(:disabled).__shrinked::after {
+  @apply inset-x-0 w-1/2 translate-x-1/2;
+}
+
+._link:disabled {
+  @apply text-theme-gray-500;
+}
+._link.__disabled::after {
+  @apply inset-x-0 w-full bottom-1/2 bg-theme-gray-700 bg-blend-difference;
+}
+
+._size__small {
+  @apply text-sm font-normal text-teal-800/50;
+}
+
+._link:is(:hover):not(:disabled) i {
+  @apply transition-transform -translate-x-2;
+}

@@ -1,8 +1,9 @@
 import { updateProfile } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, MouseEvent, MouseEventHandler, useState } from "react";
 
 import {
+  ArrowLeftIcon,
   ArrowNarrowLeftIcon,
   ArrowNarrowRightIcon,
 } from "@heroicons/react/outline";
@@ -11,9 +12,11 @@ import { UserAuth } from "../../../utils/context/Account/Auth";
 import { db } from "../../../auth/firebase";
 import config from "../../../utils/services/config.json";
 import PasswordRequirementInfo from "../PasswordRequirementInfo";
-import Input from "../../UI/Input/Input";
+import TextInput from "../../UI/Input/TextInput";
 import Spinner from "../../Layouts/Loader/Spinner";
 import AdvisorySecurity from "../AdvisorySecurity";
+import ButtonStandard from './../../UI/Button/Standard/ButtonStandard';
+import ButtonLink from "../../UI/Button/Link/ButtonLink";
 
 interface Steps {
   nextStep?: any;
@@ -25,6 +28,12 @@ interface Steps {
 interface Steppers {
   setStepper: any;
 }
+
+//Password regex format
+let lowerCaseLetters = /[a-z]/g;
+let upperCaseLetters = /[A-Z]/g;
+let number = /\d/g;
+
 function SecurityDetails({
   nextStep,
   prevStep,
@@ -41,22 +50,20 @@ function SecurityDetails({
   let [isLoading, setIsLoading] = useState(false);
   const { signup } = UserAuth();
 
-  //Password regex format
-  let lowerCaseLetters = /[a-z]/g;
-  let upperCaseLetters = /[A-Z]/g;
-  let number = /\d/g;
-
   //Password Validator
   let passLength = values?.password.length < 9;
   let passNotLower = !values?.password.match(lowerCaseLetters);
   let passNotUpper = !values?.password.match(upperCaseLetters);
   let passNotNumber = !values?.password.match(number);
   let passNotMatch = values?.password !== values?.confirm_password;
+  let isEmpty = !values?.password && !values?.confirm_password
 
-  let Continue = (e: any) => {
-    e.preventDefault();
+  const isInvalid = isEmpty || passLength || passNotLower || passNotUpper || passNotMatch
 
-    if (values?.password === "")
+  let Continue: MouseEventHandler<Element> = (event) => {
+    event.preventDefault()
+
+    if (isEmpty)
       return setError(
         (prev: any) => (prev = { ...prev, password: "Password required" })
       );
@@ -114,8 +121,8 @@ function SecurityDetails({
     }, 5000);
   };
 
-  let Previous = (e: any) => {
-    e.preventDefault();
+  let Previous: MouseEventHandler<Element> = (event) => {
+    event.preventDefault();
     prevStep();
   };
 
@@ -175,108 +182,60 @@ function SecurityDetails({
 
   return (
     <>
-      <form>
-        <PasswordRequirementInfo
-          passLength={values?.password.length < 9}
-          passLowerCase={!values?.password.match(lowerCaseLetters)}
-          passUpperCase={!values?.password.match(upperCaseLetters)}
-          passNumber={!values?.password.match(number)}
-          passNotMatch={values?.password !== values?.confirm_password}
-        />
+      <form className="flex flex-col gap-8">
+        <div className='flex flex-col gap-3'>
+          <PasswordRequirementInfo
+            passLength={values?.password.length < 9}
+            passLowerCase={!values?.password.match(lowerCaseLetters)}
+            passUpperCase={!values?.password.match(upperCaseLetters)}
+            passNumber={!values?.password.match(number)}
+            passNotMatch={values?.password !== values?.confirm_password}
+            isEmpty={!values?.password && !values?.confirm_password}
+          />
 
-        <Input
-          type={"password"}
-          placeholder={"Password"}
-          defaultValue={values.password}
-          autoFocus
-          pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
-          className={
-            error?.password
-              ? "border-rose-200 ring-rose-200"
-              : passLength || passNotLower || passNotUpper || passNotNumber
-                ? "border-neutral-400"
-                : "border-emerald-600/30"
-          }
-          placeholderClassName={
-            error?.password
-              ? "text-rose-300"
-              : passLength || passNotLower || passNotUpper || passNotNumber
-                ? "text-neutral-400"
-                : "text-emerald-600/30"
-          }
-          onChange={(e: any) => {
-            setError((prev) => (prev = { ...prev, password: null }));
-            handleChange("password")(e);
-          }}
-        />
-        <div className="h-4 -mt-[0.6rem] ml-1">
-          <p className="text-rose-400 text-[0.68em] ">
-            {error?.password && error?.password}
-          </p>
-        </div>
+          <TextInput
+            type={"password"}
+            placeholder={"Password"}
+            value={values.password}
+            autoFocus
+            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+            onChange={(e: any) => {
+              setError((prev) => (prev = { ...prev, password: null }));
+              handleChange("password")(e);
+            }}
+          />
+          <TextInput
+            type={"password"}
+            placeholder={"Confirm Password"}
+            value={values.confirm_password}
+            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
 
-        <Input
-          type={"password"}
-          placeholder={"Confirm Password"}
-          defaultValue={values.confirm_password}
-          pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
-          className={
-            error?.confirm_password
-              ? "border-rose-200 ring-rose-200"
-              : passLength ||
-                passNotLower ||
-                passNotUpper ||
-                passNotNumber ||
-                passNotMatch
-                ? "border-neutral-400"
-                : "border-emerald-600/30"
-          }
-          placeholderClassName={
-            error?.confirm_password
-              ? "text-rose-300"
-              : passLength ||
-                passNotLower ||
-                passNotUpper ||
-                passNotNumber ||
-                passNotMatch
-                ? "text-neutral-400"
-                : "text-emerald-600/30"
-          }
-          onChange={(e: any) => {
-            setError((prev) => (prev = { ...prev, confirm_password: null }));
-            handleChange!("confirm_password")(e);
-          }}
-        />
-        <div className="h-4 -mt-[0.6rem] ml-1">
-          <p className="text-rose-400 text-[0.68em] ">
-            {error?.confirm_password && error?.confirm_password}
-          </p>
-        </div>
+            onChange={(e: any) => {
+              setError((prev) => (prev = { ...prev, confirm_password: null }));
+              handleChange("confirm_password")(e);
+            }}
+          />
 
-        <div className="flex flex-row-reverse items-center justify-between my-2 text-xs">
-          <button
-            className="flex items-center justify-center gap-2 px-4 py-2 my-2 text-gray-200 rounded-md bg-black/90 focus:outline focus:outline-1 focus:outline-offset-2 hover:bg-gray-500  min-w-[155px]"
-            onClick={Continue}
-          >
-            {isLoading ? (
-              <Spinner />
-            ) : (
-              <>
-                {" "}
-                <span>Complete Setup</span>{" "}
-                <ArrowNarrowRightIcon className="w-5 h-5" />
-              </>
-            )}
-          </button>
-          <button
-            className="flex items-center gap-2 px-4 py-2 my-2 border border-transparent rounded-md text-black/70 bg-gray-200/40 hover:bg-gray-100 hover:border-gray-400"
-            onClick={Previous}
-          >
-            <ArrowNarrowLeftIcon className="w-5" /> Back
-          </button>
+          <div className='flex flex-col gap-6'>
+            <ButtonStandard
+              direction="right"
+              disabled={isInvalid}
+              className={"text-xs py-4 w-full"}
+              onClick={Continue}
+            >
+              {isLoading ? (
+                <Spinner />
+              ) : (
+                <>
+                  <span>Complete Setup</span>
+                </>
+              )}
+            </ButtonStandard>
+            <ButtonLink type='button' icon={<ArrowLeftIcon className='w-4 h-4' />} onClick={Previous} underline_style='expanded' >Back to Information</ButtonLink>
+          </div>
         </div>
       </form>
-      <AdvisorySecurity />
+      {/* <AdvisorySecurity /> */}
     </>
   );
 }

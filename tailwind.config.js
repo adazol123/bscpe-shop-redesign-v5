@@ -23,6 +23,7 @@ module.exports = {
       colors: {
         'theme-gray': {
           700: '#575E5C',
+          600: '#A3A9A7',
           500: '#B3BCB9',
           300: '#D3E0DD',
           100: '#E9F2F0'
@@ -34,8 +35,8 @@ module.exports = {
           300: '#52B6AA',
           100: '#DFF7F5',
         },
-        'theme-dark': '#1A1F1E',
-        'theme-light': '#FAFFFE',
+        'theme-dark': 'var(--color-theme-dark)',
+        'theme-light': 'var(--color-theme-light)',
       },
       keyframes: {
         alternate: {
@@ -65,11 +66,21 @@ module.exports = {
           '40%, 60%': {
             transform: 'translate3d(4px, 0, 0)'
           }
-        }
+        },
+        marquee: {
+          "0%": {
+            left: "0",
+          },
+
+          "100%": {
+            left: "-100%",
+          },
+        },
       },
       animation: {
         alternate: 'alternate 2s cubic-bezier(0, 0, 0.58, 1) infinite',
-        shake: 'shake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both'
+        shake: 'shake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both',
+        marquee: "marquee 90s linear infinite",
       }
     },
   },

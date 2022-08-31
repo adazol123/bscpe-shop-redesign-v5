@@ -1,55 +1,49 @@
+/** BUTTON SOLID (THEME) */
 .button__primary {
-  @apply px-4 py-2 bg-black/80 hover:bg-black text-white/90 rounded-sm text-sm;
-  @apply inline-flex justify-center gap-4 items-center;
+  @apply px-6 font-bold text-white rounded bg-marine-500;
+  @apply flex items-center justify-center transition-all;
 }
 
-.button__primary:focus {
-  @apply ring-1 ring-offset-1 ring-black/70;
+.button__primary:hover {
+  @apply drop-shadow-lg bg-marine-700;
+}
+
+.button__primary:is(:focus, :active):not(:disabled) {
+  @apply bg-transparent ring-1 ring-offset-0 ring-marine-300 text-marine-500 drop-shadow-none;
 }
 
 .button__primary:disabled {
-  @apply bg-neutral-400 text-neutral-200 cursor-not-allowed;
+  @apply cursor-default bg-theme-gray-300 text-theme-gray-500 drop-shadow-none;
 }
+/** ------------------------------------- */
 
-.button__icon svg {
-  @apply w-5 h-5 text-inherit stroke-2;
-}
-
+/** BUTTON OUTLINED (THEME) */
 .button__outline {
-  @apply px-4 py-2 bg-transparent border border-black/40 text-black/70 rounded-sm text-sm hover:ring-1 hover:ring-black/30 font-medium;
-  @apply inline-flex justify-center gap-4 items-center;
+  @apply px-6 font-bold bg-transparent border rounded border-marine-500 text-marine-500;
+  @apply flex items-center justify-center transition-all drop-shadow-none;
 }
 
-.button__tittle {
-  @apply inline-flex gap-3;
+.button__outline:is(:hover):not(:disabled) {
+  @apply bg-marine-500/10 text-marine-700 border-marine-300;
 }
 
-.button__outline:focus {
-  @apply ring-1 ring-offset-1 text-white ring-black/30 bg-black/40;
+.button__outline:is(:focus, :active):not(:disabled) {
+  @apply text-white bg-marine-500 drop-shadow-lg;
 }
 
 .button__outline:disabled {
-  @apply bg-transparent text-neutral-300 border-neutral-200 cursor-not-allowed ring-transparent;
+  @apply bg-transparent cursor-default text-neutral-300 border-neutral-200 ring-transparent drop-shadow-none;
 }
 
-.button__link {
-  @apply px-4 py-2  text-neutral-500 rounded-md text-sm;
-  @apply inline-flex justify-center gap-4 items-center cursor-pointer;
+.button__tittle {
+  @apply inline-flex items-center gap-2;
 }
 
-.button__link:hover.button__link:not(:disabled) {
-  @apply text-black underline underline-offset-2;
-}
+/** ------------------------------------- */
 
-.button__link:focus {
-  @apply text-black underline underline-offset-2 bg-black/5;
-}
-
-.button__link:disabled {
-  @apply text-neutral-300 line-through cursor-not-allowed;
-}
+/** BUTTON LINK (THEME) */
 
 .button__dashed {
-  @apply px-4 py-2 bg-transparent whitespace-nowrap border border-dashed outline-none border-neutral-300 text-neutral-400 rounded-md hover:text-neutral-500 hover:border-neutral-400 focus:ring-1 ring-offset-2 focus:ring-emerald-500 focus:bg-emerald-300/40 h-fit text-xs;
-  @apply inline-flex justify-center gap-4 items-center mx-1;
+  @apply px-4 py-2 text-xs bg-transparent border border-dashed rounded-md outline-none whitespace-nowrap border-neutral-300 text-neutral-400 hover:text-neutral-500 hover:border-neutral-400 focus:ring-1 ring-offset-2 focus:ring-emerald-500 focus:bg-emerald-300/40 h-fit;
+  @apply inline-flex items-center justify-center gap-4 mx-1;
 }

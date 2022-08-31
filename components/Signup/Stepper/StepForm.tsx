@@ -1,4 +1,4 @@
-import {} from "@heroicons/react/outline";
+import { } from "@heroicons/react/outline";
 import { CheckIcon } from "@heroicons/react/solid";
 import { useState } from "react";
 
@@ -71,40 +71,47 @@ const StepForm = () => {
   };
 
   return (
-    <div className="w-full space-y-6">
-      <div className="relative flex w-full before:absolute before:h-[1px] before:w-[calc(100%-35%)] before:bg-black/20 before:top-[25%] before:left-0 before:mx-[15%]">
-        {labels.map((label, index: number) => (
-          <div
-            className="w-[calc(33%)] 
+    <>
+      <div className='flex flex-col gap-8 w-full'>
+        <h1 className=" text-2xl font-light text-center text-marine-500">
+          Create account
+        </h1>
+        <div className="relative flex w-full before:absolute before:h-[1px] before:w-[calc(100%-35%)] before:bg-teal-700/20 before:top-[28%] before:left-0 before:mx-[15%]">
+
+          {labels.map((label, index: number) => (
+            <div
+              className="w-[calc(100%)] 
           relative"
-            key={label}
-          >
-            <div className="grid gap-1 text-[0.5em] text-gray-300 after:rounded-full place-items-center">
-              <div className="grid p-[4px] bg-white border-0 border-gray-100 rounded-full place-content-center">
-                {index + 1 < stepper.step ? (
-                  <CheckIcon className="w-4 h-4  p-[2px] text-white bg-black rounded-full" />
-                ) : index + 1 === stepper.step ? (
-                  <CheckIcon className="w-4 h-4 p-[2px] text-white bg-black/30 rounded-full" />
-                ) : (
-                  <CheckIcon className="w-4 h-4 p-[2px] text-transparent bg-black/10 rounded-full" />
-                )}
+              key={label}
+            >
+              <div className="grid gap-2 text-[0.5em] text-gray-300 after:rounded-full place-items-center">
+                <div className="grid p-[8px] bg-white border-0 border-gray-100 rounded-full place-content-center">
+                  {index + 1 < stepper.step ? (
+                    <CheckIcon className="w-4 h-4  p-[2px] text-white bg-teal-700 rounded-full" />
+                  ) : index + 1 === stepper.step ? (
+                    <CheckIcon className="w-4 h-4 p-[2px] text-white bg-teal-700/30 rounded-full" />
+                  ) : (
+                    <CheckIcon className="w-4 h-4 p-[2px] text-transparent bg-teal-700/10 rounded-full" />
+                  )}
+                </div>
+                <p
+                  className={
+                    index + 1 === stepper.step
+                      ? "text-black/70 font-bold whitespace-nowrap"
+                      : undefined
+                  }
+                >
+                  {label}
+                </p>
               </div>
-              <p
-                className={
-                  index + 1 === stepper.step
-                    ? "text-black/70 font-bold"
-                    : undefined
-                }
-              >
-                {label}
-              </p>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
 
+      {/** RENDER CONTENT CHILDREN */}
       <div className="">{handleSteps(stepper.step)}</div>
-    </div>
+    </>
   );
 };
 

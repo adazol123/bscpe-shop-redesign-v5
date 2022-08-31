@@ -1,0 +1,3 @@
+._box {
+  @apply flex flex-col gap-6 bg-white px-6 min-h-screen sm:min-h-[540px] min-w-[388px] justify-between items-center pt-16 pb-12 sm:pb-6 rounded-md sm:drop-shadow-md transition-all transform-gpu;
+}
