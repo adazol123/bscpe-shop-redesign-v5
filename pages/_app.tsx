@@ -10,7 +10,7 @@ import { NextPage } from "next";
 import Layout from "../components/Layouts/layout";
 
 export type NextPageWithLayout = NextPage & {
-  
+
   getLayout?: (page: ReactElement) => ReactNode;
 };
 

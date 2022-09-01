@@ -58,6 +58,8 @@ const LoginEmail: NextPageWithLayout = () => {
 
                 await signin!(email.trim(), password.trim())
                 resetForm()
+                router.replace('/?success=true')
+                console.clear()
             }
         } catch (error: any) {
             if (error.code === 'auth/wrong-password') {
@@ -82,7 +84,6 @@ const LoginEmail: NextPageWithLayout = () => {
             }
 
         }
-
 
 
     }

@@ -1,13 +1,13 @@
 /** PRODUCT CARD GRID */
 .product {
-  @apply grid mx-auto overflow-hidden text-xs rounded-md w-fit;
+  @apply grid w-full h-full mx-auto overflow-hidden text-xs rounded-md;
 }
 
 .product__top {
   @apply relative w-[calc(50vw-1.5rem)] max-w-[240px] overflow-hidden rounded-md h-[156px] md:h-[260px];
 }
 .product__image {
-  @apply absolute inset-0;
+  @apply absolute inset-0 w-full;
 }
 
 .product__image img {
@@ -26,7 +26,7 @@
   @apply w-full space-y-1;
 }
 .product__title {
-  @apply max-w-[14ch] text-[0.9em] hover:underline underline-offset-2 font-medium line-clamp-3;
+  @apply text-xs font-light hover:underline underline-offset-2 line-clamp-2 text-theme-gray-700;
 }
 
 .product__price {
@@ -34,14 +34,18 @@
 }
 
 .product__original_price {
-  @apply font-normal text-[0.8em] line-through text-black/70 whitespace-nowrap;
+  @apply font-light text-[0.65em] line-through text-theme-gray-500/70 whitespace-nowrap;
 }
+
 .product__cart {
-  @apply p-2 rounded-full bg-black/10 hover:bg-black/70 hover:text-white hover:shadow-sm;
+  @apply hidden p-2 rounded-full bg-black/10 hover:bg-black/70 hover:text-white hover:shadow-sm;
 }
 
 .product__cart svg {
   @apply w-5 h-5;
+}
+.product:is(:hover) .product__cart {
+  @apply block;
 }
 
 /** END OF PRODUCT CARD GRID */
@@ -58,7 +62,7 @@
 }
 
 .large__image img {
-  @apply object-cover w-full h-full transition-all duration-500 origin-bottom transform-gpu select-none;
+  @apply object-cover w-full h-full transition-all duration-500 origin-bottom select-none transform-gpu;
 }
 
 .large__details {

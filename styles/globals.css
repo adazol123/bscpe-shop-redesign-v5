@@ -1,8 +1,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,300;0,500;0,600;0,700;0,900;1,300&display=swap");
-@import "variables.css";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import "variables.css";
 @import "default.css";
 
 input,
@@ -28,4 +28,22 @@ textarea {
 
 body {
   background: var(--gradient-light);
+}
+
+h1 {
+  @apply text-2xl font-bold text-theme-gray-700;
+}
+
+h2 {
+  @apply text-base font-black text-marine-500;
+}
+h3 {
+  @apply text-base font-black text-white;
+}
+h4 {
+  @apply text-base font-light text-theme-gray-500;
+}
+
+p {
+  @apply text-sm text-theme-gray-500;
 }

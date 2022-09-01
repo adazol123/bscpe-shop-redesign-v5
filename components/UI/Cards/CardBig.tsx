@@ -31,7 +31,7 @@ const CardBig = <T extends Card>({
         <Image
           src={image}
           alt={title}
-          className="group-hover:scale-105 select-none transition-all "
+          className="transition-all select-none group-hover:scale-105 "
           layout={"fill"}
           blurDataURL={image}
           placeholder={"blur"}
@@ -39,7 +39,7 @@ const CardBig = <T extends Card>({
       </div>
       <AnimatePresence>
         <div className={style.large__details}>
-          <h2 className={style.large__title}>{title}</h2>
+          <h3 className={style.large__title}>{title}</h3>
           <p className={style.large__price}>
             {" "}
             P {price}{" "}

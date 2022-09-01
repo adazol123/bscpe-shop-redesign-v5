@@ -2,42 +2,64 @@ import { NextPageWithLayout } from "./_app";
 import { NextPage } from 'next';
 import Image from "next/image";
 import Link from "next/link";
+import Head from "next/head";
 import ButtonStandard from "../components/UI/Button/Standard/ButtonStandard";
 import { CodeIcon } from "@heroicons/react/outline";
 import ButtonLink from "../components/UI/Button/Link/ButtonLink";
 import { HomeLayout } from "../layouts/pages";
+import { useRouter } from "next/router";
+import Completed from "../components/Signup/Completed";
+import CardCategory from "../components/UI/Cards/CardCategory";
+import ProductListGrid from "../components/Layouts/Products/ProductListGrid";
+import NewArrival from './../components/Layouts/Products/NewArrival';
 
 
 const fetcher = (...args: [string]) => fetch(...args).then((res) => res.json());
 
 const Home: NextPageWithLayout = () => {
-    return (
-        <>
-            <header className="flex items-center px-6 shadow-sm">
-                <div className="container flex items-center justify-between mx-auto">
-                    <div className="">
-                        {/* <Image src={'/svg/adazolhub_shop_logo_mobile.svg'} alt='adazolhub_shop_logo' height={32} width={32} /> */}
-                        <span>
+    const router = useRouter()
+    console.log(router.query)
+    if (router.query?.success) {
+        return <Completed />
+    }
+    else {
+        return (
+            <>
+                <Head>
+                    <title>Adazolhub | Shop - Completed</title>
+                </Head>
 
-                            Adazolhub | Shop
-                        </span>
+                <section className='container mx-auto'>
+                    <h1>Explore Brands</h1>
+                    <p className="text-sm max-w-[30ch]">Explore authentic brands right at your fingertips</p>
+
+                    <div className='flex flex-col gap-6 my-10 md:flex-row md:sticky md:top-[62]'>
+                        <div className='w-full md:w-fit'>
+                            <h4>Categories</h4>
+                            <div className='w-full overflow-hidden overflow-x-auto'>
+                                <div className="flex flex-row gap-4 py-4 md:flex-col w-fit">
+                                    <CardCategory />
+                                    <CardCategory />
+                                    <CardCategory />
+                                </div>
+                            </div>
+                            <div className='hidden -mx-6 md:block'>
+                                <NewArrival />
+                            </div>
+                        </div>
+
+                        <div className='flex-1 my-8 -mx-6 md:my-0'>
+                            <ProductListGrid />
+                        </div>
+
                     </div>
-                    <nav className="flex gap-4">
-                        <Link href={'/'} >Cart</Link>
-                        <Link href={'/'} >Notification</Link>
-                        <Link href={'/login'} >Login</Link>
-                    </nav>
-                </div>
-            </header>
-            <section> <div className="container py-6 mx-auto my-6">
-                <div className="p-6 bg-white shadow">
-                    Home
-                </div>
-
-            </div>
-            </section>
-        </>
-    )
+                    <div className='block -mx-6 md:hidden'>
+                        <NewArrival />
+                    </div>
+                </section>
+            </>
+        )
+    }
 };
 
 Home.getLayout = function getLayout(page: React.ReactElement) {

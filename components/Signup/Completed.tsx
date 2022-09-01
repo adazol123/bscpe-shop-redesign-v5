@@ -1,67 +1,67 @@
 import { XIcon } from "@heroicons/react/outline";
+import Head from "next/head";
+import Image from "next/image";
 import { useRouter } from "next/router";
 import React from "react";
+import { UserAuth } from "../../utils/context/Account/Auth";
+import ButtonLink from "../UI/Button/Link/ButtonLink";
 import ButtonStandard from "../UI/Button/Standard/ButtonStandard";
+import Center from "../UI/Wrapper/Center";
 
 const Completed = () => {
   let router = useRouter();
+  let { user } = UserAuth()
   return (
-    <div className="fixed top-0 left-0 z-[105] bg-gray-100 w-full h-full">
-      <div className="flex flex-col items-start justify-between w-full h-full p-4">
-        <div className="w-full h-[40vh] flex flex-col justify-between items-start">
-          <button className="p-2 w-fit " onClick={() => router.replace("/")}>
-            <XIcon className="w-5 h-5" />
-          </button>
-          <div className="flex flex-col items-center mx-auto">
-            <svg
-              width="64"
-              height="64"
-              viewBox="0 0 64 64"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              className="scale-[2]"
-            >
-              <path
-                d="M58.6666 29.5467V32C58.6633 37.7505 56.8013 43.3458 53.3581 47.9516C49.915 52.5573 45.0753 55.9267 39.5609 57.5571C34.0464 59.1876 28.1526 58.9918 22.7585 56.9989C17.3644 55.0061 12.759 51.323 9.62915 46.4989C6.4993 41.6748 5.0127 35.9682 5.39106 30.2302C5.76942 24.4922 7.99247 19.0302 11.7287 14.6589C15.4649 10.2876 20.514 7.24106 26.1231 5.97377C31.7322 4.70647 37.6006 5.28628 42.8533 7.62671"
-                stroke="#424242"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M58.6667 10.6667L32 37.3601L24 29.3601"
-                stroke="#424242"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
+    <div className="fixed top-0 left-0 z-[105] bg-gradient-to-r from-[#FAFFFE] to-[#DFF7F4] w-full h-full">
+      <Head>
+        <title>Adazolhub | Shop - Completed</title>
+      </Head>
+      <button className="p-2 w-fit right-2 top-2 absolute" onClick={() => router.replace("/")}>
+        <XIcon className="w-5 h-5" />
+      </button>
+      <Center>
 
-            <h1 className="mt-4 text-4xl font-thin leading-10 text-gray-500">
-              You&apos;re all set up!
-            </h1>
-            <p className="text-xs leading-7 text-gray-300">
-              Welcome to BSCPE STORE V2 <i>(re-design)</i>
-            </p>
+        <div className="flex flex-col items-start justify-around gap-16 max-w-[264px] mx-auto max-h-[600px] py-16">
+          <div className='relative w-[168px] mx-auto px-5 h-16 pointer-events-none'>
+            <Image src={'/svg/adazolhub_shop_logo_desktop_colored.svg'} alt='adazolhub_shop_logo' layout='fill' />
+          </div>
+          <div className="w-full h-[40vh] flex flex-col justify-between items-start">
+            <div className="flex flex-col items-center mx-auto">
+
+              <h1 className="mt-4 text-3xl font-medium leading-10 text-theme-gray-700">
+                You&apos;re all set up!
+              </h1>
+              {/* <p className="text-sm font-light text-theme-gray-500 text-center max-w-[25ch]">
+                Account has been successfully registerred!
+              </p> */}
+              <p className="text-sm font-light text-theme-gray-500 text-center max-w-[25ch]">
+                <strong>{user?.email}</strong> <span>
+                  has been successfully registerred!
+                </span>
+              </p>
+            </div>
+          </div>
+
+          <div className="flex flex-col w-full gap-6">
+            <ButtonStandard
+              onClick={() => router.replace("/account")}
+            >
+              Configure My Account
+            </ButtonStandard>
+            <ButtonLink
+
+              onClick={() => router.replace("/")}
+            >
+              Explore Shop
+            </ButtonLink>
           </div>
         </div>
-
-        <div className="flex flex-col w-full gap-2">
-          <ButtonStandard
-            className="w-full  py-4"
-            onClick={() => router.replace("/account")}
-          >
-            Setup Profile
-          </ButtonStandard>
-          <ButtonStandard
-            className="w-full py-4"
-            type="outline"
-            onClick={() => router.replace("/")}
-          >
-            Shop now
-          </ButtonStandard>
-        </div>
-      </div>
+      </Center>
+      <a
+        href='https://www.adazolhub.com'
+        target='_blank'
+        rel="noreferrer"
+        className='text-[0.65rem] text-theme-gray-500  text-center whitespace-nowrap relative bottom-8 left-1/2 -translate-x-1/2 block'>Copyright © 2022 Adazolhub.com | All rights reserved.</a>
     </div>
   );
 };

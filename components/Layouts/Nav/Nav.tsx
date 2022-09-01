@@ -2,7 +2,7 @@ import Link from "next/link";
 import React from "react";
 import NavLinks from "./NavLinks";
 import style from "./style.module.css";
-import { MenuAlt3Icon, UserIcon } from "@heroicons/react/outline";
+import { MenuAlt3Icon, UserIcon, ViewGridIcon } from "@heroicons/react/outline";
 import { ShoppingBagIcon } from "@heroicons/react/outline";
 import { UserAuth } from "../../../utils/context/Account/Auth";
 import { useRouter } from "next/router";
@@ -40,11 +40,11 @@ const Nav = () => {
     <header ref={ref} className={style._nav}>
       <nav className="w-full">
         <Link href={"/"} className={style._logo}>
-          <Image src='/svg/adazolhub_shop_logo_desktop.svg' alt='adazolhub_logo' height={48} width={80} />
+          <Image src='/svg/adazolhub_shop_logo_desktop_colored.svg' alt='adazolhub_logo' height={48} width={80} />
         </Link>
 
         {bounds.width > 650 && <NavLinksFull />}
-        <div className="flex gap-1 h-fit items-center divide-x-[1px] my-4 divide-theme-gray-700 overflow-hidden">
+        <div className="flex items-center gap-1 overflow-hidden h-fit my-">
           <>
             <ButtonSVG
               onClick={() => {
@@ -57,19 +57,14 @@ const Nav = () => {
               </>
             </ButtonSVG>
 
-            {bounds.width < 650 && <div className="flex items-center gap-1 px-1">
-              {user && (
-                <ButtonSVG onClick={() => router.push("/account")}>
-                  <UserIcon />
-                </ButtonSVG>
-              )}
-              {
-                bounds.width < 650 &&
-                <ButtonSVG onClick={() => toggleStateHandler!("side_bar")}>
-                  <MenuAlt3Icon />
-                </ButtonSVG>
-              }
-            </div>}
+
+            {
+              bounds.width < 650 &&
+              <ButtonSVG onClick={() => toggleStateHandler!("side_bar")}>
+                <ViewGridIcon />
+              </ButtonSVG>
+            }
+
           </>
         </div>
       </nav>

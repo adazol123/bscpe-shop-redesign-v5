@@ -35,7 +35,12 @@ const CardGrid = ({
       <div
         className={`${style.product} hover:ring-1 hover:ring-black/5 hover:shadow-sm hover:bg-white`}
       >
-        <div className={style.product__top}>
+        <div className={style.product__top}
+          onClick={() => {
+            setProductSelected(product);
+            toggleStateHandler!("modal_mobile");
+          }}
+        >
           <div className={`${style.product__image} group`}>
             <Image
               src={product.product_image}
@@ -50,23 +55,25 @@ const CardGrid = ({
           </div>
         </div>
 
-        <div className={style.product__bottom}>
+        <div className={style.product__bottom}
+          onClick={() => router.push(`/products/${product.product_id}`)}
+        >
           <div className={style.product__details}>
-            <h3
-              onClick={() => router.push(`/products/${product.product_id}`)}
-              className={style.product__title}
-            >
-              {product.product_name}
-            </h3>
-            <p className={style.product__price}>
+            <h2>
               ₱ {(product.product_price * 0.6).toFixed(2)}
               <span className={style.product__original_price}>
                 ₱ {product.product_price.toFixed(2)}
               </span>
+            </h2>
+            <p
+
+              className={style.product__title}
+            >
+              {product.product_name}
             </p>
           </div>
 
-          <button
+          {/* <button
             onClick={() => {
               setProductSelected(product);
               toggleStateHandler!("modal_mobile");
@@ -74,7 +81,7 @@ const CardGrid = ({
             className={style.product__cart}
           >
             {isInCart ? <ShoppingCartIconFill /> : <ShoppingCartIcon />}
-          </button>
+          </button> */}
         </div>
       </div>
     </>
