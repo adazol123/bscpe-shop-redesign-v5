@@ -7,10 +7,11 @@ import { ReactElement, ReactNode, Suspense } from "react";
 import Overlay from "../components/Overlay/Overlay";
 import { ToggleStateProvider } from "../utils/context/Toggles/ToggleState";
 import { NextPage } from "next";
-import Layout from "../components/Layouts/layout";
+import { Provider } from 'react-redux';
+import { store } from "../utils/app/store";
+import StateLayoutWrapper from "../layouts/state_layout_wrapper";
 
 export type NextPageWithLayout = NextPage & {
-
   getLayout?: (page: ReactElement) => ReactNode;
 };
 
@@ -19,16 +20,32 @@ type AppPropsWithLayout = AppProps & {
 };
 
 function MyApp({ Component, pageProps }: AppPropsWithLayout) {
-  /** Used LAYOUT for nested layout components */
-  const getLayout = Component.getLayout ?? ((page) => page);
-  return getLayout(<Component {...pageProps} />);
+
+  /** Used `Layout` for nested layout components */
+  // const getLayout = Component.getLayout ?? ((page) => page);
+
+  // if (Component.getLayout) {
+  //   return getLayout(
+  //     <StateLayoutWrapper>
+  //       <Component {...pageProps} />
+  //     </StateLayoutWrapper>
+
+  //   );
+  // } else {
+  //   return (
+  //     <StateLayoutWrapper>
+  //       <Component {...pageProps} />
+  //     </StateLayoutWrapper>
+  //   );
+  // }
+  return (
+    <StateLayoutWrapper>
+      <Nav />
+      <Component {...pageProps} />
+      <Overlay />
+    </StateLayoutWrapper>
+  );
 }
-// const Layout = ({ Component, pageProps }: AppPropsWithLayout) => {
-//   if (Component.getLayout) {
-//     return Component.getLayout(<Component {...pageProps} />);
-//   } else {
-//     return <Component {...pageProps} />;
-//   }
-// };
+
 
 export default MyApp;

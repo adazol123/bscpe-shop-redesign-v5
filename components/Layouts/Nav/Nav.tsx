@@ -12,6 +12,8 @@ import ShopState from "../../../utils/context/Shop/ShopState";
 import useMeasure from "react-use-measure";
 import NavLinksFull from "./NavLinksFull";
 import Image from "next/image";
+import { toggleState } from "../../../features/toggle/toggle-state-slice";
+import { useAppDispatch } from "../../../utils/app/hook";
 
 function CartItemIndicator() {
   const { carts, totalQuantity } = ShopState();
@@ -32,15 +34,16 @@ function CartItemIndicator() {
 }
 
 const Nav = () => {
-  const { user } = UserAuth();
+
   let router = useRouter();
-  const { toggleStateHandler } = ToggleState();
+  const dispatch = useAppDispatch()
   const [ref, bounds] = useMeasure()
   return (
     <header ref={ref} className={style._nav}>
       <nav className="w-full">
         <Link href={"/"} className={style._logo}>
-          <Image src='/svg/adazolhub_shop_logo_desktop_colored.svg' alt='adazolhub_logo' height={48} width={80} />
+          {/* <Image src='/svg/adazolhub_shop_logo_desktop_colored.svg' alt='adazolhub_logo' height={48} width={80} /> */}
+          <span>Adazolhub | Shop</span>
         </Link>
 
         {bounds.width > 650 && <NavLinksFull />}
@@ -48,7 +51,7 @@ const Nav = () => {
           <>
             <ButtonSVG
               onClick={() => {
-                toggleStateHandler!("cart");
+                dispatch(toggleState('cart'))
               }}
             >
               <>
@@ -60,7 +63,7 @@ const Nav = () => {
 
             {
               bounds.width < 650 &&
-              <ButtonSVG onClick={() => toggleStateHandler!("side_bar")}>
+              <ButtonSVG onClick={() => dispatch(toggleState('side_bar'))}>
                 <ViewGridIcon />
               </ButtonSVG>
             }

@@ -8,13 +8,20 @@ import { LogoutIcon, LoginIcon } from "@heroicons/react/solid";
 import NavLinks from "../Nav/NavLinks";
 import { UserAuth } from "../../../utils/context/Account/Auth";
 import { useRouter } from "next/router";
+import { useAppDispatch, useAppSelector } from "../../../utils/app/hook";
+import { toggleState } from "../../../features/toggle/toggle-state-slice";
+import { logout } from "../../../features/user/user-auth-slice";
+import { auth } from "../../../auth/firebase";
 
 const Sidebar = () => {
-  const { toggleState, toggleStateHandler } = ToggleState();
+  const dispatch = useAppDispatch();
+  // const { toggleState, toggleStateHandler } = ToggleState();
+  const side_bar_state = useAppSelector(state => state.toggles.side_bar)
+
   return (
     <ModalSlider
-      state={toggleState!["side_bar"]}
-      toggleStateHandler={() => toggleStateHandler!("side_bar")}
+      state={side_bar_state}
+      toggleStateHandler={() => dispatch(toggleState('side_bar'))}
       enableFooter
       footer={<Footer />}
     >
@@ -24,8 +31,10 @@ const Sidebar = () => {
 };
 
 const Footer = () => {
-  const { user, logout } = UserAuth();
-  const { toggleStateHandler } = ToggleState();
+  // const {logoutUser } = UserAuth();
+
+  const user = useAppSelector(state => state.auth.user)
+  const dispatch = useAppDispatch();
   const router = useRouter();
   return (
     <>
@@ -35,7 +44,7 @@ const Footer = () => {
             <ButtonStandard icon={<UserIcon />} className="py-3 justify-start"
               onClick={() => {
                 router.replace('/account')
-                toggleStateHandler!("side_bar")
+                dispatch(toggleState('side_bar'))
               }}
             >
               <div className="flex flex-col justify-start text-left">
@@ -47,10 +56,17 @@ const Footer = () => {
             </ButtonStandard>
             <ButtonStandard
               icon={<LogoutIcon />}
-              type={"link"}
+              styled={"outline"}
               className="py-3  justify-start"
-              onClick={() => {
-                logout!().then(() => toggleStateHandler!("side_bar"));
+              onClick={async () => {
+                try {
+                  await auth.signOut()
+                  dispatch(logout())
+                  dispatch(toggleState('side_bar'))
+
+                } catch (error: any) {
+                  console.log(error.message)
+                }
               }}
             >
               Logout
@@ -62,7 +78,7 @@ const Footer = () => {
             className="py-3 justify-start"
             onClick={() => {
               router.replace("/login");
-              toggleStateHandler!("side_bar");
+              dispatch(toggleState('side_bar'));
             }}
           >
             Login

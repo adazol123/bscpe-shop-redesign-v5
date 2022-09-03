@@ -10,10 +10,15 @@ import { useRouter } from "next/router";
 import { ArrowNarrowRightIcon } from "@heroicons/react/outline";
 import style from './style.module.css'
 import ButtonLink from "../../UI/Button/Link/ButtonLink";
+import { useAppDispatch, useAppSelector } from "../../../utils/app/hook";
+import { toggleState } from "../../../features/toggle/toggle-state-slice";
 
 const ProductListGrid = () => {
   const router = useRouter();
-  const { toggleState, toggleStateHandler } = ToggleState();
+  const modal_mobile_state = useAppSelector(state => state.toggles.modal_mobile)
+  // const { toggleState, toggleStateHandler } = ToggleState();
+  const dispatch = useAppDispatch()
+
   const { products }: any = ProductState();
   //?.filter((prod: any) => prod.product_category === category)
   return (
@@ -38,8 +43,8 @@ const ProductListGrid = () => {
             </React.Fragment>
           ))}
         <ModalMobile
-          state={toggleState!["modal_mobile"]}
-          toggleStateHandler={() => toggleStateHandler!("modal_mobile")}
+          state={modal_mobile_state}
+          toggleStateHandler={() => dispatch(toggleState('modal_mobile'))}
         >
           {/* {selectedProduct && <SelectedProduct product={selectedProduct} />} */}
         </ModalMobile>

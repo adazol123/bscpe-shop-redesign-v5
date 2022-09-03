@@ -1,19 +1,20 @@
-import LayoutContext from "../../components/Layouts/layout-context";
+
 import NavCustom from "../../components/Layouts/Nav/NavCustom";
 import Overlay from "../../components/Overlay/Overlay";
+import StateLayoutWrapper from "../state_layout_wrapper";
 
 
 export default function AccountLayout({ children }: { children: React.ReactNode }) {
 
 
     return (
-        <LayoutContext>
+        <StateLayoutWrapper>
             <NavCustom />
             <>{children}</>
             {
                 /** OVERLAY --> popups/modal */
                 <Overlay />
             }
-        </LayoutContext>
+        </StateLayoutWrapper>
     )
 }

@@ -10,6 +10,7 @@ import {
   UserCredential,
   signInWithPopup,
   GoogleAuthProvider,
+  onAuthStateChanged,
 } from "firebase/auth";
 import {
   collection,
@@ -19,6 +20,8 @@ import {
   query,
 } from "firebase/firestore";
 import AccountState from "./AccountState";
+import { useAppDispatch, useAppSelector } from "../../app/hook";
+import { login, logout } from "../../../features/user/user-auth-slice";
 
 interface AuthUser {
   authUser: User | null;
@@ -27,7 +30,7 @@ interface AuthUser {
   isLoading: boolean;
   signup: (email: string, password: string) => Promise<UserCredential>;
   signin: (email: string, password: string) => Promise<UserCredential>;
-  logout: () => Promise<void>;
+  logoutUser: () => void;
   signinWithGoogle: () => Promise<void>;
 }
 
@@ -44,7 +47,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   // );
 
   /** Account Reducer - (getUser) listen for change on login state */
-  let { user, authUser, getUser } = AccountState();
+  const user = useAppSelector(state => state.auth.user)
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -68,37 +71,40 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   //LOGOUT FIREBASE AUTH
-  const logout = () => {
+  const logoutUser = () => {
     // setCurrentUser(null);
-    setIsAuthenticated(false);
-    return signOut(auth).then(() => {
-      // localStorage.setItem("user-logged-in", "no");
-      console.log("logged out");
-    });
+    dispatch(logout())
   };
 
   //FIREBASE CURRENT LOGGED USER OBSERVER
+  const dispatch = useAppDispatch();
   useEffect(() => {
-    let unsubscribe = getUser!(auth);
-    setIsLoading(false);
-    return () => {
-      // localStorage.setItem("user-logged-in", "no");
-      if (unsubscribe) {
-        unsubscribe();
+    let unsubscribeUser = onAuthStateChanged(auth, (userAuth) => {
+      if (userAuth) {
+        dispatch(login({
+          email: userAuth.email,
+          uid: userAuth.uid,
+          displayName: userAuth.displayName,
+          photoUrl: userAuth.photoURL
+        }))
+      } else {
+        dispatch(logout())
       }
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    })
+    
+    return () => {
+      unsubscribeUser()
+    }
+  }, [])
 
   return (
     <AuthContext.Provider
       value={{
-        authUser,
         user,
         isAuthenticated,
         isLoading,
         signup,
-        logout,
+        logoutUser,
         signin,
         signinWithGoogle,
       }}

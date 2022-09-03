@@ -12,17 +12,49 @@ import Completed from "../components/Signup/Completed";
 import CardCategory from "../components/UI/Cards/CardCategory";
 import ProductListGrid from "../components/Layouts/Products/ProductListGrid";
 import NewArrival from './../components/Layouts/Products/NewArrival';
+import { useAppDispatch, useAppSelector } from "../utils/app/hook";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "../auth/firebase";
+import { login, logout } from "../features/user/user-auth-slice";
+import React from "react";
+import { toggleState } from "../features/toggle/toggle-state-slice";
+import StateLayoutWrapper from "../layouts/state_layout_wrapper";
 
 
 const fetcher = (...args: [string]) => fetch(...args).then((res) => res.json());
 
 const Home: NextPageWithLayout = () => {
     const router = useRouter()
+    const user = useAppSelector(state => state.auth.user)
+    const toggleStates = useAppSelector(state => state.toggles)
+    const dispatch = useAppDispatch();
+    // React.useEffect(() => {
+    //     let unsubscribeUser = onAuthStateChanged(auth, (userAuth) => {
+    //         if (userAuth) {
+    //             dispatch(login({
+    //                 email: userAuth.email,
+    //                 uid: userAuth.uid,
+    //                 displayName: userAuth.displayName,
+    //                 photoUrl: userAuth.photoURL
+    //             }))
+    //         } else {
+    //             dispatch(logout())
+    //         }
+    //     })
+    //     return () => {
+    //         unsubscribeUser()
+    //     }
+    // }, [])
+
     console.log(router.query)
     if (router.query?.success) {
         return <Completed />
     }
+
     else {
+        if (user) {
+            console.log(user)
+        }
         return (
             <>
                 <Head>
@@ -64,9 +96,11 @@ const Home: NextPageWithLayout = () => {
 
 Home.getLayout = function getLayout(page: React.ReactElement) {
     return (
-        <HomeLayout>
-            <>{page}</>
-        </HomeLayout>
+        <>
+            <HomeLayout>
+                <>{page}</>
+            </HomeLayout>
+        </>
     );
 };
 

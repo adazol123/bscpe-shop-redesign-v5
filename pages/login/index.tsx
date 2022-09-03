@@ -13,9 +13,14 @@ import { UserAuth } from '../../utils/context/Account/Auth'
 import BscpeLoader from '../../components/Layouts/Loader/BscpeLoader';
 import type { NextPageWithLayout } from '../_app'
 import ContextLayout from '../../layouts/context_layout'
+import { useAppSelector } from '../../utils/app/hook'
+import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
+import { auth } from '../../auth/firebase'
 
 const Login: NextPageWithLayout = () => {
-    const { signinWithGoogle, user } = UserAuth()
+    // const { signinWithGoogle, user } = UserAuth()
+    const user = useAppSelector(state => state.auth.user)
+
     const router = useRouter()
     if (user) {
         router.replace('/')
@@ -35,7 +40,16 @@ const Login: NextPageWithLayout = () => {
                     <div className='flex flex-col gap-4'>
                         <ButtonStandard icon={<MailIcon />} type='button' onClick={() => router.push('/login/login-with-email')} > Continue with Email</ButtonStandard>
                         <HorizontalDivider />
-                        <ButtonStandard styled='outline' onClick={signinWithGoogle} >Continue with Google</ButtonStandard>
+                        <ButtonStandard styled='outline' onClick={async () => {
+                            try {
+                                await signInWithPopup(auth, new GoogleAuthProvider())
+                                console.log('login via provider')
+                            } catch (error: any) {
+                                console.log(error.code)
+                                return
+                            }
+
+                        }} >Continue with Google</ButtonStandard>
                     </div>
 
                     <div>
@@ -53,7 +67,7 @@ const Login: NextPageWithLayout = () => {
     )
 }
 
-Login.getLayout = ContextLayout
+// Login.getLayout = ContextLayout
 
 
 export default Login

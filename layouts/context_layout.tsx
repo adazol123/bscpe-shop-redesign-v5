@@ -5,22 +5,19 @@ import { AuthProvider } from '../utils/context/Account/Auth';
 import { ProductProvider } from '../utils/context/Product/ProductState';
 import { ShopStateProvider } from '../utils/context/Shop/ShopState';
 import { ToggleStateProvider } from '../utils/context/Toggles/ToggleState'
+import { Provider } from 'react-redux';
+import { store } from '../utils/app/store';
+import StateLayoutWrapper from './state_layout_wrapper';
 
 const ContextLayout = (page: React.ReactElement) => {
     return (
-        <React.Suspense fallback={<BscpeLoader />}>
-            <AccountStateProvider>
-                <AuthProvider>
-                    <ProductProvider>
-                        <ShopStateProvider>
-                            <ToggleStateProvider>
-                                <>{page}</>
-                            </ToggleStateProvider>
-                        </ShopStateProvider>
-                    </ProductProvider>
-                </AuthProvider>
-            </AccountStateProvider>
-        </React.Suspense>
+        <StateLayoutWrapper>
+            <React.Suspense fallback={<BscpeLoader />}>
+
+                <>{page}</>
+
+            </React.Suspense>
+        </StateLayoutWrapper>
     );
 };
 

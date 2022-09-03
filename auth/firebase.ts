@@ -1,6 +1,14 @@
 import { initializeApp, getApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
+import {
+  collection,
+  DocumentData,
+  getFirestore,
+  limit,
+  Query,
+  query,
+  QueryConstraint,
+} from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 // let config = {
 //   apiKey: process.env.FIREBASE_API_KEY,
@@ -23,11 +31,14 @@ let firebaseConfig = {
   appId: "1:636404332362:web:f4f7cc1bb6bbe66c3633b3",
   measurementId: "G-7LSYK1Y8L6",
 };
-const app = initializeApp(firebaseConfig);
+
 // Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const auth = getAuth();
+const db = getFirestore();
 
-export const auth = getAuth(app);
-export const db = getFirestore(app);
-export const storage = getStorage(app);
+// const productDocRef = doc(db, "products_mvp");
+const productCollectionRef = collection(db, "products_mvp");
+const docQuery = query(productCollectionRef, limit(5));
 
-// export { auth, db, storage };
+export { auth, db, productCollectionRef, docQuery };
