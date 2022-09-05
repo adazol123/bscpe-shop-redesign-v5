@@ -17,7 +17,7 @@ import style from "./style.module.css";
 import { ProductItemProps } from './../../../features/shop/product-slice';
 import { setSelectedItem } from "../../../features/cart/cart-slice";
 import ButtonSVG from "../Button/SVG/ButtonSVG";
-
+import { motion } from 'framer-motion';
 interface Props<T> {
   product: T
 }
@@ -31,16 +31,21 @@ const CardGrid = <ObjectType extends ProductItemProps,>({ product }: PropsWithCh
   const router = useRouter();
   return (
     <>
-      <div
+      <motion.div
         className={`${style.product} `}
+        layoutId={`wrapper-${product.product_id}`}
       >
-        <div className={style.product__top}
+        <motion.div className={style.product__top}
+          layout
+          layoutId={`image-${product.product_id}`}
           onClick={() => {
             dispatch(setSelectedItem(product))
             dispatch(toggleState('modal_mobile'));
           }}
         >
-          <div className={`${style.product__image} `}>
+          <div className={`${style.product__image} `}
+
+          >
             <Image
               src={product.metatags.images[0].url}
               alt={product.description}
@@ -52,7 +57,7 @@ const CardGrid = <ObjectType extends ProductItemProps,>({ product }: PropsWithCh
             />
             <span className={style.product__tag}>Sale</span>
           </div>
-        </div>
+        </motion.div>
 
         <div className={style.product__bottom}
 
@@ -84,7 +89,7 @@ const CardGrid = <ObjectType extends ProductItemProps,>({ product }: PropsWithCh
             }}
           />
         </div>
-      </div>
+      </motion.div>
     </>
   );
 };
