@@ -4,13 +4,13 @@ const NewArrival = () => {
   // console.log("trending rending...");
   return (
     <>
-      <aside className="m-6 overflow-hidden lg:overflow-visible lg:order-1 lg:col-end-1 lg:row-start-5">
+      <aside className="px-6 my-6 overflow-hidden lg:overflow-visible lg:order-1 lg:col-end-1 lg:row-start-5">
         {/* <div className="hidden w-full h-24 px-2 mb-4 text-xl text-white bg-gray-800 rounded-lg lg:grid place-content-center lg:h-32 xl:h-32 lg:col-span-1 lg:row-span-1">
           <h1>Coupon 20% off</h1>
         </div> */}
-        <div className="sticky top-11">
-          <p className="mt-2 text-sm font-light text-black/50">New Arrival</p>
-          <div className="flex gap-2 lg:gap-4 py-2 overflow-x-auto flex-nowrap container-snap lg:flex-col   lg:overflow-y-auto lg:h-[80vh] lg:items-center">
+        <div className="">
+          <p className="text-sm font-light text-black/50">Recommended</p>
+          <div className="flex gap-2 md:gap-4 py-2 overflow-x-auto flex-nowrap container-snap md:flex-col   md:overflow-y-auto md:h-[80vh] md:items-center">
             <CardBig
               title="AntoniosClotihing Solid Elegant Polo Shirt"
               image="https://images.unsplash.com/photo-1625910513413-c23b8bb81cba?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"

@@ -1,8 +1,8 @@
-import { UserAuth } from "../../utils/context/Account/Auth";
+
 import ButtonStandard from "../UI/Button/Standard/ButtonStandard";
 
 function OptionalSignUp() {
-  const { signinWithGoogle } = UserAuth();
+
   return (
     <div className="w-full space-y-4">
       <p className="my-4 text-xs text-center text-gray-300">Or continue with</p>
@@ -34,8 +34,8 @@ function OptionalSignUp() {
           </svg>
         }
         className="w-full py-4 text-xs"
-        type="outline"
-        onClick={signinWithGoogle}
+        styled="outline"
+      // onClick={signinWithGoogle}
       >
         Sign up with Google
       </ButtonStandard>

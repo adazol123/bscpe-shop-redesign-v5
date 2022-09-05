@@ -1,6 +1,7 @@
 import { TrashIcon } from "@heroicons/react/outline";
 import React from "react";
-import ShopState from "../../../utils/context/Shop/ShopState";
+import { CartItemProps, removeFromCart } from "../../../features/cart/cart-slice";
+import { useAppDispatch } from "../../../utils/app/hook";
 import { colorFormater, sizeFormater } from "../../Layouts/Checkout/formatter";
 
 export interface ProductCart {
@@ -13,13 +14,17 @@ export interface ProductCart {
   color?: string;
 }
 
-const CartCard = ({ data }: { data: ProductCart }) => {
-  let {
-    products: list,
-    total,
-    removeFromCart,
-    totalQuantity,
-  }: any = ShopState();
+const CartCard = ({ data }: { data: Partial<CartItemProps> }) => {
+  // let {
+  //   products: list,
+  //   total,
+  //   removeFromCart,
+  //   totalQuantity,
+  // }: any = ShopState();
+  let products: any;
+  // let removeFromCart: any;
+  const dispatch = useAppDispatch()
+  if (!data) return null
   return (
     <li
       key={data.product_id}
@@ -38,7 +43,7 @@ const CartCard = ({ data }: { data: ProductCart }) => {
       <span className="text-white absolute top-1 left-2 text-xs">x{data?.quantity}</span>
       <div className="h-[6em] md:h-[8em] lg:min-h-[10em] w-[8em] sm:w-[10em] lg:max-w-[12em]  rounded-md opacity-100">
         <img
-          src={data.image}
+          src={data.images![0].url}
           alt={data.name}
           className="object-cover w-full h-full rounded-md opacity-100 bg-blend-overlay"
         />
@@ -74,7 +79,7 @@ const CartCard = ({ data }: { data: ProductCart }) => {
       <button
         className="absolute px-4 py-2 top-1 right-2 btn-link"
         onClick={() => {
-          data && removeFromCart!(data);
+          data.product_id && dispatch(removeFromCart(data.product_id));
         }}
       >
         <TrashIcon className="w-5 h-5 text-red-400" />

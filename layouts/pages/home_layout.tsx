@@ -1,19 +1,21 @@
-import LayoutContext from "../../components/Layouts/layout-context";
+
 import Nav from "../../components/Layouts/Nav/Nav";
 import Overlay from "../../components/Overlay/Overlay";
-import ContextLayout from "../context_layout";
-
+import { Provider } from 'react-redux';
+import { store } from "../../utils/app/store";
+import RootLayout from "../layout";
 
 const HomeLayout = ({ children }: { children: React.ReactNode }) => {
     return (
-        <LayoutContext>
+
+        <RootLayout>
             <Nav />
             <>{children}</>
             {
                 /** OVERLAY --> popups/modal */
                 <Overlay />
             }
-        </LayoutContext>
+        </RootLayout>
     );
 }
 

@@ -15,13 +15,16 @@ import { ArrowLeftIcon, ExclamationIcon, InformationCircleIcon } from '@heroicon
 import InformationalError from '../../components/UI/Error/InformationalError'
 import BscpeLoader from '../../components/Layouts/Loader/BscpeLoader'
 import Center from '../../components/UI/Wrapper/Center'
+import { useAppDispatch, useAppSelector } from '../../utils/app/hook'
+import { signInWithEmailAndPassword } from 'firebase/auth'
+import { auth } from '../../auth/firebase'
+import { login } from '../../features/user/user-auth-slice'
 
 const LoginEmail: NextPageWithLayout = () => {
     const router = useRouter()
-    const { signin, user, logout } = UserAuth()
-
-    const emailRef = React.useRef<HTMLInputElement>(null)
-    const passwordRef = React.useRef<React.LegacyRef<HTMLDivElement> | undefined>(undefined)
+    // const { signin, logout } = UserAuth()
+    const dispatch = useAppDispatch()
+    const user = useAppSelector(user => user.auth.user)
 
     const [loginDetails, setLoginDetails] = React.useState({
         email: '',
@@ -56,8 +59,18 @@ const LoginEmail: NextPageWithLayout = () => {
         try {
             if (email && password) {
 
-                await signin!(email.trim(), password.trim())
-                resetForm()
+                let currentAuth = await signInWithEmailAndPassword(auth, email.trim(), password.trim())
+                if (currentAuth.user) {
+                    dispatch(login({
+                        displayName: currentAuth.user.displayName,
+                        email: currentAuth.user.email,
+
+
+                    }))
+                    resetForm()
+                    router.replace('/?success=true')
+                    console.clear()
+                }
             }
         } catch (error: any) {
             if (error.code === 'auth/wrong-password') {
@@ -84,7 +97,6 @@ const LoginEmail: NextPageWithLayout = () => {
         }
 
 
-
     }
 
     useEffect(() => {
@@ -94,6 +106,7 @@ const LoginEmail: NextPageWithLayout = () => {
 
 
     if (user) {
+        console.log('auth user >', user)
         router.replace('/')
         return <BscpeLoader />
     }
@@ -139,6 +152,6 @@ const LoginEmail: NextPageWithLayout = () => {
 }
 
 //wrapping the page layout with contextlayout (global states)
-LoginEmail.getLayout = ContextLayout
+// LoginEmail.getLayout = ContextLayout
 
 export default LoginEmail

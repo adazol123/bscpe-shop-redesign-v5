@@ -1,6 +1,8 @@
 import { useRouter } from "next/router";
 import React from "react";
-import { ToggleState } from "../../../utils/context/Toggles/ToggleState";
+import { toggleState } from "../../../features/toggle/toggle-state-slice";
+import { useAppDispatch, useAppSelector } from "../../../utils/app/hook";
+
 import ButtonStandard from "../../UI/Button/Standard/ButtonStandard";
 
 const FooterSummary = ({
@@ -11,7 +13,8 @@ const FooterSummary = ({
   totalQuantity: number;
 }) => {
   let router = useRouter();
-  const { toggleState, toggleStateHandler } = ToggleState();
+  const dispatch = useAppDispatch()
+
 
   return (
     <div className="flex flex-col gap-1 h-fit">
@@ -36,7 +39,7 @@ const FooterSummary = ({
       <div className="flex gap-1">
         <ButtonStandard
           className="w-full"
-          onClick={() => toggleStateHandler!("pay_now")}
+          onClick={() => dispatch(toggleState('pay_now'))}
         >
           Pay now
         </ButtonStandard>
@@ -44,9 +47,9 @@ const FooterSummary = ({
           className="w-full"
           onClick={() => {
             router.push("/checkout");
-            toggleStateHandler!("cart");
+            dispatch(toggleState('cart'));
           }}
-          type={"outline"}
+          styled={"outline"}
         >
           Checkout
         </ButtonStandard>

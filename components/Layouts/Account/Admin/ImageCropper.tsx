@@ -5,16 +5,18 @@ import { ImageType } from '../../../../utils/lib/uploadProductToFirebase';
 import ModalMobile from '../../../UI/Modals/Mobile/ModalMobile';
 import ButtonStandard from '../../../UI/Button/Standard/ButtonStandard';
 import { UploadIcon } from '@heroicons/react/outline';
-import { UserAuth } from '../../../../utils/context/Account/Auth';
+
 import imageToBlobUrl from './../../../../utils/lib/imageToBlobUrl';
 import getCroppedImg, { getCroppedImgAsBlog } from '../../../../utils/services/cropImage';
 import { ref, uploadBytes } from 'firebase/storage';
-import { storage } from '../../../../auth/firebase';
+import { db } from '../../../../auth/firebase';
 import { getDownloadURL } from 'firebase/storage';
+import { useAppSelector } from '../../../../utils/app/hook';
+import { selectCurrentuser } from '../../../../features/user/user-auth-slice';
 
 
 const ImageCropper = ({ setImageUrl, toggle, toggleHandler }: { setImageUrl: Dispatch<SetStateAction<Partial<{ image_blob_url: string; image_blob: Blob; }>>>, toggle: boolean, toggleHandler: () => void }) => {
-    const { user } = UserAuth()
+    const user = useAppSelector(selectCurrentuser)
 
 
     const [imageToUpload, setImageToUpload] = React.useState<Partial<{
@@ -74,13 +76,8 @@ const ImageCropper = ({ setImageUrl, toggle, toggleHandler }: { setImageUrl: Dis
             && croppedArea) {
             try {
                 const cropperImage = await getCroppedImg(imageToUpload.image_url as string, croppedArea) as Blob
-                
-                const storageRef = ref(
-                    storage,
-                    `products/${user.uid}-${imageToUpload.image_name
-                        .split(/\s/g)
-                        .join("-")}`
-                );
+
+
 
 
                 // await uploadBytes(storageRef, cropperImage, {
@@ -144,7 +141,7 @@ const ImageCropper = ({ setImageUrl, toggle, toggleHandler }: { setImageUrl: Dis
                 </label>
                 {imageToUpload?.image_url && <div className='flex flex-col gap-2'>
                     <ButtonStandard className={'py-4'} onClick={onSaveImage}>{uploading ? 'Uploading...' : 'Save Changes'}</ButtonStandard>
-                    <ButtonStandard className={'py-4'} type='outline' onClick={triggerFile}>Change Image</ButtonStandard>
+                    <ButtonStandard className={'py-4'} styled='outline' onClick={triggerFile}>Change Image</ButtonStandard>
                 </div>
                 }
             </>

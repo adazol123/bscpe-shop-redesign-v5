@@ -12,10 +12,11 @@ import {
 } from "@heroicons/react/outline";
 import { useRouter } from "next/router";
 import DropdownStyled from "../../UI/Button/Dropdown/DropdownStyled";
-import { ToggleState } from "../../../utils/context/Toggles/ToggleState";
+import { useAppDispatch } from "../../../utils/app/hook";
+import { toggleState } from "../../../features/toggle/toggle-state-slice";
 
 const NavLinks = () => {
-  const { toggleStateHandler } = ToggleState();
+  const dispatch = useAppDispatch()
   const router = useRouter();
   return (
     <div className="flex gap-1 px-4 flex-col sm:flex-row">
@@ -30,7 +31,7 @@ const NavLinks = () => {
       <ButtonStyled
         icon={<SupportIcon />}
         onClick={() => {
-          toggleStateHandler!("side_bar");
+          dispatch(toggleState('side_bar'));
           router.push("/signup");
         }}
       >
@@ -39,7 +40,7 @@ const NavLinks = () => {
       <ButtonStyled
         icon={<InformationCircleIcon />}
         onClick={() => {
-          toggleStateHandler!("side_bar");
+          dispatch(toggleState('side_bar'));
           router.push("/account");
         }}
       >

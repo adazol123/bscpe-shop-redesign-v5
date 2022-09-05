@@ -111,11 +111,12 @@ function SecurityDetails({
     setError((prev) => (prev = { password: null, confirm_password: null }));
 
     setTimeout(() => {
-      router.replace("/?success=true");
       return register()
         .then((res) => {
           console.log("registration success > ", res);
+          router.replace("/?success=true");
           setIsLoading(true);
+          console.clear()
         })
         .catch((error) => console.log("registration error >", error));
     }, 5000);

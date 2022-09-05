@@ -1,7 +1,7 @@
 /** BUTTON SOLID (THEME) */
 .button__primary {
   @apply px-6 font-bold text-white rounded bg-marine-500;
-  @apply flex items-center justify-center transition-all;
+  @apply flex items-center justify-center transition-all whitespace-nowrap;
 }
 
 .button__primary:hover {

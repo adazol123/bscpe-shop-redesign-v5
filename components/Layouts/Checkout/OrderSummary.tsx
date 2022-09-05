@@ -1,8 +1,9 @@
-import ShopState from "../../../utils/context/Shop/ShopState";
+
 import { colorFormater, sizeFormater } from "./formatter";
 
 export default function OrderSummary() {
-  let { carts } = ShopState();
+  // let { carts } = ShopState();
+  let carts: any[] = []
 
   return (
     <>

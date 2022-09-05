@@ -9,8 +9,8 @@ const Overlay = () => {
     <>
       <Sidebar />
       <ShoppingCart />
-      <ProductSelectedModal />
-      <PayNow />
+      {/* <ProductSelectedModal /> */}
+      {/* <PayNow /> */}
     </>
   );
 };

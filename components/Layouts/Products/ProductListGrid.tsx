@@ -1,58 +1,55 @@
 import React from "react";
-import {
-  ProductList,
-  ProductState,
-} from "../../../utils/context/Product/ProductState";
-import { ToggleState } from "../../../utils/context/Toggles/ToggleState";
+
+import style from './style.module.css'
 import CardGrid from "../../UI/Cards/CardGrid";
 import ModalMobile from "../../UI/Modals/Mobile/ModalMobile";
 import { useRouter } from "next/router";
-import { ArrowNarrowRightIcon } from "@heroicons/react/outline";
-import style from './style.module.css'
+import ButtonLink from "../../UI/Button/Link/ButtonLink";
+import { useAppDispatch, useAppSelector } from "../../../utils/app/hook";
+import { toggleState } from "../../../features/toggle/toggle-state-slice";
+import { CartItemProps } from './../../../features/cart/cart-slice';
+import ProductSelected from "./ProductSelected";
 
 const ProductListGrid = () => {
   const router = useRouter();
-  const { toggleState, toggleStateHandler } = ToggleState();
-  const { products }: any = ProductState();
+  const modal_mobile_state = useAppSelector(state => state.toggles.modal_mobile)
+  const selectedProduct = useAppSelector(state => state.cart.selected) as CartItemProps
+  // const { toggleState, toggleStateHandler } = ToggleState();
+  const dispatch = useAppDispatch()
+  const products = useAppSelector(state => state.shop.products)
   //?.filter((prod: any) => prod.product_category === category)
   return (
     <div className="mx-6">
-      <div className="flex justify-between my-2 text-sm font-medium text-black/50">
+      <div className="flex justify-start text-sm font-medium text-black/50">
         <p>More Product</p>
-        <span
-          className="underline cursor-pointer underline-offset-2"
-          onClick={() => router.push("/products")}
-        >
-          <span className="inline-flex gap-1 items-center">
-            See more
-            <ArrowNarrowRightIcon className="w-3 h-3" />
-          </span>
-        </span>
       </div>
-      <div className="grid grid-cols-2 row-start-1 row-end-4 gap-[5%] mb-6 grid-flow-dense md:grid-cols-3 xl:grid-cols-4 place-items-start place-content-start">
+      <div className="flex flex-wrap my-4 -mx-2">
+        {
+          //TODOS: need to setup product id | Sept. 4, 2022 9:59 PM
+        }
         {products &&
-          products.map((product: ProductList) => (
+          products.map((product) => (
             <React.Fragment key={product.product_id}>
-              <CardGrid product={product} isInCart={false} />
+              <CardGrid product={product} />
             </React.Fragment>
           ))}
+
         <ModalMobile
-          state={toggleState!["modal_mobile"]}
-          toggleStateHandler={() => toggleStateHandler!("modal_mobile")}
+          state={modal_mobile_state}
+          toggleStateHandler={() => dispatch(toggleState('modal_mobile'))}
         >
-          {/* {selectedProduct && <SelectedProduct product={selectedProduct} />} */}
+          {selectedProduct && <ProductSelected product={selectedProduct} />}
         </ModalMobile>
       </div>
       <div
-        className="w-full relative flex justify-center 
-      before:w-full before:absolute before:h-44 before:bg-gradient-to-t before:from-white before:bottom-3 before:border-b before:border-black/60"
+
       >
-        <button
-          className="ring-4 ring-white rounded-full px-4 py-1 text-xs relative bg-black text-white mx-auto"
-          onClick={() => router.push("/products")}
+        <ButtonLink
+          size="small"
+          onClick={() => router.push("#")}
         >
           See more
-        </button>
+        </ButtonLink>
       </div>
     </div>
   );

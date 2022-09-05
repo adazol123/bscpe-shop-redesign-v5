@@ -1,7 +1,6 @@
-import ShopState from "../../../utils/context/Shop/ShopState";
 
 export default function AmountDetail() {
-  let { total } = ShopState();
+  let total = 0
   return (
     <div className="grid gap-2 mx-6 my-3">
       <div className="flex flex-col gap-2">

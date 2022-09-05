@@ -1,5 +1,4 @@
 import React from "react";
-import NestedLayout from "../layout-context";
 import Nav from "./../Nav/Nav";
 
 const AccountLayout = ({ children }: { children: React.ReactNode }) => {

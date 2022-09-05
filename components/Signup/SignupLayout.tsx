@@ -1,7 +1,8 @@
 import Image from "next/future/image";
 import { useRouter } from "next/router";
 import React from "react";
-import { UserAuth } from "../../utils/context/Account/Auth";
+import { selectCurrentuser } from "../../features/user/user-auth-slice";
+import { useAppSelector } from "../../utils/app/hook";
 import BscpeLoader from "../Layouts/Loader/BscpeLoader";
 import ButtonLink from "../UI/Button/Link/ButtonLink";
 import ButtonStandard from "../UI/Button/Standard/ButtonStandard";
@@ -10,7 +11,7 @@ import Center from "../UI/Wrapper/Center";
 
 const SignupLayout = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter()
-  const { user } = UserAuth()
+  const user = useAppSelector(selectCurrentuser)
   if (user) {
     router.replace('/')
     return <BscpeLoader />
