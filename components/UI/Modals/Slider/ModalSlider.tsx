@@ -4,7 +4,7 @@ import {
   XIcon,
   ArrowNarrowRightIcon,
   ArrowLeftIcon,
-} from "@heroicons/react/solid";
+} from "@heroicons/react/outline";
 import ButtonSVG from "../../Button/SVG/ButtonSVG";
 
 interface Modal {

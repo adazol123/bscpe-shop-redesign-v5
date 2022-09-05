@@ -11,13 +11,13 @@ import HorizontalDivider from '../../components/UI/Separator/HorizontalDivider'
 import Box from '../../components/UI/Wrapper/Box'
 import type { NextPageWithLayout } from '../_app'
 
-import ContextLayout from '../../layouts/context_layout'
-import { UserAuth } from '../../utils/context/Account/Auth';
 import BscpeLoader from '../../components/Layouts/Loader/BscpeLoader';
+import { useAppSelector } from '../../utils/app/hook'
+import { selectCurrentuser } from '../../features/user/user-auth-slice'
 
 const SignUp: NextPageWithLayout = () => {
     const router = useRouter()
-    const { user } = UserAuth()
+    const user = useAppSelector(selectCurrentuser)
     if (user) {
         router.replace('/')
         return <BscpeLoader />
@@ -61,5 +61,5 @@ const SignUp: NextPageWithLayout = () => {
     )
 }
 
-SignUp.getLayout = ContextLayout
+// SignUp.getLayout = ContextLayout
 export default SignUp

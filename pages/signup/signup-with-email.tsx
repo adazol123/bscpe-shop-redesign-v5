@@ -6,7 +6,6 @@ import Box from '../../components/UI/Wrapper/Box';
 import Head from 'next/head';
 import BscpeLoader from '../../components/Layouts/Loader/BscpeLoader';
 import { useRouter } from 'next/router';
-import { UserAuth } from '../../utils/context/Account/Auth';
 
 
 const SignupEmail: NextPageWithLayout = () => {

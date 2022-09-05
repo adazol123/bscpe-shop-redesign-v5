@@ -9,8 +9,15 @@
 ._nav__custom {
   @apply bg-white sticky top-0 px-4 z-30;
 }
-
 ._nav__custom > nav {
+  --nav-height: 64px;
+  @apply mx-auto container flex justify-between h-[var(--nav-height)] items-center;
+}
+
+._nav__product {
+  @apply fixed top-0 px-4 z-30 w-full transition-all duration-500 transform-gpu;
+}
+._nav__product > nav {
   --nav-height: 64px;
   @apply mx-auto container flex justify-between h-[var(--nav-height)] items-center;
 }

@@ -27,13 +27,13 @@ const NavLinksFull = () => {
                 <Link href={"/cart"}>Kids</Link> */}
             </ButtonLink>
             <ButtonLink size='small' title="Categories">
-                Category
+                Shopping Cart
                 {/* <Link href={"/cart"}>Men</Link>
                 <Link href={"/cart"}>Women</Link>
                 <Link href={"/cart"}>Kids</Link> */}
             </ButtonLink>
             <ButtonLink size='small' title="Categories">
-                Shopping Cart
+                Support
                 {/* <Link href={"/cart"}>Men</Link>
                 <Link href={"/cart"}>Women</Link>
                 <Link href={"/cart"}>Kids</Link> */}

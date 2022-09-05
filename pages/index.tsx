@@ -50,9 +50,18 @@ const Home: NextPageWithLayout = () => {
                             <h4>Categories</h4>
                             <div className='w-full overflow-hidden overflow-x-auto'>
                                 <div className="flex flex-row gap-4 py-4 md:flex-col w-fit">
-                                    <CardCategory />
-                                    <CardCategory />
-                                    <CardCategory />
+                                    <CardCategory
+                                        img_source="https://images.unsplash.com/photo-1607345366928-199ea26cfe3e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"
+                                        label="Men"
+                                    />
+                                    <CardCategory
+                                        img_source="https://images.unsplash.com/photo-1532453288672-3a27e9be9efd?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=764&q=80"
+                                        label="Women"
+                                    />
+                                    <CardCategory
+                                        img_source="https://images.unsplash.com/photo-1622290291468-a28f7a7dc6a8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1072&q=80"
+                                        label="Kids"
+                                    />
                                 </div>
                             </div>
                             <div className='hidden -mx-6 md:block'>
