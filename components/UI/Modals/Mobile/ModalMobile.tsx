@@ -1,6 +1,7 @@
 import React from "react";
 import style from "../style.module.css";
 import { Modal } from "../Standard/ModalStandard";
+import ButtonLink from "../../Button/Link/ButtonLink";
 
 const ModalMobile = ({ state, toggleStateHandler, children }: Modal) => {
   return (
@@ -20,13 +21,13 @@ const ModalMobile = ({ state, toggleStateHandler, children }: Modal) => {
       >
         <div className={style.modal_mobile_content}>
           <div>{children}</div>
-          <div>
+          {/* <div>
             <hr />
-            <button
-              className='w-full py-2 -mb-2 text-black select-none '
+            <ButtonLink
+              className="py-4 px-16 mx-auto w-full text-theme-gray-700/70"
               onClick={toggleStateHandler}
-            >Close</button>
-          </div>
+            >Close</ButtonLink>
+          </div> */}
         </div>
       </div>
     </>

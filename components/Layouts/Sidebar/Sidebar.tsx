@@ -1,12 +1,9 @@
 import React from "react";
-import { ToggleState } from "../../../utils/context/Toggles/ToggleState";
 import ModalSlider from "./../../UI/Modals/Slider/ModalSlider";
-import { StaticState } from "./../../../utils/context/Toggles/ToggleState";
 import ButtonStandard from "../../UI/Button/Standard/ButtonStandard";
 import { UserIcon } from "@heroicons/react/solid";
 import { LogoutIcon, LoginIcon } from "@heroicons/react/solid";
 import NavLinks from "../Nav/NavLinks";
-import { UserAuth } from "../../../utils/context/Account/Auth";
 import { useRouter } from "next/router";
 import { useAppDispatch, useAppSelector } from "../../../utils/app/hook";
 import { toggleState } from "../../../features/toggle/toggle-state-slice";

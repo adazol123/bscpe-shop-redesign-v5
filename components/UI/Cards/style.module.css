@@ -1,36 +1,42 @@
 /** PRODUCT CARD GRID */
 .product {
-  @apply grid w-full h-full mx-auto overflow-hidden text-xs rounded-md;
+  @apply flex flex-col w-[calc(50%-16px)] lg:w-[calc(33.33%-16px)] h-full mx-2 overflow-hidden text-xs rounded-md mb-4 relative bg-white drop-shadow-sm;
 }
 
 .product__top {
-  @apply relative w-[calc(50vw-1.5rem)] max-w-[240px] overflow-hidden rounded-md h-[156px] md:h-[260px];
+  @apply relative min-w-[142px] max-w-full overflow-hidden rounded-md min-h-[156px] lg:min-h-[256px] flex-1 inset-0 bg-marine-900;
+}
+.product:is(:hover) {
+  @apply ring-1 ring-marine-500 drop-shadow-lg;
+}
+.product__top:is(:hover) .product__image img {
+  @apply opacity-100;
 }
 .product__image {
   @apply absolute inset-0 w-full;
 }
 
 .product__image img {
-  @apply object-cover w-full h-full transition-all duration-500 transform-gpu grayscale-[20%];
+  @apply object-cover w-full h-full transition-all duration-500 transform-gpu grayscale-[20%] opacity-70;
 }
 
 .product__tag {
-  @apply absolute px-2 py-1 text-[0.7em] text-white rounded bg-black/5 backdrop-blur top-2 left-2;
+  @apply absolute px-2 py-1 text-[0.7em] text-white rounded bg-marine-500/80 shadow-lg top-2 right-2;
 }
 
 .product__bottom {
-  @apply inline-flex items-start justify-between w-full p-2 text-black/70;
+  @apply flex items-start justify-between w-full my-4 px-2 text-black/70 gap-4;
 }
 
 .product__details {
-  @apply w-full space-y-1;
+  @apply w-full flex flex-col gap-2 cursor-pointer;
 }
 .product__title {
-  @apply text-xs font-light hover:underline underline-offset-2 line-clamp-2 text-theme-gray-700;
+  @apply text-xs sm:text-sm line-clamp-2 text-theme-gray-700/70 h-8 sm:h-10;
 }
 
 .product__price {
-  @apply inline-flex gap-1 font-bold text-emerald-600 whitespace-nowrap;
+  @apply flex flex-col text-lg sm:flex-row gap-1 font-bold text-marine-700 whitespace-nowrap;
 }
 
 .product__original_price {
@@ -38,7 +44,7 @@
 }
 
 .product__cart {
-  @apply hidden p-2 rounded-full bg-black/10 hover:bg-black/70 hover:text-white hover:shadow-sm;
+  @apply hidden p-2 rounded-full bg-black/10 hover:bg-black/70 hover:text-white hover:shadow-lg;
 }
 
 .product__cart svg {

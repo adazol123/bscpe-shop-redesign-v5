@@ -1,18 +1,23 @@
 import React from "react";
-import { ProductState } from "../../../utils/context/Product/ProductState";
-import { ToggleState } from "../../../utils/context/Toggles/ToggleState";
+import { selectProductById } from "../../../features/shop/product-slice";
+import { toggleState } from "../../../features/toggle/toggle-state-slice";
+import { useAppDispatch, useAppSelector } from "../../../utils/app/hook";
+
 import ModalMobile from "../../UI/Modals/Mobile/ModalMobile";
 import ProductSelected from "./ProductSelected";
 
 const ProductSelectedModal = () => {
-  const { toggleState, toggleStateHandler } = ToggleState();
-  const { productSelected } = ProductState();
+  const modal_mobile_state = useAppSelector(state => state.toggles.modal_mobile)
+  const productSelected = useAppSelector(state => state.cart.selected)
+  console.log(productSelected)
+  const dispatch = useAppDispatch()
   return (
     <ModalMobile
-      state={toggleState!["modal_mobile"]}
-      toggleStateHandler={() => toggleStateHandler!("modal_mobile")}
+      state={modal_mobile_state}
+      toggleStateHandler={() => dispatch(toggleState('modal_mobile'))}
     >
-      {productSelected && <ProductSelected product={productSelected} />}
+      {/* {productSelected && <ProductSelected product={productSelected} />} */}
+      Prduct
     </ModalMobile>
   );
 };

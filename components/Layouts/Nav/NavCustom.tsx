@@ -4,15 +4,17 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React from 'react'
 import useMeasure from 'react-use-measure';
-import { UserAuth } from '../../../utils/context/Account/Auth';
-import { ToggleState } from '../../../utils/context/Toggles/ToggleState';
+import { toggleState } from '../../../features/toggle/toggle-state-slice';
+import { selectCurrentuser } from '../../../features/user/user-auth-slice';
+import { useAppDispatch, useAppSelector } from '../../../utils/app/hook';
+
 import ButtonSVG from '../../UI/Button/SVG/ButtonSVG';
 import ProfileNav from '../Account/Profile/ProfileNav';
 import style from './style.module.css'
 const NavCustom = () => {
     const router = useRouter()
-    const { user } = UserAuth()
-    const { toggleStateHandler } = ToggleState()
+    const user = useAppSelector(selectCurrentuser)
+    const dispatch = useAppDispatch()
     const [ref, bounds] = useMeasure()
     return (
         <header ref={ref} className={style._nav__custom}>
@@ -43,7 +45,7 @@ const NavCustom = () => {
                         </ButtonSVG>
                     )}
                     {bounds.width < 650 &&
-                        <ButtonSVG onClick={() => toggleStateHandler!("side_bar")}>
+                        <ButtonSVG onClick={() => dispatch(toggleState('side_bar'))}>
                             <MenuAlt3Icon />
                         </ButtonSVG>
                     }

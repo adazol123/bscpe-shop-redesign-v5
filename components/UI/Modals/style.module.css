@@ -110,7 +110,19 @@
 }
 
 .modal_mobile {
-  @apply w-[calc(100%)] fixed md:hidden inset-x-0 max-h-0 bottom-0  flex flex-col gap-2   shadow-lg z-40  translate-y-full transition-all transform-gpu duration-500 invisible;
+  @apply w-[calc(100%)]  fixed  inset-x-0 max-h-0 bottom-0  flex flex-col gap-2   shadow-lg z-40  translate-y-full transition-all transform-gpu duration-500 invisible;
+}
+
+@media (min-width: 768px) {
+  .modal_mobile {
+    @apply bottom-1/4 max-w-sm mx-auto duration-300 opacity-0;
+  }
+  .modal_mobile_active {
+    @apply opacity-100;
+  }
+  .modal_mobile_content {
+    @apply rounded-lg;
+  }
 }
 .modal_mobile_active {
   @apply visible max-h-full scale-100 translate-y-0;
@@ -125,7 +137,7 @@
 }
 
 .modal_mobile_content {
-  @apply p-4 rounded-t-lg shadow-md bg-white/90 backdrop-blur text-neutral-500;
+  @apply px-6 py-4 rounded-t-lg shadow-md bg-white/90 backdrop-blur text-neutral-500;
 }
 
 .modal_mobile_content nav {

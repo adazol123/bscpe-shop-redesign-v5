@@ -11,12 +11,12 @@ import {
 } from "@heroicons/react/outline";
 import { useRouter } from "next/router";
 import DropdownStyled from "../../UI/Button/Dropdown/DropdownStyled";
-import { ToggleState } from "../../../utils/context/Toggles/ToggleState";
 
 import ButtonLink from "../../UI/Button/Link/ButtonLink";
+import { useAppDispatch } from "../../../utils/app/hook";
 
 const NavLinksFull = () => {
-    const { toggleStateHandler } = ToggleState();
+    const dispatch = useAppDispatch()
     const router = useRouter();
     return (
         <div className="flex flex-col gap-4 px-4 sm:flex-row">

@@ -1,7 +1,6 @@
 import { useRouter } from "next/router";
 import { useState } from "react";
-import AccountState from "../../../utils/context/Account/AccountState";
-import ShopState from "../../../utils/context/Shop/ShopState";
+
 import Accordion from "../../UI/Accordion/Accordion";
 import ButtonStandard from "../../UI/Button/Standard/ButtonStandard";
 import VirtualCreditCard from "../Account/VirtualCard/VirtualCreditCard";
@@ -11,8 +10,9 @@ import PaymentMethod from "./PaymentMethod";
 import ShippingDetail from "./ShippingDetail";
 
 const CheckoutPanel = () => {
-  const { payment } = AccountState();
-  const { clearCart } = ShopState();
+  // const { payment } = AccountState();
+  let payment: any = undefined
+  // const { clearCart } = ShopState();
   let router = useRouter();
   let [checkoutToggle, setCheckoutToggle] = useState(false);
   let checkoutToggleHandler = () => setCheckoutToggle(!checkoutToggle);
@@ -53,14 +53,14 @@ const CheckoutPanel = () => {
           <ButtonStandard
             className="py-3 w-full"
             onClick={() => {
-              clearCart!();
+              // clearCart!();
               router.replace("/");
             }}
           >
             Confirm order
           </ButtonStandard>
           <ButtonStandard
-            type="outline"
+            styled="outline"
             className="py-3 w-full"
             onClick={() => {
               router.replace("/#product");

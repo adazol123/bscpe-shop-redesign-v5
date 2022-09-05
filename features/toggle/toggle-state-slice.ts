@@ -6,6 +6,7 @@ enum StateLike {
   notification = "notification",
   side_bar = "side_bar",
   modal_mobile = "modal_mobile",
+  pay_now = "pay_now",
 }
 
 type ToggleStateType = {
@@ -18,6 +19,7 @@ const initialState: ToggleStateType = {
   notification: false,
   side_bar: false,
   modal_mobile: false,
+  pay_now: false,
 };
 
 const toggleSlice = createSlice({
@@ -26,9 +28,6 @@ const toggleSlice = createSlice({
   reducers: {
     toggleState: (state, action: PayloadAction<keyof typeof StateLike>) => {
       state[action.payload] = !state[action.payload];
-    },
-    toggleSidebar: (state) => {
-      state.side_bar = !state.side_bar;
     },
   },
 });

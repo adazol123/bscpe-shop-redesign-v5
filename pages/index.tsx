@@ -15,36 +15,16 @@ import NewArrival from './../components/Layouts/Products/NewArrival';
 import { useAppDispatch, useAppSelector } from "../utils/app/hook";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../auth/firebase";
-import { login, logout } from "../features/user/user-auth-slice";
+import { login, logout, selectCurrentuser } from "../features/user/user-auth-slice";
 import React from "react";
 import { toggleState } from "../features/toggle/toggle-state-slice";
-import StateLayoutWrapper from "../layouts/state_layout_wrapper";
-
 
 const fetcher = (...args: [string]) => fetch(...args).then((res) => res.json());
 
 const Home: NextPageWithLayout = () => {
     const router = useRouter()
-    const user = useAppSelector(state => state.auth.user)
-    const toggleStates = useAppSelector(state => state.toggles)
-    const dispatch = useAppDispatch();
-    // React.useEffect(() => {
-    //     let unsubscribeUser = onAuthStateChanged(auth, (userAuth) => {
-    //         if (userAuth) {
-    //             dispatch(login({
-    //                 email: userAuth.email,
-    //                 uid: userAuth.uid,
-    //                 displayName: userAuth.displayName,
-    //                 photoUrl: userAuth.photoURL
-    //             }))
-    //         } else {
-    //             dispatch(logout())
-    //         }
-    //     })
-    //     return () => {
-    //         unsubscribeUser()
-    //     }
-    // }, [])
+    const user = useAppSelector(selectCurrentuser)
+
 
     console.log(router.query)
     if (router.query?.success) {

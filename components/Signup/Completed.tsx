@@ -3,14 +3,15 @@ import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import React from "react";
-import { UserAuth } from "../../utils/context/Account/Auth";
+import { selectCurrentuser } from "../../features/user/user-auth-slice";
+import { useAppSelector } from "../../utils/app/hook";
 import ButtonLink from "../UI/Button/Link/ButtonLink";
 import ButtonStandard from "../UI/Button/Standard/ButtonStandard";
 import Center from "../UI/Wrapper/Center";
 
 const Completed = () => {
   let router = useRouter();
-  let { user } = UserAuth()
+  let user = useAppSelector(selectCurrentuser)
   return (
     <div className="fixed top-0 left-0 z-[105] bg-gradient-to-r from-[#FAFFFE] to-[#DFF7F4] w-full h-full">
       <Head>

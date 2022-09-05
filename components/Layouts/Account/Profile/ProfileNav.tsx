@@ -1,7 +1,8 @@
-import { UserAuth } from "../../../../utils/context/Account/Auth";
+import { selectCurrentuser } from "../../../../features/user/user-auth-slice";
+import { useAppSelector } from "../../../../utils/app/hook";
 
 const ProfileNav = () => {
-  const { user } = UserAuth();
+  const user = useAppSelector(selectCurrentuser)
 
   return (
     <>

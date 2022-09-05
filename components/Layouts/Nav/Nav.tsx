@@ -4,28 +4,27 @@ import NavLinks from "./NavLinks";
 import style from "./style.module.css";
 import { MenuAlt3Icon, UserIcon, ViewGridIcon } from "@heroicons/react/outline";
 import { ShoppingBagIcon } from "@heroicons/react/outline";
-import { UserAuth } from "../../../utils/context/Account/Auth";
+
 import { useRouter } from "next/router";
 import ButtonSVG from "../../UI/Button/SVG/ButtonSVG";
-import { ToggleState } from "../../../utils/context/Toggles/ToggleState";
-import ShopState from "../../../utils/context/Shop/ShopState";
+
 import useMeasure from "react-use-measure";
 import NavLinksFull from "./NavLinksFull";
 import Image from "next/image";
 import { toggleState } from "../../../features/toggle/toggle-state-slice";
-import { useAppDispatch } from "../../../utils/app/hook";
+import { useAppDispatch, useAppSelector } from "../../../utils/app/hook";
 
 function CartItemIndicator() {
-  const { carts, totalQuantity } = ShopState();
+  let carts = useAppSelector(state => state.cart.carts)
   return (
     <>
       {carts.length > 0 && (
         <>
-          <span className="absolute top-0 right-0 inline-flex w-3 h-3 rounded-full opacity-75 animate-ping bg-rose-400/40">
+          <span className="absolute top-2 right-2 inline-flex w-2 h-2 rounded-full opacity-75 animate-ping duration-500 bg-rose-400/40">
             {" "}
           </span>
-          <span className="w-fit px-1 h-3 bg-rose-600  rounded-full absolute top-0 right-0 ring-4 ring-black text-[0.5rem] text-center">
-            {totalQuantity > 9 ? "9+" : totalQuantity}
+          <span className="w-2 h-2 bg-rose-600  rounded-full absolute top-2 right-2 ring-2 ring-white text-[0.5rem] text-center">
+            {/* {ica && 'X'} */}
           </span>
         </>
       )}
