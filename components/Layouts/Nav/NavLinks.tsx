@@ -36,6 +36,18 @@ const NavLinks = () => {
       <button
         onClick={() => {
           dispatch(toggleState('side_bar'))
+          router.push('/catalog')
+        }}
+      >
+        <CardCategory
+          img_source="https://images.unsplash.com/photo-1581067721837-e4809b29692d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80"
+          label="Catalog"
+          full
+        />
+      </button>
+      <button
+        onClick={() => {
+          dispatch(toggleState('side_bar'))
           setTimeout(() => {
             dispatch(toggleState('cart'))
           }, 500)
@@ -48,7 +60,12 @@ const NavLinks = () => {
         />
       </button>
 
-      <button>
+      <button
+        onClick={() => {
+          dispatch(toggleState('side_bar'))
+          router.push('/support')
+        }}
+      >
 
         <CardCategory
           img_source="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
@@ -56,7 +73,12 @@ const NavLinks = () => {
           full
         />
       </button>
-      <button>
+      <button
+        onClick={() => {
+          dispatch(toggleState('side_bar'))
+          router.push('/about')
+        }}
+      >
 
         <CardCategory
           img_source="https://images.unsplash.com/photo-1603400521630-9f2de124b33b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"

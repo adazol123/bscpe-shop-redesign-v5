@@ -30,7 +30,7 @@ const NavProduct = () => {
                             <h4 className='line-clamp-1'>
                                 {selectedItem?.name}
                             </h4>
-                            <span className='text-xs'>{selectedItem?.price}</span>
+                            <span className='text-xs'>₱ {selectedItem?.price.toFixed(2)}</span>
                         </div>
                     }
 

@@ -25,17 +25,14 @@ import { colors } from "./ProductVariants";
 const ProductSelected = ({ product }: { product: ProductItemProps }) => {
   const dispatch = useAppDispatch()
   let router = useRouter()
-  let { quantity, setQuantity, addQuantity, minusQuantity } = useQuantity();
 
-  let [selectedColorOption, setSelectedColorOption] = useState<
-    string | undefined
-  >(colors[0].option);
-  let [selectedSizeOption, setSelectedSizeOption] = useState<
-    string | undefined
-  >();
+  let { quantity, setQuantity, addQuantity, minusQuantity } = useQuantity();
+  let [selectedColorOption, setSelectedColorOption] = useState<string | undefined>(colors[0].option);
+  let [selectedSizeOption, setSelectedSizeOption] = useState<string | undefined>();
 
   //TODOS : need to add carts states on redux store state --> completed 05/09/2022
   let carts = useAppSelector(state => state.cart.carts)
+
 
   const modal_mobile_state = useAppSelector(state => state.toggles.modal_mobile)
 
@@ -139,6 +136,9 @@ const ProductSelected = ({ product }: { product: ProductItemProps }) => {
         toggleStateHandle={modal_mobile_state}
         selectedSizeOption={selectedSizeOption}
         isInCart={isInCart}
+        quantity={quantity}
+        addQuantity={addQuantity}
+        minusQuantity={minusQuantity}
       />
     </div>
   );
@@ -146,7 +146,6 @@ const ProductSelected = ({ product }: { product: ProductItemProps }) => {
 
 function FooterSection(props: any) {
   const dispatch = useAppDispatch()
-  let { quantity, setQuantity, addQuantity, minusQuantity } = useQuantity();
 
   return (
     <div className={style.modal_mobile_footer}>
@@ -154,7 +153,7 @@ function FooterSection(props: any) {
         {/* <span className={style.modal_mobile_subtitle}>Quantity</span> */}
         <div className={`flex items-center gap-1 ${props.isInCart ? "pointer-events-none text-black/30 " : " text-black"}`}>
           <button
-            onClick={minusQuantity}
+            onClick={props.minusQuantity}
             className="p-1 rounded border "
           >
             <span>
@@ -162,10 +161,10 @@ function FooterSection(props: any) {
             </span>
           </button>
           <div className="w-6 text-center">
-            <p className={` "text-xl font-bold " ${props.isInCart ? "text-marine-700/30" : "text-marine-700"}`}>{quantity.toString()}</p>
+            <p className={` "text-xl font-bold " ${props.isInCart ? "text-marine-700/30" : "text-marine-700"}`}>{props.quantity.toString()}</p>
           </div>
           <button
-            onClick={addQuantity}
+            onClick={props.addQuantity}
             className="p-1 rounded border "
           >
             <span>

@@ -38,7 +38,7 @@ const Home: NextPageWithLayout = () => {
         return (
             <>
                 <Head>
-                    <title>Adazolhub | Shop - Completed</title>
+                    <title>Adazolhub | Shop</title>
                 </Head>
 
                 <section className='container mx-auto'>

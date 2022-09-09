@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import React from "react";
 import { toggleState } from "../../../features/toggle/toggle-state-slice";
+import { selectCurrentuser } from "../../../features/user/user-auth-slice";
 import { useAppDispatch, useAppSelector } from "../../../utils/app/hook";
 
 import ButtonStandard from "../../UI/Button/Standard/ButtonStandard";
@@ -13,6 +14,7 @@ const FooterSummary = ({
   totalQuantity: number;
 }) => {
   let router = useRouter();
+  let user = useAppSelector(selectCurrentuser)
   const dispatch = useAppDispatch()
 
 
@@ -36,22 +38,15 @@ const FooterSummary = ({
           </tbody>
         </table>
       </div>
-      <div className="flex gap-1">
-        <ButtonStandard
-          className="w-full"
-          onClick={() => dispatch(toggleState('pay_now'))}
-        >
-          Pay now
-        </ButtonStandard>
+      <div className="flex">
         <ButtonStandard
           className="w-full"
           onClick={() => {
-            router.push("/checkout");
+            router.push(user ? "/checkout" : '/login');
             dispatch(toggleState('cart'));
           }}
-          styled={"outline"}
         >
-          Checkout
+          Proceed to Checkout
         </ButtonStandard>
       </div>
     </div>
