@@ -16,13 +16,9 @@ import Spinner from "../../Layouts/Loader/Spinner";
 import AdvisorySecurity from "../AdvisorySecurity";
 import ButtonStandard from './../../UI/Button/Standard/ButtonStandard';
 import ButtonLink from "../../UI/Button/Link/ButtonLink";
+import { StepperProps, StepperValue } from "./StepForm";
 
-interface Steps {
-  nextStep: () => void;
-  prevStep: () => void;
-  handleChange: (type: string) => (e: ChangeEvent<HTMLInputElement>) => void;
-  values?: any;
-}
+
 
 interface Steppers {
   setStepper: any;
@@ -34,12 +30,11 @@ let upperCaseLetters = /[A-Z]/g;
 let number = /\d/g;
 
 function SecurityDetails({
-  nextStep,
   prevStep,
   handleChange,
   values,
   setStepper,
-}: Steps & Steppers) {
+}: Omit<StepperProps<Omit<StepperValue, 'step'>>, 'nextStep'> & Steppers) {
   let router = useRouter();
 
   let [error, setError] = useState({
@@ -111,13 +106,13 @@ function SecurityDetails({
     setTimeout(() => {
       return register()
         .then((res) => {
+          console.clear()
           console.log("registration success > ", res);
           router.replace("/?success=true");
           setIsLoading(true);
-          console.clear()
         })
         .catch((error) => console.log("registration error >", error));
-    }, 5000);
+    }, 3000);
   };
 
   let Previous: MouseEventHandler<Element> = (event) => {

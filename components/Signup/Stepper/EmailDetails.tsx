@@ -81,7 +81,7 @@ function EmailDetails({ nextStep, handleChange, values }: Omit<StepperProps<Omit
           >
             Continue
           </ButtonStandard>
-          <ButtonLink type='button' icon={<ArrowLeftIcon className='w-4 h-4' />} onClick={() => router.back()} underline_style='expanded' >Other login options</ButtonLink>
+          <ButtonLink type='button' icon={<ArrowLeftIcon className='w-4 h-4' />} onClick={() => router.back()} underline_style='expanded' >Other signup options</ButtonLink>
         </div>
 
       </div>

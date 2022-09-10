@@ -53,7 +53,7 @@ const StepForm = () => {
   };
 
   const { email, username, fullname, password, confirm_password } = stepper;
-  
+
   let values = { email, username, fullname, password, confirm_password };
 
   let handleSteps = (step: number) => {
@@ -78,7 +78,6 @@ const StepForm = () => {
       case 3:
         return (
           <SecurityDetails
-            nextStep={nextStep}
             prevStep={prevStep}
             handleChange={handleChange}
             values={values}
@@ -117,8 +116,8 @@ const StepForm = () => {
                 <p
                   className={
                     index + 1 === stepper.step
-                      ? "text-black/70 font-bold whitespace-nowrap"
-                      : undefined
+                      ? "text-black/70 font-bold whitespace-nowrap text-xs"
+                      : 'whitespace-nowrap text-xs'
                   }
                 >
                   {label}

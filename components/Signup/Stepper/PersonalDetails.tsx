@@ -1,44 +1,39 @@
 import {
   ArrowLeftIcon,
-  ArrowNarrowLeftIcon,
-  ArrowNarrowRightIcon,
 } from "@heroicons/react/outline";
-import { useRouter } from "next/router";
-import { ChangeEvent, useState } from "react";
+import { useState } from "react";
 import ButtonLink from "../../UI/Button/Link/ButtonLink";
 import ButtonStandard from "../../UI/Button/Standard/ButtonStandard";
 import InformationalError from "../../UI/Error/InformationalError";
 import TextInput from "../../UI/Input/TextInput";
-import Advisory from "../Advisory";
+import { StepperProps, StepperValue } from "./StepForm";
 
-interface Steps {
-  nextStep?: any;
-  prevStep?: any;
-  handleChange: (type: string) => (e: ChangeEvent<HTMLInputElement>) => void;
-  values?: any;
-}
 
-function PersonalDetails({ nextStep, prevStep, handleChange, values }: Steps) {
-  let [error, setError] = useState({
-    username: null,
-    fullname: null,
-  });
 
-  const router = useRouter()
+function PersonalDetails({ nextStep, prevStep, handleChange, values }: StepperProps<Omit<StepperValue, 'step'>>) {
 
-  let Continue = (e: any) => {
+  let [error, setError] = useState<
+    {
+      username: string | null,
+      fullname: string | null,
+    }>({
+      username: null,
+      fullname: null,
+    });
+
+  let Continue = (e: React.MouseEvent) => {
     e.preventDefault();
     if (values.username.length < 1)
       return setError(
-        (prev: any) => (prev = { ...prev, username: "Username is required" })
+        (prev) => (prev = { ...prev, username: "Username is required" })
       );
     if (values.fullname.length < 1)
       return setError(
-        (prev: any) => (prev = { ...prev, fullname: "Fullname is required" })
+        (prev) => (prev = { ...prev, fullname: "Fullname is required" })
       );
     if (values.username.length < 5)
       return setError(
-        (prev: any) =>
+        (prev) =>
         (prev = {
           ...prev,
           username: `Unable to validate username: ${values.username}. Please try again.`,
@@ -46,7 +41,7 @@ function PersonalDetails({ nextStep, prevStep, handleChange, values }: Steps) {
       );
     if (values.fullname.length < 6)
       return setError(
-        (prev: any) =>
+        (prev) =>
         (prev = {
           ...prev,
           fullname: `Unable to validate fullname: ${values.fullname}. Please try again.`,
@@ -56,7 +51,7 @@ function PersonalDetails({ nextStep, prevStep, handleChange, values }: Steps) {
     setError((prev) => (prev = { username: null, fullname: null }));
     nextStep();
   };
-  let Previous = (e: any) => {
+  let Previous = (e: React.MouseEvent) => {
     e.preventDefault();
     prevStep();
   };
@@ -71,16 +66,7 @@ function PersonalDetails({ nextStep, prevStep, handleChange, values }: Steps) {
             placeholder={"Username"}
             value={values.username}
             autoFocus
-            // className={
-            //   error?.username
-            //     ? "border-rose-200 ring-rose-200"
-            //     : "border-neutral-400"
-            // }
-            // placeholderClassName={
-            //   error?.username ? "text-rose-400" : "text-neutral-400"
-            // }
-            // autoComplete="off"
-            onChange={(e: any) => {
+            onChange={(e) => {
               setError((prev) => (prev = { ...prev, username: null }));
               handleChange("username")(e);
             }}
@@ -91,15 +77,6 @@ function PersonalDetails({ nextStep, prevStep, handleChange, values }: Steps) {
             type={"text"}
             placeholder={"Fullname"}
             value={values.fullname}
-            // className={
-            //   error?.fullname
-            //     ? "border-rose-200 ring-rose-200"
-            //     : "border-neutral-400"
-            // }
-            // placeholderClassName={
-            //   error?.fullname ? "text-rose-400" : "text-neutral-400"
-            // }
-            // autoComplete="off"
             onChange={(e) => {
               setError((prev) => (prev = { ...prev, fullname: null }));
               handleChange("fullname")(e);
@@ -109,13 +86,13 @@ function PersonalDetails({ nextStep, prevStep, handleChange, values }: Steps) {
           <div className='flex flex-col gap-6 my-4'>
             <ButtonStandard
               direction="right"
-              disabled={!values.name && !values.fullname}
+              disabled={!values.username && !values.fullname}
               className={"text-xs py-4 w-full"}
               onClick={Continue}
             >
               Continue
             </ButtonStandard>
-            <ButtonLink type='button' icon={<ArrowLeftIcon className='w-4 h-4' />} onClick={Previous} underline_style='expanded' >Back to Email</ButtonLink>
+            <ButtonLink type='button' icon={<ArrowLeftIcon className='w-4 h-4' />} onClick={Previous} underline_style='expanded' >Back to email</ButtonLink>
           </div>
         </div>
       </form>
