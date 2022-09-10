@@ -1,4 +1,4 @@
-import { updateProfile } from "firebase/auth";
+import { updateProfile, createUserWithEmailAndPassword } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { ChangeEvent, MouseEvent, MouseEventHandler, useState } from "react";
 
@@ -8,8 +8,7 @@ import {
   ArrowNarrowRightIcon,
 } from "@heroicons/react/outline";
 import { useRouter } from "next/router";
-import { UserAuth } from "../../../utils/context/Account/Auth";
-import { db } from "../../../auth/firebase";
+import { auth, db } from "../../../auth/firebase";
 import config from "../../../utils/services/config.json";
 import PasswordRequirementInfo from "../PasswordRequirementInfo";
 import TextInput from "../../UI/Input/TextInput";
@@ -19,8 +18,8 @@ import ButtonStandard from './../../UI/Button/Standard/ButtonStandard';
 import ButtonLink from "../../UI/Button/Link/ButtonLink";
 
 interface Steps {
-  nextStep?: any;
-  prevStep?: any;
+  nextStep: () => void;
+  prevStep: () => void;
   handleChange: (type: string) => (e: ChangeEvent<HTMLInputElement>) => void;
   values?: any;
 }
@@ -48,7 +47,6 @@ function SecurityDetails({
     confirm_password: null,
   });
   let [isLoading, setIsLoading] = useState(false);
-  const { signup } = UserAuth();
 
   //Password Validator
   let passLength = values?.password.length < 9;
@@ -129,7 +127,7 @@ function SecurityDetails({
 
   const register = async () => {
     try {
-      const user = await signup!(values?.email, values?.password);
+      const user = await createUserWithEmailAndPassword(auth, values?.email, values?.password);
       updateProfile(user?.user, {
         displayName: values?.username,
       });

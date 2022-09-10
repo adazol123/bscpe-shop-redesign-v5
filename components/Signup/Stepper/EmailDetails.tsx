@@ -7,39 +7,27 @@ import ButtonLink from "../../UI/Button/Link/ButtonLink";
 import ButtonStandard from "../../UI/Button/Standard/ButtonStandard";
 import InformationalError from "../../UI/Error/InformationalError";
 import TextInput from "../../UI/Input/TextInput";
-import HorizontalDivider from "../../UI/Separator/HorizontalDivider";
-import Box from "../../UI/Wrapper/Box";
-import OptionalSignUp from "../OptionalSignup";
+import { StepperProps, StepperValue } from "./StepForm";
 
-// import Input from "../UI/Forms/Input";
-
-interface Steps {
-  nextStep?: any;
-  prevStep?: any;
-  handleChange: (type: string) => (e: ChangeEvent<HTMLInputElement>) => void;
-  values?: any;
-}
-
-function EmailDetails({ nextStep, prevStep, handleChange, values }: Steps) {
-  // /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
+function EmailDetails({ nextStep, handleChange, values }: Omit<StepperProps<Omit<StepperValue, 'step'>>, 'prevStep'>) {
   let regex = /^[\w-]+@([\w-]+\.)+[\w-]{2,4}$/g;
   let router = useRouter();
 
   let [error, setError] = useState<string | null | HTMLElement | JSX.Element>(
     null
   );
-  let Continue = (e: any) => {
+  let Continue = (e: React.MouseEvent) => {
     e.preventDefault();
 
-    if (values?.email.length < 1)
+    if (values.email.length < 1)
       return setError(<>A valid email is required to continue.</>);
-    if (!regex.test(values?.email))
+    if (!regex.test(values.email))
       return setError("Invalid email format. Please try again");
 
     /**
      * Firebase auth to check if email is already registered
      */
-    fetchSignInMethodsForEmail(auth, values?.email)
+    fetchSignInMethodsForEmail(auth, values.email)
       .then((ifEmailExist) => {
         if (ifEmailExist.length > 0)
           return setError(
@@ -56,22 +44,28 @@ function EmailDetails({ nextStep, prevStep, handleChange, values }: Steps) {
             </>
           );
         setError(null);
-        return nextStep!();
+        return nextStep();
       })
       .catch((error) => {
         if (error.code === "auth/invalid-email")
           return setError("Invalid email format. Please try again");
       });
   };
+
+
+
   return (
-    <form className="flex flex-col gap-8">
+    <form className="flex flex-col gap-8"
+    >
       <div className='flex flex-col gap-3'>
         {error && <InformationalError error={error} />}
+
         <TextInput
           type='email'
           placeholder='Email'
           value={values.email}
           required
+
           onChange={(e: ChangeEvent<HTMLInputElement>) => {
             setError(null);
             handleChange("email")(e);

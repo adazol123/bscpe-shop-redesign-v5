@@ -104,7 +104,7 @@ const ProductItem: NextPageWithLayout = () => {
         >
             <div className='flex flex-col md:flex-row md:mt-8' >
 
-                <motion.div className='relative w-[calc(100%)] md:w-1/2 min-h-[60vh] md:max-h-80'
+                <motion.div className='relative w-[calc(100%)] md:w-1/2 h-[60vh] md:h-96 overflow-hidden'
                     layout
                     layoutId={`image-${currentProduct.product_id}`}
                     ref={ref}
@@ -117,9 +117,9 @@ const ProductItem: NextPageWithLayout = () => {
                         objectFit='cover'
                     />
                 </motion.div>
-                <div className='flex flex-col gap-8' >
-                    <div className="flex justify-between w-[calc(100%-3rem)] my-6 mx-6">
-                        <h2 className='max-w-[25ch] text-theme-gray-700 font-light'>{currentProduct.name}</h2>
+                <div className='flex flex-col gap-6' >
+                    <div className="flex flex-row md:flex-col gap-4 justify-between w-[calc(100%-3rem)] my-4 mx-6">
+                        <h2 className='max-w-[25ch] sm:max-w-[35ch] lg:max-w-full text-theme-gray-700 font-light'>{currentProduct.name}</h2>
                         <h2 >₱ {currentProduct.price.toFixed(2)}</h2>
                     </div>
                     <div className='w-[calc(100%-3rem)] mx-6'>
@@ -131,24 +131,7 @@ const ProductItem: NextPageWithLayout = () => {
                             setSelectedSizeOption={setSelectedSizeOption}
                         />
                     </div>
-                    <div className='w-[calc(100%-3rem)] mx-6'>
-                        <span>Product Details</span>
-                        <div>
-                            <p>{currentProduct.description}</p>
-                        </div>
-                    </div>
-                    <div className='w-[calc(100%-3rem)] mx-6'>
-                        <span>Size Guide</span>
-                        <div className='w-full h-80 relative'>
-                            <Image
-                                src={'https://images.squarespace-cdn.com/content/v1/55b9acfce4b022c1b2e7fffc/1491089273500-7IGTQPLOG1LMUHTHX2R6/image-asset.png?format=1000w'}
-                                alt='size-guide'
-                                layout='fill'
-                                objectFit='contain'
-                            />
-                        </div>
-                    </div>
-                    <div className='h-16' />
+
 
                     <div className='fixed md:static z-30  w-full bottom-0 bg-white md:bg-transparent inset-x-0 py-4 px-6'>
                         <div className='flex gap-2 w-full'>
@@ -212,7 +195,25 @@ const ProductItem: NextPageWithLayout = () => {
 
                 </div>
             </div>
-            <NewArrival />
+            <div className='w-[calc(100%-3rem)] mx-6 my-16'>
+                <span>Product Details</span>
+                <div>
+                    <p>{currentProduct.description}</p>
+                </div>
+            </div>
+            <div className='w-[calc(100%-3rem)] mx-6 my-16'>
+                <span>Size Guide</span>
+                <div className='w-80 h-80 relative'>
+                    <Image
+                        src={'https://images.squarespace-cdn.com/content/v1/55b9acfce4b022c1b2e7fffc/1491089273500-7IGTQPLOG1LMUHTHX2R6/image-asset.png?format=1000w'}
+                        alt='size-guide'
+                        layout='fill'
+                        objectFit='contain'
+                    />
+                </div>
+            </div>
+            <NewArrival withoutHorizontal />
+            <div className='h-16' />
         </motion.div >
     )
 }

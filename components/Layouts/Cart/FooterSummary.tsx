@@ -19,28 +19,15 @@ const FooterSummary = ({
 
 
   return (
-    <div className="flex flex-col gap-1 h-fit">
-      <div>
-        <table className="w-full border-separate table-fixed border-spacing-2">
-          <tbody className="w-full">
-            {/* <tr className="text-sm text-gray-500">
-            <td>Item[s] in cart</td>
-            <td className="text-end">{totalQuantity?.toFixed(0)}</td>
-          </tr>
-          <tr className="text-sm text-gray-500">
-            <td>Discount</td>
-            <td className="text-end">40%</td>
-          </tr> */}
-            <tr className="text-sm font-medium ">
-              <td>Estimated total</td>
-              <td className="text-end">₱ {total?.toFixed(2)}</td>
-            </tr>
-          </tbody>
-        </table>
+    <div className="flex justify-between gap-6 h-fit">
+      <div className='text-xs'>
+
+        <p>Estimated total</p>
+        <span >₱ {total?.toFixed(2)}</span>
+
       </div>
-      <div className="flex">
+      <div >
         <ButtonStandard
-          className="w-full"
           onClick={() => {
             router.push(user ? "/checkout" : '/login');
             dispatch(toggleState('cart'));

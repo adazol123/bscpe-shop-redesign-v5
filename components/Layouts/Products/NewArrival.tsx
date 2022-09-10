@@ -1,6 +1,6 @@
 import CardBig from "../../UI/Cards/CardBig";
 
-const NewArrival = () => {
+const NewArrival = ({ withoutHorizontal }: { withoutHorizontal?: boolean }) => {
   // console.log("trending rending...");
   return (
     <>
@@ -10,7 +10,7 @@ const NewArrival = () => {
         </div> */}
         <div className="">
           <p className="text-sm font-light text-black/50">Recommended</p>
-          <div className="flex gap-2 md:gap-4 py-2 overflow-x-auto flex-nowrap container-snap md:flex-col   md:overflow-y-auto md:h-[80vh] md:items-center">
+          <div className={`flex gap-2 py-2 overflow-x-auto flex-nowrap container-snap  ${withoutHorizontal ? '' : 'md:flex-col  md:overflow-y-auto md:h-[80vh] md:items-center md:gap-4 '}`}>
             <CardBig
               title="AntoniosClotihing Solid Elegant Polo Shirt"
               image="https://images.unsplash.com/photo-1625910513413-c23b8bb81cba?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"

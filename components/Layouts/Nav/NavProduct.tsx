@@ -20,7 +20,7 @@ const NavProduct = () => {
     const dispatch = useAppDispatch()
 
     return (
-        <header className={`${style._nav__product} ${isIntersecting ? 'bg-black/10 text-white' : 'bg-white text-theme-dark drop-shadow'}`}>
+        <header className={`${style._nav__product} ${isIntersecting ? 'bg-transparent text-white' : 'bg-white text-theme-dark drop-shadow'}`}>
             <nav className="w-full flex justify-between">
                 <div className="flex gap-4 items-center">
 
@@ -37,7 +37,9 @@ const NavProduct = () => {
                 </div>
 
 
-                <ButtonSVG onClick={() => router.back()}>
+                <ButtonSVG
+                    className={`p-3 transition-all transform-gpu ${isIntersecting ? 'text-white bg-black/10' : 'text-theme-dark'}`}
+                    onClick={() => router.back()}>
                     <XIcon />
                 </ButtonSVG>
 

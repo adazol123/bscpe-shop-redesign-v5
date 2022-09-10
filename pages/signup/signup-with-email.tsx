@@ -6,6 +6,7 @@ import Box from '../../components/UI/Wrapper/Box';
 import Head from 'next/head';
 import BscpeLoader from '../../components/Layouts/Loader/BscpeLoader';
 import { useRouter } from 'next/router';
+import RootLayout from '../../layouts/layout';
 
 
 const SignupEmail: NextPageWithLayout = () => {
@@ -18,14 +19,19 @@ const SignupEmail: NextPageWithLayout = () => {
 
 SignupEmail.getLayout = (page) =>
 
-    <section className='bg-white sm:bg-gradient-to-br from-theme-light to-marine-100'>
+    <React.Fragment>
         <Head>
             <title>Adazolhub | Shop - Signup</title>
         </Head>
-        <SignupLayout>
-            {page}
-        </SignupLayout>
-    </section>
+        <RootLayout>
+
+            <section className='bg-white sm:bg-gradient-to-br from-theme-light to-marine-100'>
+                <SignupLayout>
+                    {page}
+                </SignupLayout>
+            </section>
+        </RootLayout>
+    </React.Fragment>
 
 
 

@@ -6,7 +6,7 @@ type Props = {}
 
 const ShippingDetails = (props: Props) => {
     return (
-        <div>
+        <div className='w-fit mx-auto'>
             <h4>Shipping details</h4>
             <div className='flex flex-col gap-2 bg-white rounded-md max-h-96 overflow-y-auto'>
                 <div className='flex w-full justify-between items-center p-4 gap-4'>
