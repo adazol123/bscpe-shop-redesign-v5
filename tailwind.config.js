@@ -19,6 +19,7 @@ module.exports = {
       },
       fontFamily: {
         'raleway': ['Raleway', 'sans-serif'],
+        'poppins': ['Poppins', 'sans-serif']
       },
       colors: {
         'theme-gray': {

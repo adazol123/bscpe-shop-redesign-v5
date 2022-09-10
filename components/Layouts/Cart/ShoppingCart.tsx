@@ -39,7 +39,7 @@ const ShoppingCart = () => {
       <ul className="flex flex-col gap-2 pb-4 ">
         {carts.length > 0 ? (
           carts?.map((data) => (
-            <CartCard key={data.product_id} data={data} />
+            <CartCard key={data.product_id} cart={data} />
           ))
         ) : (
           <li className="py-4 mx-auto text-gray-400">Cart is empty</li>

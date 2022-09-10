@@ -1,6 +1,6 @@
 import { } from "@heroicons/react/outline";
 import { CheckIcon } from "@heroicons/react/solid";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 
 import PersonalDetails from "./PersonalDetails";
 import EmailDetails from "./EmailDetails";
@@ -8,8 +8,26 @@ import SecurityDetails from "./SecurityDetails";
 
 let labels = ["Email", "Basic Information", "Security"];
 
+
+export interface StepperValue {
+  step: number;
+  email: string;
+  username: string;
+  fullname: string;
+  password: string;
+  confirm_password: string;
+}
+
+export interface StepperProps<Z> {
+  nextStep: () => void;
+  prevStep: () => void;
+  handleChange: (type: string) => (e: ChangeEvent<HTMLInputElement>) => void;
+  values: Z;
+}
+
 const StepForm = () => {
-  let [stepper, setStepper] = useState({
+
+  let [stepper, setStepper] = useState<StepperValue>({
     step: 1,
     email: "",
     username: "",
@@ -19,6 +37,7 @@ const StepForm = () => {
   });
 
   const { step } = stepper;
+
   let prevStep = () => {
     setStepper({ ...stepper, step: step - 1 });
     if (step < 2) setStepper({ ...stepper, step: 3 });
@@ -34,6 +53,7 @@ const StepForm = () => {
   };
 
   const { email, username, fullname, password, confirm_password } = stepper;
+
   let values = { email, username, fullname, password, confirm_password };
 
   let handleSteps = (step: number) => {
@@ -58,7 +78,6 @@ const StepForm = () => {
       case 3:
         return (
           <SecurityDetails
-            nextStep={nextStep}
             prevStep={prevStep}
             handleChange={handleChange}
             values={values}
@@ -97,8 +116,8 @@ const StepForm = () => {
                 <p
                   className={
                     index + 1 === stepper.step
-                      ? "text-black/70 font-bold whitespace-nowrap"
-                      : undefined
+                      ? "text-black/70 font-bold whitespace-nowrap text-xs"
+                      : 'whitespace-nowrap text-xs'
                   }
                 >
                   {label}

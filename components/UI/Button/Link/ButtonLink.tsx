@@ -24,8 +24,8 @@ const ButtonLink = <T extends Partial<{
     let __size = `_size__${props.size}`
     return (
         <button
-            className={`${style._link} ${props.underline_style === 'shrinked' ? style.__shrinked : style.__expanded} ${props.disabled && style.__disabled} ${props.size && style[__size]}`}
             {...props}
+            className={`${style._link} ${props.underline_style === 'shrinked' ? style.__shrinked : style.__expanded} ${props.disabled && style.__disabled} ${props.size && style[__size]} ${props.className}`}
         >
             {props.icon && <i>{props.icon}</i>}
             <span className='inline-flex items-center gap-2'> {props.children}</span>

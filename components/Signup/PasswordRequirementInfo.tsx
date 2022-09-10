@@ -19,9 +19,9 @@ function PasswordRequirementInfo({
   return (
 
     <>
-      <div className="px-4 py-2 text-[0.62em] border border-theme-gray-300 border-dashed rounded-md text-marine-500 w-full">
-        <h3>Password requirement</h3>
-        <div className="text-[0.95em] text-theme-gray-500/80 mt-1 font-light">
+      <div className="px-4 py-2  border border-theme-gray-300 border-dashed rounded-md text-marine-500 w-full">
+        <h4>Password requirement</h4>
+        <div className="text-[0.5em] text-theme-gray-500/80 mt-1 font-light">
           <div className="flex items-center gap-2 leading-3">
             <BadgeCheckIcon
               className={[
@@ -29,7 +29,7 @@ function PasswordRequirementInfo({
                 passLength ? "text-theme-gray-500" : "text-marine-500",
               ].join(" ")}
             />
-            <p>Must contain at least 8 or more characters</p>
+            <p className="text-[1em]">Must contain at least 8 or more characters</p>
           </div>
           <div className="flex items-center gap-2 leading-3">
             <BadgeCheckIcon
@@ -38,7 +38,7 @@ function PasswordRequirementInfo({
                 passLowerCase ? "text-theme-gray-500" : "text-marine-500",
               ].join(" ")}
             />
-            <p>Must contain lowercase/small characters</p>
+            <p className="text-[1em]">Must contain lowercase/small characters</p>
           </div>
           <div className="flex items-center gap-2 leading-3">
             <BadgeCheckIcon
@@ -47,7 +47,7 @@ function PasswordRequirementInfo({
                 passUpperCase ? "text-theme-gray-500" : "text-marine-500",
               ].join(" ")}
             />
-            <p>Must contain uppercase/capital characters</p>
+            <p className="text-[1em]">Must contain uppercase/capital characters</p>
           </div>
           <div className="flex items-center gap-2 leading-3">
             <BadgeCheckIcon
@@ -56,7 +56,7 @@ function PasswordRequirementInfo({
                 passNumber ? "text-theme-gray-500" : "text-marine-500",
               ].join(" ")}
             />
-            <p>Must contain at least 1 numeric value</p>
+            <p className="text-[1em]">Must contain at least 1 numeric value</p>
           </div>
           <div className="flex items-center gap-2 leading-3">
             <BadgeCheckIcon
@@ -65,7 +65,7 @@ function PasswordRequirementInfo({
                 passLength || passNotMatch || isEmpty ? "text-theme-gray-500" : "text-marine-500",
               ].join(" ")}
             />
-            <p>Password match</p>
+            <p className="text-[1em]">Password match</p>
           </div>
         </div>
       </div>

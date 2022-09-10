@@ -112,3 +112,26 @@
 .modal_mobile_subtitle {
   @apply text-xs;
 }
+
+/** CART */
+
+._cart__card {
+  @apply flex relative gap-2 font-poppins p-4 bg-white rounded-md;
+  @apply transition-all transform-gpu drop-shadow-none;
+}
+._cart__card:is(:hover) {
+  @apply shadow-md;
+}
+
+._cart__card__image {
+  @apply relative w-[104px] h-[104px] inset-0 rounded-md overflow-hidden;
+}
+
+._order__card {
+  @apply flex relative gap-2 font-poppins p-2 bg-white rounded-md w-full;
+  @apply transition-all transform-gpu drop-shadow-none;
+}
+
+._order__card__image {
+  @apply relative w-[104px] h-[96px] inset-0 rounded-md overflow-hidden;
+}

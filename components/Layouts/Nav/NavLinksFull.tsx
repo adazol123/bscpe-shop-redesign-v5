@@ -20,25 +20,25 @@ const NavLinksFull = () => {
     const router = useRouter();
     return (
         <div className="flex flex-col gap-4 px-4 sm:flex-row">
-            <ButtonLink size='small' title="Categories">
+            <ButtonLink underline_style="shrinked" size='small' title="Categories">
                 Home
                 {/* <Link href={"/cart"}>Men</Link>
                 <Link href={"/cart"}>Women</Link>
                 <Link href={"/cart"}>Kids</Link> */}
             </ButtonLink>
-            <ButtonLink size='small' title="Categories">
-                Category
+            <ButtonLink underline_style="shrinked" size='small' title="Categories">
+                Catalog
                 {/* <Link href={"/cart"}>Men</Link>
                 <Link href={"/cart"}>Women</Link>
                 <Link href={"/cart"}>Kids</Link> */}
             </ButtonLink>
-            <ButtonLink size='small' title="Categories">
-                Shopping Cart
+            <ButtonLink underline_style="shrinked" size='small' title="Categories">
+                Support
                 {/* <Link href={"/cart"}>Men</Link>
                 <Link href={"/cart"}>Women</Link>
                 <Link href={"/cart"}>Kids</Link> */}
             </ButtonLink>
-            <ButtonLink size='small' title="Categories">
+            <ButtonLink underline_style="shrinked" size='small' title="Categories">
                 About us
                 {/* <Link href={"/cart"}>Men</Link>
                 <Link href={"/cart"}>Women</Link>

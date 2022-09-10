@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import React, { useEffect, useState } from 'react'
+import React, { forwardRef, useEffect, useRef, useState } from 'react'
 import ButtonStandard from '../../components/UI/Button/Standard/ButtonStandard'
 import { addToCart, CartItemProps, incrementQuantity, removeFromCart, updatePrice } from '../../features/cart/cart-slice'
 import { useAppDispatch, useAppSelector } from '../../utils/app/hook'
@@ -11,8 +11,13 @@ import { MinusSmIcon as MinusSmIconFill, PlusSmIcon as PlusSmIconFill, ShoppingC
 import ButtonLink from '../../components/UI/Button/Link/ButtonLink'
 import BscpeLoader from '../../components/Layouts/Loader/BscpeLoader'
 import ProductVariants, { colors } from '../../components/Layouts/Products/ProductVariants'
+import NewArrival from '../../components/Layouts/Products/NewArrival'
+import { NextPageWithLayout } from '../_app'
+import { ProductLayout } from '../../layouts/pages'
+import useMeasure from 'react-use-measure'
+import { toggleObserver } from '../../features/toggle/observer-state-slice'
 
-const ProductItem = () => {
+const ProductItem: NextPageWithLayout = () => {
     const router = useRouter()
     const currentProduct = useAppSelector(state => state.shop.products.find(item => item.product_id === router.query.id))
     const cart = useAppSelector(state => state.cart.carts.find(item => item.product_id === currentProduct?.product_id))
@@ -25,6 +30,19 @@ const ProductItem = () => {
         string | undefined
     >();
     let [isInCart, setIsInCart] = useState(false);
+
+    const ref = useRef<HTMLDivElement>(null)
+
+    useEffect(() => {
+        const observer = new IntersectionObserver((obj) => {
+            dispatch(toggleObserver(obj[0].isIntersecting))
+        })
+
+        if (ref.current) observer.observe(ref.current)
+        return () => {
+            if (ref.current) observer.unobserve(ref.current)
+        }
+    }, [ref.current])
 
     useEffect(() => {
         let productIsInCart = cart
@@ -81,13 +99,15 @@ const ProductItem = () => {
 
     return (
         <motion.div className='container mx-auto'
+
             layoutId={`wrapper-${currentProduct.product_id}`}
         >
-            <div className='flex flex-col md:flex-row md:mt-8'>
+            <div className='flex flex-col md:flex-row md:mt-8' >
 
-                <motion.div className='relative w-[calc(100%)] md:w-1/2 min-h-[60vh] md:min-h-80'
+                <motion.div className='relative w-[calc(100%)] md:w-1/2 h-[60vh] md:h-96 overflow-hidden'
                     layout
                     layoutId={`image-${currentProduct.product_id}`}
+                    ref={ref}
                 >
 
                     <Image
@@ -97,9 +117,9 @@ const ProductItem = () => {
                         objectFit='cover'
                     />
                 </motion.div>
-                <div className='flex flex-col gap-8'>
-                    <div className="flex justify-between w-[calc(100%-3rem)] my-6 mx-6">
-                        <h2 className='max-w-[25ch] text-theme-gray-700 font-light'>{currentProduct.name}</h2>
+                <div className='flex flex-col gap-6' >
+                    <div className="flex flex-row md:flex-col gap-4 justify-between w-[calc(100%-3rem)] my-4 mx-6">
+                        <h2 className='max-w-[25ch] sm:max-w-[35ch] lg:max-w-full text-theme-gray-700 font-light'>{currentProduct.name}</h2>
                         <h2 >₱ {currentProduct.price.toFixed(2)}</h2>
                     </div>
                     <div className='w-[calc(100%-3rem)] mx-6'>
@@ -111,21 +131,9 @@ const ProductItem = () => {
                             setSelectedSizeOption={setSelectedSizeOption}
                         />
                     </div>
-                    <div className='w-[calc(100%-3rem)] mx-6'>
-                        <span>Product Details</span>
-                        <div>
-                            <p>{currentProduct.description}</p>
-                        </div>
-                    </div>
-                    <div className='w-[calc(100%-3rem)] mx-6'>
-                        <span>Size Guide</span>
-                        <div>
-                            <p>{currentProduct.description}</p>
-                        </div>
-                    </div>
-                    <div className='h-16' />
 
-                    <div className='fixed md:static  w-full bottom-0 bg-white md:bg-transparent inset-x-0 py-4 px-6'>
+
+                    <div className='fixed md:static z-30  w-full bottom-0 bg-white md:bg-transparent inset-x-0 py-4 px-6'>
                         <div className='flex gap-2 w-full'>
                             <div className={`flex items-center gap-1  ${isInCart ? "pointer-events-none text-black/30 " : " text-black"}`}>
                                 <button
@@ -187,7 +195,34 @@ const ProductItem = () => {
 
                 </div>
             </div>
+            <div className='w-[calc(100%-3rem)] mx-6 my-16'>
+                <span>Product Details</span>
+                <div>
+                    <p>{currentProduct.description}</p>
+                </div>
+            </div>
+            <div className='w-[calc(100%-3rem)] mx-6 my-16'>
+                <span>Size Guide</span>
+                <div className='w-80 h-80 relative'>
+                    <Image
+                        src={'https://images.squarespace-cdn.com/content/v1/55b9acfce4b022c1b2e7fffc/1491089273500-7IGTQPLOG1LMUHTHX2R6/image-asset.png?format=1000w'}
+                        alt='size-guide'
+                        layout='fill'
+                        objectFit='contain'
+                    />
+                </div>
+            </div>
+            <NewArrival withoutHorizontal />
+            <div className='h-16' />
         </motion.div >
+    )
+}
+
+ProductItem.getLayout = function getLayout(page: React.ReactElement) {
+    return (
+        <ProductLayout>
+            {page}
+        </ProductLayout>
     )
 }
 

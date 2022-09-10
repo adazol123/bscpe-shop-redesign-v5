@@ -1,8 +1,9 @@
-import { TrashIcon } from "@heroicons/react/outline";
+import { MinusSmIcon, PlusSmIcon, TrashIcon, XIcon } from "@heroicons/react/outline";
+import Image from "next/image";
 import React from "react";
 import { CartItemProps, removeFromCart } from "../../../features/cart/cart-slice";
 import { useAppDispatch } from "../../../utils/app/hook";
-import { colorFormater, sizeFormater } from "../../Layouts/Checkout/formatter";
+import style from './style.module.css'
 
 export interface ProductCart {
   product_id: string;
@@ -14,7 +15,7 @@ export interface ProductCart {
   color?: string;
 }
 
-const CartCard = ({ data }: { data: Partial<CartItemProps> }) => {
+const CartCard = ({ cart }: { cart: CartItemProps }) => {
   // let {
   //   products: list,
   //   total,
@@ -24,68 +25,103 @@ const CartCard = ({ data }: { data: Partial<CartItemProps> }) => {
   let products: any;
   // let removeFromCart: any;
   const dispatch = useAppDispatch()
-  if (!data) return null
+  if (!cart) return null
   return (
-    <li
-      key={data.product_id}
-      //   onClick={() => handleToggle(data)}
-      className="flex gap-2 p-2 transition-all bg-gray-50 border border-gray-300 border-dashed rounded-md cursor-pointer hover:scale-[1.02] relative max-h-[14em]"
+    <div
+      //   onClick={() => handleToggle(cart)}
+      className={style._cart__card}
     >
       {/* <div className="absolute -top-8 -left-8 bg-neutral-800 text-white w-16 h-16 -rotate-45"></div> */}
-      <svg width="86" height="88" viewBox="0 0 86 88" fill="none" xmlns="http://www.w3.org/2000/svg"
-        className="absolute -top-0 -left-0 w-12 h-12"
-      >
-        <path d="M4.54436e-06 88L3.13023e-06 7.5C3.05747e-06 3.35786 3.35787 1.94612e-06 7.5 2.47211e-06L86 1.24404e-05L4.54436e-06 88Z" fill="#212121" />
-
-      </svg>
 
 
-      <span className="text-white absolute top-1 left-2 text-xs">x{data?.quantity}</span>
-      <div className="h-[6em] md:h-[8em] lg:min-h-[10em] w-[8em] sm:w-[10em] lg:max-w-[12em]  rounded-md opacity-100">
-        <img
-          src={data.images![0].url}
-          alt={data.name}
-          className="object-cover w-full h-full rounded-md opacity-100 bg-blend-overlay"
-        />
-      </div>
+      <CardImage alt={cart.name} src={cart.images[0].url} />
 
-      <div className="relative w-72">
-        <h3 className="mr-8 font-thin text-gray-500 line-clamp-1 sm:line-clamp-3 lg:line-clamp-none">
-          {data.name}
-        </h3>
+      <div className="relative w-72 flex flex-col justify-between">
+        <div>
+
+          <h4 className="mr-8 font-base  text-gray-500 line-clamp-2 sm:line-clamp-2 ">
+            {cart.name}
+          </h4>
+          <div>
+            <span className="text-[0.60em]  text-theme-gray-500">
+              {cart.color}/
+              {cart.size}
+
+            </span>
+          </div>
+        </div>
         <div className='flex justify-between'>
-          <div className="flex gap-4">
-            <div>
-              <span className="text-[0.65em]  text-gray-400">Size</span>
-              {sizeFormater(data?.size)}
-            </div>
-            <div>
-              <span className="text-[0.65em] text-gray-400 ">Color</span>
-              <div className="mt-2 font-medium text-gray-500">
-                {colorFormater(data?.color)}
+          <div className="flex flex-col gap-4 w-full">
+
+            <div className="flex w-full justify-between">
+
+              <div className={`flex items-center gap-1 ${true ? "pointer-events-none text-black/30 " : " text-black"}`}>
+                <button
+                  // onClick={props.minusQuantity}
+                  className="p-1 rounded border "
+                >
+                  <span>
+                    <MinusSmIcon className="w-4 h-4" />
+                  </span>
+                </button>
+                <div className="w-6 text-center">
+                  <p className={` "text-xl font-bold " ${true ? "text-marine-700/30" : "text-marine-700"}`}>{cart.quantity.toString()}</p>
+                </div>
+                <button
+                  // onClick={props.addQuantity}
+                  className="p-1 rounded border "
+                >
+                  <span>
+                    <PlusSmIcon className="w-4 h-4" />
+                  </span>
+                </button>
+              </div>
+              <div >
+                <p className="text-sm font-medium text-gray-500">
+                  {" "}
+                  <span>₱ {cart.price}</span> x {cart.quantity}
+                </p>
               </div>
             </div>
           </div>
-          <div>
-            <span className="text-[0.65em] text-gray-400">Price</span>
-            <p className="text-sm font-medium text-gray-500">
-              {" "}
-              <span>₱ {data?.price}</span> x {data?.quantity}
-            </p>
-          </div>
+
         </div>
       </div>
 
       <button
-        className="absolute px-4 py-2 top-1 right-2 btn-link"
+        className="absolute w-8 h-8 px-2 py-2 top-2 right-1 text-theme-gray-500"
         onClick={() => {
-          data.product_id && dispatch(removeFromCart(data.product_id));
+          cart.product_id && dispatch(removeFromCart(cart.product_id));
         }}
       >
-        <TrashIcon className="w-5 h-5 text-red-400" />
+        <XIcon className="w-5 h-5" />
       </button>
-    </li>
+    </div>
   );
 };
+
+interface Props {
+  src: string,
+  alt: string
+  width?: string | number,
+  height?: string | number
+}
+
+function CardImage({ alt, src }: Props) {
+  return (
+    <React.Fragment>
+
+      <div className={style._cart__card__image}>
+        <Image
+          src={src}
+          alt={alt}
+          layout='fill'
+          objectFit="cover"
+        />
+      </div>
+
+    </React.Fragment>
+  )
+}
 
 export default CartCard;

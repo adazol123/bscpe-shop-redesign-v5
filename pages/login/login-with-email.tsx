@@ -7,10 +7,7 @@ import ButtonStandard from '../../components/UI/Button/Standard/ButtonStandard'
 import TextInput from '../../components/UI/Input/TextInput'
 import Box from '../../components/UI/Wrapper/Box'
 import { useEffect } from 'react';
-import { UserAuth } from '../../utils/context/Account/Auth'
-import Error from 'next/error'
 import type { NextPageWithLayout } from '../_app'
-import ContextLayout from '../../layouts/context_layout'
 import { ArrowLeftIcon, ExclamationIcon, InformationCircleIcon } from '@heroicons/react/outline'
 import InformationalError from '../../components/UI/Error/InformationalError'
 import BscpeLoader from '../../components/Layouts/Loader/BscpeLoader'
@@ -18,13 +15,12 @@ import Center from '../../components/UI/Wrapper/Center'
 import { useAppDispatch, useAppSelector } from '../../utils/app/hook'
 import { signInWithEmailAndPassword } from 'firebase/auth'
 import { auth } from '../../auth/firebase'
-import { login } from '../../features/user/user-auth-slice'
+import { login, selectCurrentuser } from '../../features/user/user-auth-slice'
 
 const LoginEmail: NextPageWithLayout = () => {
     const router = useRouter()
-    // const { signin, logout } = UserAuth()
     const dispatch = useAppDispatch()
-    const user = useAppSelector(user => user.auth.user)
+    const user = useAppSelector(selectCurrentuser)
 
     const [loginDetails, setLoginDetails] = React.useState({
         email: '',

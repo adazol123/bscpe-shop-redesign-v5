@@ -13,6 +13,7 @@ import NavLinksFull from "./NavLinksFull";
 import Image from "next/image";
 import { toggleState } from "../../../features/toggle/toggle-state-slice";
 import { useAppDispatch, useAppSelector } from "../../../utils/app/hook";
+import { selectCurrentuser } from "../../../features/user/user-auth-slice";
 
 function CartItemIndicator() {
   let carts = useAppSelector(state => state.cart.carts)
@@ -36,6 +37,7 @@ const Nav = () => {
 
   let router = useRouter();
   const dispatch = useAppDispatch()
+  const user = useAppSelector(selectCurrentuser)
   const [ref, bounds] = useMeasure()
   return (
     <header ref={ref} className={style._nav}>
@@ -61,10 +63,13 @@ const Nav = () => {
 
 
             {
-              bounds.width < 650 &&
-              <ButtonSVG onClick={() => dispatch(toggleState('side_bar'))}>
-                <ViewGridIcon />
-              </ButtonSVG>
+              bounds.width < 650 ?
+                <ButtonSVG onClick={() => dispatch(toggleState('side_bar'))}>
+                  <ViewGridIcon />
+                </ButtonSVG> :
+                <ButtonSVG onClick={() => router.push(user ? '/account' : '/login')}>
+                  <UserIcon />
+                </ButtonSVG>
             }
 
           </>
